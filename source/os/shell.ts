@@ -79,10 +79,25 @@ module TSOS {
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
-            // prompt <string>
+            // date
+            // this shell command will display the date and time when called
             sc = new ShellCommand(this.shellDate,
                                   "date",
                                   "- Displays the current date and time.");
+            this.commandList[this.commandList.length] = sc;
+
+            // whereami
+            // this shell command will tell the user where they are...well a rough discription of where they are.
+            sc = new ShellCommand(this.shellWhereami,
+                "whereami",
+                "- Will give you your general location...");
+            this.commandList[this.commandList.length] = sc;
+
+            // BSOD
+            // this shell command will be used to test the BSOD.
+            sc = new ShellCommand(this.shellBSOD,
+                "BSOD",
+                "- Used for testing the BSOD");
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
@@ -292,10 +307,19 @@ module TSOS {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
-
+        //Will display the date
         public shellDate(args) {
-            var x = Date;
             _StdOut.putText("Date: " + Date() );
+        }
+
+        //Will display where the users general location is
+        public shellWhereami(args) {
+            _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... " );
+        }
+
+        //Will display a BSOD
+        public shellBSOD(args) {
+
         }
 
     }

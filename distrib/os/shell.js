@@ -49,8 +49,13 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
-            // prompt <string>
+            // date
+            // this shell command will display the date and time when called
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time.");
+            this.commandList[this.commandList.length] = sc;
+            // whereami
+            // this shell command will tell the user where they are...well a rough discription of where they are.
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Will give you your general location...");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -249,9 +254,13 @@ var TSOS;
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         };
+        //Will display the date
         Shell.prototype.shellDate = function (args) {
-            var x = Date;
-            _StdOut.putText("Date:" + Date());
+            _StdOut.putText("Date: " + Date());
+        };
+        //Will display where the users general location is
+        Shell.prototype.shellWhereami = function (args) {
+            _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
         };
         return Shell;
     })();
