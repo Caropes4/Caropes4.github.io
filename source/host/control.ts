@@ -47,6 +47,7 @@ module TSOS {
             // Use the TypeScript cast to HTMLInputElement
             (<HTMLInputElement> document.getElementById("btnStartOS")).focus();
 
+
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
@@ -58,6 +59,7 @@ module TSOS {
         }
 
         public static hostLog(msg: string, source: string = "?"): void {
+
             // Note the OS CLOCK.
             var clock: number = _OSclock;
 
@@ -70,6 +72,10 @@ module TSOS {
             // Update the log console.
             var taLog = <HTMLInputElement> document.getElementById("taHostLog");
             taLog.value = str + taLog.value;
+
+            //Will update the date and time on the task bar
+            var taskBar = <HTMLInputElement> document.getElementById("taskBar");
+            taskBar.value="Date: " + Date() + "\n";
 
             // TODO in the future: Optionally update a log database or some streaming service.
         }

@@ -19,6 +19,7 @@ module TSOS {
     export class Shell {
         // Properties
         public promptStr = ">";
+        public statusStr = "Cooking Pie";
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
@@ -91,6 +92,14 @@ module TSOS {
             sc = new ShellCommand(this.shellWhereami,
                 "whereami",
                 "- Will give you your general location...");
+            this.commandList[this.commandList.length] = sc;
+
+
+            // status <string>
+            // This shell command will change the status message
+            sc = new ShellCommand(this.shellStatus,
+                "status",
+                "<string> - Changes the status message.");
             this.commandList[this.commandList.length] = sc;
 
             // BSOD
@@ -307,10 +316,25 @@ module TSOS {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
+
         //Will display the date
         public shellDate(args) {
-            _StdOut.putText("Date: " + Date() );
+            _StdOut.putText("Date: " + Date());
+
+            //Updates the taskBar
+            var taskBar = <HTMLInputElement> document.getElementById("taskBar");
+            taskBar.value = ("Date: " + Date());
         }
+
+        //Working on this -----------------------------------------------------------------!!!!
+        public shellStatus(args) {
+            if (args.length > 0) {
+                _OsShell.statusStr = args[0];
+            } else {
+                _StdOut.putText("Usage: status <string>  Please supply a string.");
+            }
+        }
+        //Working on this -----------------------------------------------------------------!!!!
 
         //Will display where the users general location is
         public shellWhereami(args) {
@@ -321,6 +345,7 @@ module TSOS {
         public shellBSOD(args) {
 
         }
+
 
     }
 }

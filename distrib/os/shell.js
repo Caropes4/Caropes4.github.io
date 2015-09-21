@@ -17,6 +17,7 @@ var TSOS;
         function Shell() {
             // Properties
             this.promptStr = ">";
+            this.statusStr = "Cooking Pie";
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
@@ -56,6 +57,14 @@ var TSOS;
             // whereami
             // this shell command will tell the user where they are...well a rough discription of where they are.
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Will give you your general location...");
+            this.commandList[this.commandList.length] = sc;
+            // status <string>
+            // This shell command will change the status message
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Changes the status message.");
+            this.commandList[this.commandList.length] = sc;
+            // BSOD
+            // this shell command will be used to test the BSOD.
+            sc = new TSOS.ShellCommand(this.shellBSOD, "BSOD", "- Used for testing the BSOD");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -257,10 +266,26 @@ var TSOS;
         //Will display the date
         Shell.prototype.shellDate = function (args) {
             _StdOut.putText("Date: " + Date());
+            //Updates the taskBar
+            var taskBar = document.getElementById("taskBar");
+            taskBar.value = ("Date: " + Date());
         };
+        //Working on this -----------------------------------------------------------------!!!!
+        Shell.prototype.shellStatus = function (args) {
+            if (args.length > 0) {
+                _OsShell.statusStr = args[0];
+            }
+            else {
+                _StdOut.putText("Usage: status <string>  Please supply a string.");
+            }
+        };
+        //Working on this -----------------------------------------------------------------!!!!
         //Will display where the users general location is
         Shell.prototype.shellWhereami = function (args) {
             _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
+        };
+        //Will display a BSOD
+        Shell.prototype.shellBSOD = function (args) {
         };
         return Shell;
     })();

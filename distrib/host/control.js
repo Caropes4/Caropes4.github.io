@@ -60,6 +60,9 @@ var TSOS;
             // Update the log console.
             var taLog = document.getElementById("taHostLog");
             taLog.value = str + taLog.value;
+            //Will update the date and time on the task bar
+            var taskBar = document.getElementById("taskBar");
+            taskBar.value = "Date: " + Date() + "\n";
             // TODO in the future: Optionally update a log database or some streaming service.
         };
         //
