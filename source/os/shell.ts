@@ -20,9 +20,11 @@ module TSOS {
         // Properties
         public promptStr = ">";
         public statusStr = "Cooking Pie";
+        public quoteNum = 0;
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
+
 
         constructor() {
         }
@@ -94,11 +96,11 @@ module TSOS {
                 "- Will give you your general location...");
             this.commandList[this.commandList.length] = sc;
 
-            // santa
-            // this shell command will tell the user how long till Christmas arrives.
-            sc = new ShellCommand(this.shellSanta,
-                "santa",
-                "- Will tell you how long till Christmas");
+            // quote
+            // this shell command will give you a quote.
+            sc = new ShellCommand(this.shellQuote,
+                "quote",
+                "- Will give you a quote");
             this.commandList[this.commandList.length] = sc;
 
             // status <string>
@@ -341,10 +343,26 @@ module TSOS {
         }
 
         //Working on this -----------------------------------------------------------------!!!!
-        //Will display the days left till Christmas
-        public shellSanta(args) {
-            //var currentDay = Date().getDay();
-            //_StdOut.putText("Days till Christmas: " + currentDay);
+        //Will display a quote
+        public shellQuote(args) {
+            var quote = "";
+            var jaredLeto = "Try and fail, but never fail to try. ~ Jared Leto";
+            var stevenTyler = "Maybe life is random, but I doubt it. ~ Steven Tyler";
+            var abLincoln = "Whatever you are, be a good one. ~ Abraham Lincoln";
+
+            if (_OsShell.quoteNum == 0 ){
+                _OsShell.quoteNum = _OsShell.quoteNum+1;
+                _StdOut.putText(jaredLeto);
+            }else if (_OsShell.quoteNum == 1 ){
+                _OsShell.quoteNum = _OsShell.quoteNum+1;
+                _StdOut.putText(stevenTyler);
+            }else if (_OsShell.quoteNum == 2 ){
+                _OsShell.quoteNum = _OsShell.quoteNum+1;
+                _StdOut.putText(abLincoln);
+            }else{
+                _StdOut.putText("You have gotten all the quotes possible");
+            }
+            
         }
         //Working on this -----------------------------------------------------------------!!!!
 

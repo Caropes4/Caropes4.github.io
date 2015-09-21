@@ -162,13 +162,6 @@ var TSOS;
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
-            else if (((keyCode >= 33) && (keyCode <= 47)) ||
-                ((keyCode >= 58) && (keyCode <= 64)) ||
-                ((keyCode >= 91) && (keyCode <= 96)) ||
-                ((keyCode >= 123) && (keyCode <= 127))) {
-                chr = String.fromCharCode(keyCode);
-                _KernelInputQueue.enqueue(chr);
-            }
         };
         return DeviceDriverKeyboard;
     })(TSOS.DeviceDriver);

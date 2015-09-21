@@ -18,6 +18,7 @@ var TSOS;
             // Properties
             this.promptStr = ">";
             this.statusStr = "Cooking Pie";
+            this.quoteNum = 0;
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
             this.apologies = "[sorry]";
@@ -58,9 +59,9 @@ var TSOS;
             // this shell command will tell the user where they are...well a rough discription of where they are.
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Will give you your general location...");
             this.commandList[this.commandList.length] = sc;
-            // santa
-            // this shell command will tell the user how long till Christmas arrives.
-            sc = new TSOS.ShellCommand(this.shellSanta, "santa", "- Will tell you how long till Christmas");
+            // quote
+            // this shell command will give you a quote.
+            sc = new TSOS.ShellCommand(this.shellQuote, "quote", "- Will give you a quote");
             this.commandList[this.commandList.length] = sc;
             // status <string>
             // This shell command will change the status message
@@ -280,10 +281,27 @@ var TSOS;
             _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
         };
         //Working on this -----------------------------------------------------------------!!!!
-        //Will display the days left till Christmas
-        Shell.prototype.shellSanta = function (args) {
-            //var currentDay = Date().getDay();
-            //_StdOut.putText("Days till Christmas: " + currentDay);
+        //Will display a quote
+        Shell.prototype.shellQuote = function (args) {
+            var quote = "";
+            var jaredLeto = "Try and fail, but never fail to try. ~ Jared Leto";
+            var stevenTyler = "Maybe life is random, but I doubt it. ~ Steven Tyler";
+            var abLincoln = "Whatever you are, be a good one. ~ Abraham Lincoln";
+            if (_OsShell.quoteNum == 0) {
+                _OsShell.quoteNum = _OsShell.quoteNum + 1;
+                _StdOut.putText(jaredLeto);
+            }
+            else if (_OsShell.quoteNum == 1) {
+                _OsShell.quoteNum = _OsShell.quoteNum + 1;
+                _StdOut.putText(stevenTyler);
+            }
+            else if (_OsShell.quoteNum == 2) {
+                _OsShell.quoteNum = _OsShell.quoteNum + 1;
+                _StdOut.putText(abLincoln);
+            }
+            else {
+                _StdOut.putText("You have gotten all the quotes possible");
+            }
         };
         //Working on this -----------------------------------------------------------------!!!!
         //Updates the task bar with a status message
