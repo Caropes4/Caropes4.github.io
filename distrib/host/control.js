@@ -40,6 +40,9 @@ var TSOS;
             // Set focus on the start button.
             // Use the TypeScript cast to HTMLInputElement
             document.getElementById("btnStartOS").focus();
+            //Will update the date and time on the task bar
+            var taskBar = document.getElementById("taskBar");
+            taskBar.value = "Date: " + Date() + "\n";
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
@@ -60,9 +63,6 @@ var TSOS;
             // Update the log console.
             var taLog = document.getElementById("taHostLog");
             taLog.value = str + taLog.value;
-            //Will update the date and time on the task bar
-            var taskBar = document.getElementById("taskBar");
-            taskBar.value = "Date: " + Date() + "\n";
             // TODO in the future: Optionally update a log database or some streaming service.
         };
         //

@@ -58,13 +58,21 @@ var TSOS;
             // this shell command will tell the user where they are...well a rough discription of where they are.
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Will give you your general location...");
             this.commandList[this.commandList.length] = sc;
+            // santa
+            // this shell command will tell the user how long till Christmas arrives.
+            sc = new TSOS.ShellCommand(this.shellSanta, "santa", "- Will tell you how long till Christmas");
+            this.commandList[this.commandList.length] = sc;
             // status <string>
             // This shell command will change the status message
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Changes the status message.");
             this.commandList[this.commandList.length] = sc;
             // BSOD
             // this shell command will be used to test the BSOD.
-            sc = new TSOS.ShellCommand(this.shellBSOD, "BSOD", "- Used for testing the BSOD");
+            sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "- Used for testing the BSOD");
+            this.commandList[this.commandList.length] = sc;
+            // load
+            // this shell command will tell the user if the input in User Program Input is valid Hex or not.
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Will let you know if the input in User Program Input is valid");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -266,26 +274,50 @@ var TSOS;
         //Will display the date
         Shell.prototype.shellDate = function (args) {
             _StdOut.putText("Date: " + Date());
-            //Updates the taskBar
-            var taskBar = document.getElementById("taskBar");
-            taskBar.value = ("Date: " + Date());
+        };
+        //Will display where the users general location is
+        Shell.prototype.shellWhereami = function (args) {
+            _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
         };
         //Working on this -----------------------------------------------------------------!!!!
+        //Will display the days left till Christmas
+        Shell.prototype.shellSanta = function (args) {
+            //var currentDay = Date().getDay();
+            //_StdOut.putText("Days till Christmas: " + currentDay);
+        };
+        //Working on this -----------------------------------------------------------------!!!!
+        //Updates the task bar with a status message
         Shell.prototype.shellStatus = function (args) {
             if (args.length > 0) {
                 _OsShell.statusStr = args[0];
+                //Will update the date, time, and Status on the task bar
+                var taskBar = document.getElementById("taskBar");
+                taskBar.value = "Date: " + Date() + "\n" + _OsShell.statusStr;
             }
             else {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
         };
-        //Working on this -----------------------------------------------------------------!!!!
-        //Will display where the users general location is
-        Shell.prototype.shellWhereami = function (args) {
-            _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
-        };
         //Will display a BSOD
-        Shell.prototype.shellBSOD = function (args) {
+        Shell.prototype.shellBsod = function (args) {
+            //Will clear the Console and display a BSOD
+            _OsShell.shellCls(0);
+            _Canvas.style.backgroundColor = "#000099";
+        };
+        //Working on this -----------------------------------------------------------------!!!!
+        //Will say if the User Program Input is valid or not
+        Shell.prototype.shellLoad = function (args) {
+            var programInput = document.getElementById("taProgramInput");
+            var inputLength = programInput.value.length;
+            if (inputLength > 0) {
+                //for(x=0; x<inputLength; x=x+1){
+                //  programInput.value.indexOf(x);
+                //}
+                _StdOut.putText("Valid " + programInput.value);
+            }
+            else {
+                _StdOut.putText("Invalid");
+            }
         };
         return Shell;
     })();

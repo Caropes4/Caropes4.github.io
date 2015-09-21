@@ -94,6 +94,12 @@ module TSOS {
                 "- Will give you your general location...");
             this.commandList[this.commandList.length] = sc;
 
+            // santa
+            // this shell command will tell the user how long till Christmas arrives.
+            sc = new ShellCommand(this.shellSanta,
+                "santa",
+                "- Will tell you how long till Christmas");
+            this.commandList[this.commandList.length] = sc;
 
             // status <string>
             // This shell command will change the status message
@@ -104,9 +110,16 @@ module TSOS {
 
             // BSOD
             // this shell command will be used to test the BSOD.
-            sc = new ShellCommand(this.shellBSOD,
-                "BSOD",
+            sc = new ShellCommand(this.shellBsod,
+                "bsod",
                 "- Used for testing the BSOD");
+            this.commandList[this.commandList.length] = sc;
+
+            // load
+            // this shell command will tell the user if the input in User Program Input is valid Hex or not.
+            sc = new ShellCommand(this.shellLoad,
+                "load",
+                "- Will let you know if the input in User Program Input is valid");
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
@@ -320,31 +333,58 @@ module TSOS {
         //Will display the date
         public shellDate(args) {
             _StdOut.putText("Date: " + Date());
-
-            //Updates the taskBar
-            var taskBar = <HTMLInputElement> document.getElementById("taskBar");
-            taskBar.value = ("Date: " + Date());
         }
-
-        //Working on this -----------------------------------------------------------------!!!!
-        public shellStatus(args) {
-            if (args.length > 0) {
-                _OsShell.statusStr = args[0];
-            } else {
-                _StdOut.putText("Usage: status <string>  Please supply a string.");
-            }
-        }
-        //Working on this -----------------------------------------------------------------!!!!
 
         //Will display where the users general location is
         public shellWhereami(args) {
             _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... " );
         }
 
-        //Will display a BSOD
-        public shellBSOD(args) {
-
+        //Working on this -----------------------------------------------------------------!!!!
+        //Will display the days left till Christmas
+        public shellSanta(args) {
+            //var currentDay = Date().getDay();
+            //_StdOut.putText("Days till Christmas: " + currentDay);
         }
+        //Working on this -----------------------------------------------------------------!!!!
+
+        //Updates the task bar with a status message
+        public shellStatus(args) {
+            if (args.length > 0) {
+                _OsShell.statusStr = args[0];
+                //Will update the date, time, and Status on the task bar
+                var taskBar = <HTMLInputElement> document.getElementById("taskBar");
+                taskBar.value="Date: " + Date() + "\n" + _OsShell.statusStr;
+            } else {
+                _StdOut.putText("Usage: status <string>  Please supply a string.");
+            }
+        }
+
+        //Will display a BSOD
+        public shellBsod(args) {
+            //Will clear the Console and display a BSOD
+            _OsShell.shellCls(0);
+            _Canvas.style.backgroundColor="#000099";
+        }
+
+        //Working on this -----------------------------------------------------------------!!!!
+        //Will say if the User Program Input is valid or not
+        public shellLoad(args) {
+            var programInput = <HTMLInputElement> document.getElementById("taProgramInput");
+            var inputLength = programInput.value.length;
+            if(inputLength > 0){
+
+                //for(x=0; x<inputLength; x=x+1){
+                  //  programInput.value.indexOf(x);
+
+                //}
+                _StdOut.putText("Valid " + programInput.value);
+            }
+            else{
+                _StdOut.putText("Invalid");
+            }
+        }
+        //Working on this -----------------------------------------------------------------!!!!
 
 
     }
