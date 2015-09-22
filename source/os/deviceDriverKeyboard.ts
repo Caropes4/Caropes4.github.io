@@ -164,20 +164,12 @@ module TSOS {
                         (keyCode == 32)                   ||   // space
                         (keyCode == 13)                   ||   // enter
                         (keyCode == 9)                    ||   // tab
+                        (keyCode == 38)                   ||   //Arrow up for history
+                        (keyCode == 40)                   ||   //Arrow down for history
                         (keyCode == 8)) {                      // backspace
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
-
-
-            //Arrow up for history
-            if(keyCode == 38){
-
-
-            }
-
-
-
         }
     }
 }

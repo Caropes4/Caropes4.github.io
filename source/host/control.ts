@@ -49,7 +49,7 @@ module TSOS {
 
             //Will update the date and time on the task bar
             var taskBar = <HTMLInputElement> document.getElementById("taskBar");
-            taskBar.value="Date: " + Date() + "\n";
+            taskBar.value="Date: " + Date() + "\n" + "Status: Cooking Pie";
 
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().

@@ -10,17 +10,21 @@
 var TSOS;
 (function (TSOS) {
     var Console = (function () {
-        function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
+        function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer, historyArray, arrayLoc) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
             if (currentFontSize === void 0) { currentFontSize = _DefaultFontSize; }
             if (currentXPosition === void 0) { currentXPosition = 0; }
             if (currentYPosition === void 0) { currentYPosition = _DefaultFontSize; }
             if (buffer === void 0) { buffer = ""; }
+            if (historyArray === void 0) { historyArray = [""]; }
+            if (arrayLoc === void 0) { arrayLoc = 0; }
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
+            this.historyArray = historyArray;
+            this.arrayLoc = arrayLoc;
         }
         Console.prototype.init = function () {
             this.clearScreen();
@@ -83,15 +87,39 @@ var TSOS;
                         }
                     }
                 }
+                if (chr === String.fromCharCode(38)) {
+                    if (this.historyArray.length > this.arrayLoc - 1 && this.arrayLoc > 1) {
+                        this.arrayLoc = this.arrayLoc - 1;
+                        this.clearLine();
+                        this.buffer = this.historyArray[this.arrayLoc];
+                        _StdOut.putText(this.buffer);
+                    }
+                }
+                if (chr === String.fromCharCode(40)) {
+                    if (this.historyArray.length > this.arrayLoc + 1) {
+                        this.arrayLoc = this.arrayLoc + 1;
+                        this.clearLine();
+                        this.buffer = this.historyArray[this.arrayLoc];
+                        _StdOut.putText(this.buffer);
+                    }
+                    else if (this.buffer != "") {
+                        this.clearLine();
+                        this.buffer = "";
+                    }
+                }
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
+                    if (this.buffer != "") {
+                        this.historyArray.push(this.buffer);
+                        this.arrayLoc = this.historyArray.length;
+                    }
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                else if (chr != String.fromCharCode(8) && chr != String.fromCharCode(9)) {
+                else if (chr != String.fromCharCode(8) && chr != String.fromCharCode(9) && chr != String.fromCharCode(38) && chr != String.fromCharCode(40)) {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);

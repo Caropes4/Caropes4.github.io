@@ -17,7 +17,7 @@ var TSOS;
         function Shell() {
             // Properties
             this.promptStr = ">";
-            this.statusStr = "Cooking Pie";
+            this.statusStr = "";
             this.quoteNum = 0;
             this.commandList = [];
             this.curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
@@ -305,10 +305,12 @@ var TSOS;
         //Updates the task bar with a status message
         Shell.prototype.shellStatus = function (args) {
             if (args.length > 0) {
-                _OsShell.statusStr = args[0];
+                //_OsShell.statusStr = args;
+                //This allows us to have spaces in our status. Makes the args a bit pointless though...
+                _OsShell.statusStr = _Console.buffer.substring(7, _Console.buffer.length);
                 //Will update the date, time, and Status on the task bar
                 var taskBar = document.getElementById("taskBar");
-                taskBar.value = "Date: " + Date() + "\n" + _OsShell.statusStr;
+                taskBar.value = "Date: " + Date() + "\n" + "Status: " + _OsShell.statusStr;
             }
             else {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");

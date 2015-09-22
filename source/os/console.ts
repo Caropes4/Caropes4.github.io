@@ -17,7 +17,9 @@ module TSOS {
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
-                    public buffer = "") {
+                    public buffer = "",
+                    public historyArray = [""],
+                    public arrayLoc = 0) {
         }
 
         public init(): void {
@@ -91,16 +93,49 @@ module TSOS {
                     }
                 }
 
+                //Up arrow
+                if (chr === String.fromCharCode(38)) {
+                    //Travers array and get whatever came before
+                    if (this.historyArray.length > this.arrayLoc-1 && this.arrayLoc > 1) {
+                        this.arrayLoc = this.arrayLoc - 1;
+                        this.clearLine();
+                        this.buffer = this.historyArray[this.arrayLoc];
+                        _StdOut.putText(this.buffer);
+                    }
+
+                }
+                //Down arrow
+                if (chr === String.fromCharCode(40)) {
+                    //Traverse array and get whatever came after
+                    if (this.historyArray.length > this.arrayLoc+1) {
+                        this.arrayLoc = this.arrayLoc + 1;
+                        this.clearLine();
+                        this.buffer = this.historyArray[this.arrayLoc];
+                        _StdOut.putText(this.buffer);
+                    }
+                    //Clear the buffer after the last element in the history 
+                    else if(this.buffer != ""){
+                        this.clearLine();
+                        this.buffer = "";
+                    }
+
+                }
+
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) { //     Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
+
+                    if(this.buffer != "") {
+                        this.historyArray.push(this.buffer);
+                        this.arrayLoc = this.historyArray.length;
+                    }
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                //Don't add backspace of tab to the buffer
-                else if(chr != String.fromCharCode(8) && chr != String.fromCharCode(9)){
+                //Don't add backspace, tab, up or down arrow to the buffer
+                else if(chr != String.fromCharCode(8) && chr != String.fromCharCode(9) && chr != String.fromCharCode(38) && chr != String.fromCharCode(40)){
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);

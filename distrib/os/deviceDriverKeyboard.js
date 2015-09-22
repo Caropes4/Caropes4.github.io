@@ -160,12 +160,11 @@ var TSOS;
                 (keyCode == 32) ||
                 (keyCode == 13) ||
                 (keyCode == 9) ||
+                (keyCode == 38) ||
+                (keyCode == 40) ||
                 (keyCode == 8)) {
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
-            }
-            //Arrow up for history
-            if (keyCode == 38) {
             }
         };
         return DeviceDriverKeyboard;

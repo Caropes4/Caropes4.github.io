@@ -42,7 +42,7 @@ var TSOS;
             document.getElementById("btnStartOS").focus();
             //Will update the date and time on the task bar
             var taskBar = document.getElementById("taskBar");
-            taskBar.value = "Date: " + Date() + "\n";
+            taskBar.value = "Date: " + Date() + "\n" + "Status: Cooking Pie";
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
