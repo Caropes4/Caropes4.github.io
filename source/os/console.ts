@@ -19,7 +19,8 @@ module TSOS {
                     public currentYPosition = _DefaultFontSize,
                     public buffer = "",
                     public historyArray = [""],
-                    public arrayLoc = 0) {
+                    public arrayLoc = 0,
+                    public img1 = null) {
         }
 
         public init(): void {
@@ -113,7 +114,7 @@ module TSOS {
                         this.buffer = this.historyArray[this.arrayLoc];
                         _StdOut.putText(this.buffer);
                     }
-                    //Clear the buffer after the last element in the history 
+                    //Clear the buffer after the last element in the history
                     else if(this.buffer != ""){
                         this.clearLine();
                         this.buffer = "";
@@ -161,6 +162,8 @@ module TSOS {
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
+
+
             }
          }
 
@@ -171,11 +174,20 @@ module TSOS {
              * Font descent measures from the baseline to the lowest point in the font.
              * Font height margin is extra spacing between the lines.
              */
-            this.currentYPosition += _DefaultFontSize + 
-                                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                                     _FontHeightMargin;
+
+            this.currentYPosition += _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
+
+            this.img1 = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
+
+            if (this.currentYPosition > 500) {
+                this.clearScreen();
+                this.currentYPosition = (500 - (this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize + _FontHeightMargin)));
+                _DrawingContext.putImageData(this.img1, 0,-(_DefaultFontSize  + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin));
+            }
 
             // TODO: Handle scrolling. (iProject 1)
         }
     }
  }
+
+

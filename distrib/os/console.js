@@ -10,7 +10,7 @@
 var TSOS;
 (function (TSOS) {
     var Console = (function () {
-        function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer, historyArray, arrayLoc) {
+        function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer, historyArray, arrayLoc, img1) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
             if (currentFontSize === void 0) { currentFontSize = _DefaultFontSize; }
             if (currentXPosition === void 0) { currentXPosition = 0; }
@@ -18,6 +18,7 @@ var TSOS;
             if (buffer === void 0) { buffer = ""; }
             if (historyArray === void 0) { historyArray = [""]; }
             if (arrayLoc === void 0) { arrayLoc = 0; }
+            if (img1 === void 0) { img1 = null; }
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
@@ -25,6 +26,7 @@ var TSOS;
             this.buffer = buffer;
             this.historyArray = historyArray;
             this.arrayLoc = arrayLoc;
+            this.img1 = img1;
         }
         Console.prototype.init = function () {
             this.clearScreen();
@@ -87,7 +89,9 @@ var TSOS;
                         }
                     }
                 }
+                //Up arrow
                 if (chr === String.fromCharCode(38)) {
+                    //Travers array and get whatever came before
                     if (this.historyArray.length > this.arrayLoc - 1 && this.arrayLoc > 1) {
                         this.arrayLoc = this.arrayLoc - 1;
                         this.clearLine();
@@ -95,7 +99,9 @@ var TSOS;
                         _StdOut.putText(this.buffer);
                     }
                 }
+                //Down arrow
                 if (chr === String.fromCharCode(40)) {
+                    //Traverse array and get whatever came after
                     if (this.historyArray.length > this.arrayLoc + 1) {
                         this.arrayLoc = this.arrayLoc + 1;
                         this.clearLine();
@@ -152,9 +158,13 @@ var TSOS;
              * Font descent measures from the baseline to the lowest point in the font.
              * Font height margin is extra spacing between the lines.
              */
-            this.currentYPosition += _DefaultFontSize +
-                _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
-                _FontHeightMargin;
+            this.currentYPosition += _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
+            this.img1 = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
+            if (this.currentYPosition > 500) {
+                this.clearScreen();
+                this.currentYPosition = (500 - (this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize + _FontHeightMargin)));
+                _DrawingContext.putImageData(this.img1, 0, -(_DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin));
+            }
             // TODO: Handle scrolling. (iProject 1)
         };
         return Console;
