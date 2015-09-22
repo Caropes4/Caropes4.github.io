@@ -159,12 +159,10 @@ var TSOS;
             else if (((keyCode >= 48) && (keyCode <= 57)) ||
                 (keyCode == 32) ||
                 (keyCode == 13) ||
+                (keyCode == 9) ||
                 (keyCode == 8)) {
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
-            }
-            //Tab for auto complete of commands
-            if (keyCode == 9) {
             }
             //Arrow up for history
             if (keyCode == 38) {

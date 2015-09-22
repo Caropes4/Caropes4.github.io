@@ -29,6 +29,17 @@ var TSOS;
         Console.prototype.clearScreen = function () {
             _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
         };
+        //Will clear the current line of text
+        Console.prototype.clearLine = function () {
+            //find the offset from the left
+            var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+            //reset the x position
+            this.currentXPosition = this.currentXPosition - offset;
+            //find the y position of the line we are editing
+            var y = (this.currentYPosition - _DefaultFontSize);
+            //Remove the line
+            _DrawingContext.clearRect(this.currentXPosition, y, _Canvas.width, _Canvas.height);
+        };
         Console.prototype.resetXY = function () {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
@@ -37,18 +48,40 @@ var TSOS;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
-                //----------------------------------------------------------------------------------------------------
-                //If the input is a backspace remove the last value on the buffer
+                //If the input is a backspace remove the last value on the buffer and reset the line
                 if (chr === String.fromCharCode(8)) {
                     var leng = this.buffer.length;
                     if (leng > 0) {
-                        var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+                        //call the clear line function
+                        this.clearLine();
+                        //Remove the last char from the buffer
                         this.buffer = this.buffer.substring(0, (leng - 1));
-                        this.currentXPosition = this.currentXPosition - offset;
-                        var y = (this.currentYPosition - _DefaultFontSize);
-                        _DrawingContext.clearRect(this.currentXPosition, y, _Canvas.width, _Canvas.height);
                     }
+                    //print the new buffer
                     _StdOut.putText(this.buffer);
+                }
+                //Tab auto fill
+                if (chr === String.fromCharCode(9)) {
+                    var i = 0;
+                    var leng = this.buffer.length;
+                    //Loop through commands
+                    while (i < _OsShell.commandList.length) {
+                        //If a command starts with the same char as whats in the buffer assume this is the command they want
+                        if (_OsShell.commandList[i].command.substring(0, leng) === this.buffer) {
+                            var cmdLeng = _OsShell.commandList[i].command.length;
+                            //Grab the end of the command
+                            var cmdEnd = _OsShell.commandList[i].command.substring(leng, cmdLeng);
+                            //Add the end of the command to the buffer
+                            this.buffer = this.buffer + cmdEnd;
+                            //Then tyoe the rest of the command in the console
+                            _StdOut.putText(cmdEnd);
+                            //Break the loop when the command has been found
+                            break;
+                        }
+                        else {
+                            i = i + 1;
+                        }
+                    }
                 }
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) {
@@ -58,7 +91,7 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                else if (chr != String.fromCharCode(8)) {
+                else if (chr != String.fromCharCode(8) && chr != String.fromCharCode(9)) {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
