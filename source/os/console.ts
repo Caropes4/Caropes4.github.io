@@ -38,10 +38,28 @@ module TSOS {
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
-                //----------------------------------------------------------------------------------------------------
-                //if(chr === String.fromCharCode(8)){
-                    //this.
-                //}
+
+                //If the input is a backspace remove the last value on the buffer and reset the line
+                if(chr === String.fromCharCode(8)){
+
+                        var leng = this.buffer.length;
+                    if(leng >0 ) {
+                        //find the offset from the left
+                        var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+                        //Remove the last char from the buffer
+                        this.buffer = this.buffer.substring(0, (leng - 1));
+                        //reset the x position
+                        this.currentXPosition = this.currentXPosition - offset;
+                        //find the y position of the line we are editing
+                        var y = (this.currentYPosition - _DefaultFontSize);
+                        //Remove the line
+                        _DrawingContext.clearRect(this.currentXPosition, y, _Canvas.width, _Canvas.height);
+                    }
+                    //print the new buffer
+                    _StdOut.putText(this.buffer);
+                }
+
+                
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) { //     Enter key
                     // The enter key marks the end of a console command, so ...
@@ -49,7 +67,9 @@ module TSOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
-                } else {
+                }
+                //Don't add backspace to the buffer
+                else if(chr != String.fromCharCode(8)){
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);

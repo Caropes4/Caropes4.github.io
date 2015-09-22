@@ -320,7 +320,7 @@ var TSOS;
             _OsShell.shellCls(0);
             _Canvas.style.backgroundColor = "#000099";
         };
-        //Will say if the User Program Input is valid or not
+        //Will say if the User Program Input is valid or not or if its just plain empty...
         Shell.prototype.shellLoad = function (args) {
             var programInput = document.getElementById("taProgramInput");
             var inputLength = programInput.value.length;
@@ -336,18 +336,18 @@ var TSOS;
                         x = x + 1;
                     }
                     else {
-                        _StdOut.putText("Invalid");
+                        _StdOut.putText("Invalid.");
                         x = inputLength;
                         isValid = false;
                     }
                 }
                 //If isValid is true print valid
                 if (isValid) {
-                    _StdOut.putText("Valid");
+                    _StdOut.putText("Valid.");
                 }
             }
             else {
-                _StdOut.putText("There is no data to validate");
+                _StdOut.putText("There is no data to validate.");
             }
         };
         return Shell;

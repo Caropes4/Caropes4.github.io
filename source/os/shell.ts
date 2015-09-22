@@ -383,7 +383,7 @@ module TSOS {
             _Canvas.style.backgroundColor = "#000099";
         }
 
-        //Will say if the User Program Input is valid or not
+        //Will say if the User Program Input is valid or not or if its just plain empty...
         public shellLoad(args) {
             var programInput = <HTMLInputElement> document.getElementById("taProgramInput");
             var inputLength = programInput.value.length;
@@ -401,19 +401,19 @@ module TSOS {
                     }
                     //If the char is not a hex then set is valid to false and break the loop by setting x to length
                     else {
-                        _StdOut.putText("Invalid");
+                        _StdOut.putText("Invalid.");
                         x=inputLength;
                         isValid = false;
                     }
                 }
                 //If isValid is true print valid
                 if(isValid) {
-                    _StdOut.putText("Valid");
+                    _StdOut.putText("Valid.");
                 }
             }
             //If text area is empty tell the user
             else{
-                _StdOut.putText("There is no data to validate");
+                _StdOut.putText("There is no data to validate.");
             }
         }
     }

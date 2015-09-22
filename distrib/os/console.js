@@ -38,9 +38,18 @@ var TSOS;
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
                 //----------------------------------------------------------------------------------------------------
-                //if(chr === String.fromCharCode(8)){
-                //this.
-                //}
+                //If the input is a backspace remove the last value on the buffer
+                if (chr === String.fromCharCode(8)) {
+                    var leng = this.buffer.length;
+                    if (leng > 0) {
+                        var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+                        this.buffer = this.buffer.substring(0, (leng - 1));
+                        this.currentXPosition = this.currentXPosition - offset;
+                        var y = (this.currentYPosition - _DefaultFontSize);
+                        _DrawingContext.clearRect(this.currentXPosition, y, _Canvas.width, _Canvas.height);
+                    }
+                    _StdOut.putText(this.buffer);
+                }
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
                 if (chr === String.fromCharCode(13)) {
                     // The enter key marks the end of a console command, so ...
@@ -49,7 +58,7 @@ var TSOS;
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                else {
+                else if (chr != String.fromCharCode(8)) {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
