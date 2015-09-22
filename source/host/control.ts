@@ -47,7 +47,7 @@ module TSOS {
             // Use the TypeScript cast to HTMLInputElement
             (<HTMLInputElement> document.getElementById("btnStartOS")).focus();
 
-            //Will update the date and time on the task bar
+            //Will update the date and time on the task bar on start
             var taskBar = <HTMLInputElement> document.getElementById("taskBar");
             taskBar.value="Date: " + Date() + "\n" + "Status: Cooking Pie";
 

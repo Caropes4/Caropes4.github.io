@@ -147,6 +147,9 @@ module TSOS {
             }
         }
 
+        //Textwrap...nope no Idea how to start...
+        public textWrap():void {}
+
         public putText(text): void {
             // My first inclination here was to write two functions: putChar() and putString().
             // Then I remembered that JavaScript is (sadly) untyped and it won't differentiate
@@ -177,11 +180,17 @@ module TSOS {
 
             this.currentYPosition += _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
 
+
+            //Take a Image of the current canvas/console area
             this.img1 = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
 
+            //Check if canvas goes past the 500px threshold
             if (this.currentYPosition > 500) {
+                //If so clear the screen
                 this.clearScreen();
-                this.currentYPosition = (500 - (this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize + _FontHeightMargin)));
+                //Reset the Y
+                this.currentYPosition = (500 - (_DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize + _FontHeightMargin)));
+                //And redraw the image with the same shift as the new Y value
                 _DrawingContext.putImageData(this.img1, 0,-(_DefaultFontSize  + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin));
             }
 
@@ -189,5 +198,3 @@ module TSOS {
         }
     }
  }
-
-

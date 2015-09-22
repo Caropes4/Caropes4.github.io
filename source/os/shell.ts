@@ -279,9 +279,49 @@ module TSOS {
             if (args.length > 0) {
                 var topic = args[0];
                 switch (topic) {
+                    case "ver":
+                        _StdOut.putText("Displays the current version of the OS.");
+                        break;
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
+                    case "shutdown":
+                        _StdOut.putText("Will shutdown the Operating System");
+                        break;
+                    case "cls":
+                        _StdOut.putText("Will clear the Canvas/Console.");
+                        break;
+                    case "man":
+                        _StdOut.putText("Displays a list of commands and explains what they do.");
+                        break;
+                    case "trace":
+                        _StdOut.putText("Turns the Operating System trace on or off.");
+                        break;
+                    case "rot13":
+                        _StdOut.putText("Does rot13 obfuscation on strings.");
+                        break;
+                    case "prompt":
+                        _StdOut.putText("Will set the console prompt.");
+                        break;
+                    case "date":
+                        _StdOut.putText("Will give you the date and time.");
+                        break;
+                    case "whereami":
+                        _StdOut.putText("Will give you a rough estimation on your location.");
+                        break;
+                    case "quote":
+                        _StdOut.putText("Will display a quote for you.");
+                        break;
+                    case "status":
+                        _StdOut.putText("Will update the status and date in the task bar.");
+                        break;
+                    case "bsod":
+                        _StdOut.putText("Used for testing the BSOD.");
+                        break;
+                    case "load":
+                        _StdOut.putText("Checks to see if user input is valid hex.");
+                        break;
+
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
@@ -332,7 +372,7 @@ module TSOS {
             }
         }
 
-        //Will display the date
+        //Will display the date and time
         public shellDate(args) {
             _StdOut.putText("Date: " + Date());
         }
@@ -378,11 +418,16 @@ module TSOS {
             }
         }
 
+        //
+
         //Will display a BSOD
         public shellBsod(args) {
             //Will clear the Console and display a BSOD
             _OsShell.shellCls(0);
             _Canvas.style.backgroundColor = "#000099";
+            var taskBar = <HTMLInputElement> document.getElementById("taskBar");
+            taskBar.value = "Date: " + Date() + "\n" + "Status: " + "Oh no its a BSOD better restart.";
+
         }
 
         //Will say if the User Program Input is valid or not or if its just plain empty...

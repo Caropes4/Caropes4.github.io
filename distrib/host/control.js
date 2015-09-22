@@ -40,7 +40,7 @@ var TSOS;
             // Set focus on the start button.
             // Use the TypeScript cast to HTMLInputElement
             document.getElementById("btnStartOS").focus();
-            //Will update the date and time on the task bar
+            //Will update the date and time on the task bar on start
             var taskBar = document.getElementById("taskBar");
             taskBar.value = "Date: " + Date() + "\n" + "Status: Cooking Pie";
             // Check for our testing and enrichment core, which
