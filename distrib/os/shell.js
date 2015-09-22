@@ -280,7 +280,6 @@ var TSOS;
         Shell.prototype.shellWhereami = function (args) {
             _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
         };
-        //Working on this -----------------------------------------------------------------!!!!
         //Will display a quote
         Shell.prototype.shellQuote = function (args) {
             var quote = "";
@@ -303,7 +302,6 @@ var TSOS;
                 _StdOut.putText("You have gotten all the quotes possible");
             }
         };
-        //Working on this -----------------------------------------------------------------!!!!
         //Updates the task bar with a status message
         Shell.prototype.shellStatus = function (args) {
             if (args.length > 0) {
@@ -322,19 +320,34 @@ var TSOS;
             _OsShell.shellCls(0);
             _Canvas.style.backgroundColor = "#000099";
         };
-        //Working on this -----------------------------------------------------------------!!!!
         //Will say if the User Program Input is valid or not
         Shell.prototype.shellLoad = function (args) {
             var programInput = document.getElementById("taProgramInput");
             var inputLength = programInput.value.length;
             if (inputLength > 0) {
-                //for(x=0; x<inputLength; x=x+1){
-                //  programInput.value.indexOf(x);
-                //}
-                _StdOut.putText("Valid " + programInput.value);
+                var x = 0;
+                var isValid = true;
+                while (x < inputLength) {
+                    var char = programInput.value.substring(x, x + 1);
+                    //Check if the input is hex by going through the string
+                    if (char == "a" || char == "b" || char == "c" || char == "d" || char == "e" || char == "f" || char == "A" || char == "B" || char == "C" || char == "D" ||
+                        char == "E" || char == "F" || char == "0" || char == "1" || char == "2" || char == "3" || char == "4" || char == "5" || char == "6" || char == "7" ||
+                        char == "8" || char == "9" || char == " ") {
+                        x = x + 1;
+                    }
+                    else {
+                        _StdOut.putText("Invalid");
+                        x = inputLength;
+                        isValid = false;
+                    }
+                }
+                //If isValid is true print valid
+                if (isValid) {
+                    _StdOut.putText("Valid");
+                }
             }
             else {
-                _StdOut.putText("Invalid");
+                _StdOut.putText("There is no data to validate");
             }
         };
         return Shell;

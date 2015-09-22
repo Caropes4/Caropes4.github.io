@@ -36,57 +36,57 @@ module TSOS {
 
             // ver
             sc = new ShellCommand(this.shellVer,
-                                  "ver",
-                                  "- Displays the current version data.");
+                "ver",
+                "- Displays the current version data.");
             this.commandList[this.commandList.length] = sc;
 
             // help
             sc = new ShellCommand(this.shellHelp,
-                                  "help",
-                                  "- This is the help command. Seek help.");
+                "help",
+                "- This is the help command. Seek help.");
             this.commandList[this.commandList.length] = sc;
 
             // shutdown
             sc = new ShellCommand(this.shellShutdown,
-                                  "shutdown",
-                                  "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
+                "shutdown",
+                "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
             this.commandList[this.commandList.length] = sc;
 
             // cls
             sc = new ShellCommand(this.shellCls,
-                                  "cls",
-                                  "- Clears the screen and resets the cursor position.");
+                "cls",
+                "- Clears the screen and resets the cursor position.");
             this.commandList[this.commandList.length] = sc;
 
             // man <topic>
             sc = new ShellCommand(this.shellMan,
-                                  "man",
-                                  "<topic> - Displays the MANual page for <topic>.");
+                "man",
+                "<topic> - Displays the MANual page for <topic>.");
             this.commandList[this.commandList.length] = sc;
 
             // trace <on | off>
             sc = new ShellCommand(this.shellTrace,
-                                  "trace",
-                                  "<on | off> - Turns the OS trace on or off.");
+                "trace",
+                "<on | off> - Turns the OS trace on or off.");
             this.commandList[this.commandList.length] = sc;
 
             // rot13 <string>
             sc = new ShellCommand(this.shellRot13,
-                                  "rot13",
-                                  "<string> - Does rot13 obfuscation on <string>.");
+                "rot13",
+                "<string> - Does rot13 obfuscation on <string>.");
             this.commandList[this.commandList.length] = sc;
 
             // prompt <string>
             sc = new ShellCommand(this.shellPrompt,
-                                  "prompt",
-                                  "<string> - Sets the prompt.");
+                "prompt",
+                "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
             // date
             // this shell command will display the date and time when called
             sc = new ShellCommand(this.shellDate,
-                                  "date",
-                                  "- Displays the current date and time.");
+                "date",
+                "- Displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
 
             // whereami
@@ -150,8 +150,8 @@ module TSOS {
             //
             // TypeScript/JavaScript may not support associative arrays in all browsers so we have to iterate over the
             // command list in attempt to find a match.  TODO: Is there a better way? Probably. Someone work it out and tell me in class.
-            var index: number = 0;
-            var found: boolean = false;
+            var index:number = 0;
+            var found:boolean = false;
             var fn = undefined;
             while (!found && index < this.commandList.length) {
                 if (this.commandList[index].command === cmd) {
@@ -189,7 +189,7 @@ module TSOS {
             this.putPrompt();
         }
 
-        public parseInput(buffer): UserCommand {
+        public parseInput(buffer):UserCommand {
             var retVal = new UserCommand();
 
             // 1. Remove leading and trailing spaces.
@@ -241,14 +241,14 @@ module TSOS {
         }
 
         public shellApology() {
-           if (_SarcasticMode) {
-              _StdOut.putText("I think we can put our differences behind us.");
-              _StdOut.advanceLine();
-              _StdOut.putText("For science . . . You monster.");
-              _SarcasticMode = false;
-           } else {
-              _StdOut.putText("For what?");
-           }
+            if (_SarcasticMode) {
+                _StdOut.putText("I think we can put our differences behind us.");
+                _StdOut.advanceLine();
+                _StdOut.putText("For science . . . You monster.");
+                _SarcasticMode = false;
+            } else {
+                _StdOut.putText("For what?");
+            }
         }
 
         public shellVer(args) {
@@ -264,8 +264,8 @@ module TSOS {
         }
 
         public shellShutdown(args) {
-             _StdOut.putText("Shutting down...");
-             // Call Kernel shutdown routine.
+            _StdOut.putText("Shutting down...");
+            // Call Kernel shutdown routine.
             _Kernel.krnShutdown();
             // TODO: Stop the final prompt from being displayed.  If possible.  Not a high priority.  (Damn OCD!)
         }
@@ -318,7 +318,7 @@ module TSOS {
         public shellRot13(args) {
             if (args.length > 0) {
                 // Requires Utils.ts for rot13() function.
-                _StdOut.putText(args.join(' ') + " = '" + Utils.rot13(args.join(' ')) +"'");
+                _StdOut.putText(args.join(' ') + " = '" + Utils.rot13(args.join(' ')) + "'");
             } else {
                 _StdOut.putText("Usage: rot13 <string>  Please supply a string.");
             }
@@ -339,10 +339,9 @@ module TSOS {
 
         //Will display where the users general location is
         public shellWhereami(args) {
-            _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... " );
+            _StdOut.putText("You are probably on the planet Earth. If you want an exact location go Google it... ");
         }
 
-        //Working on this -----------------------------------------------------------------!!!!
         //Will display a quote
         public shellQuote(args) {
             var quote = "";
@@ -350,21 +349,20 @@ module TSOS {
             var stevenTyler = "Maybe life is random, but I doubt it. ~ Steven Tyler";
             var abLincoln = "Whatever you are, be a good one. ~ Abraham Lincoln";
 
-            if (_OsShell.quoteNum == 0 ){
-                _OsShell.quoteNum = _OsShell.quoteNum+1;
+            if (_OsShell.quoteNum == 0) {
+                _OsShell.quoteNum = _OsShell.quoteNum + 1;
                 _StdOut.putText(jaredLeto);
-            }else if (_OsShell.quoteNum == 1 ){
-                _OsShell.quoteNum = _OsShell.quoteNum+1;
+            } else if (_OsShell.quoteNum == 1) {
+                _OsShell.quoteNum = _OsShell.quoteNum + 1;
                 _StdOut.putText(stevenTyler);
-            }else if (_OsShell.quoteNum == 2 ){
-                _OsShell.quoteNum = _OsShell.quoteNum+1;
+            } else if (_OsShell.quoteNum == 2) {
+                _OsShell.quoteNum = _OsShell.quoteNum + 1;
                 _StdOut.putText(abLincoln);
-            }else{
+            } else {
                 _StdOut.putText("You have gotten all the quotes possible");
             }
-            
+
         }
-        //Working on this -----------------------------------------------------------------!!!!
 
         //Updates the task bar with a status message
         public shellStatus(args) {
@@ -372,7 +370,7 @@ module TSOS {
                 _OsShell.statusStr = args[0];
                 //Will update the date, time, and Status on the task bar
                 var taskBar = <HTMLInputElement> document.getElementById("taskBar");
-                taskBar.value="Date: " + Date() + "\n" + _OsShell.statusStr;
+                taskBar.value = "Date: " + Date() + "\n" + _OsShell.statusStr;
             } else {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
@@ -382,28 +380,41 @@ module TSOS {
         public shellBsod(args) {
             //Will clear the Console and display a BSOD
             _OsShell.shellCls(0);
-            _Canvas.style.backgroundColor="#000099";
+            _Canvas.style.backgroundColor = "#000099";
         }
 
-        //Working on this -----------------------------------------------------------------!!!!
         //Will say if the User Program Input is valid or not
         public shellLoad(args) {
             var programInput = <HTMLInputElement> document.getElementById("taProgramInput");
             var inputLength = programInput.value.length;
-            if(inputLength > 0){
+            if (inputLength > 0) {
+                var x = 0
+                var isValid = true;
+                while (x < inputLength) {
 
-                //for(x=0; x<inputLength; x=x+1){
-                  //  programInput.value.indexOf(x);
-
-                //}
-                _StdOut.putText("Valid " + programInput.value);
+                    var char = programInput.value.substring(x , x+1);
+                    //Check if the input is hex by going through the string
+                    if (char == "a" || char == "b" || char == "c" || char == "d" || char == "e" || char == "f" || char == "A" || char == "B" || char == "C" || char == "D" ||
+                        char == "E" || char == "F" || char == "0" || char == "1" || char == "2" || char == "3" || char == "4" || char == "5" || char == "6" || char == "7" ||
+                        char == "8" || char == "9" || char == " ") {
+                        x = x + 1;
+                    }
+                    //If the char is not a hex then set is valid to false and break the loop by setting x to length
+                    else {
+                        _StdOut.putText("Invalid");
+                        x=inputLength;
+                        isValid = false;
+                    }
+                }
+                //If isValid is true print valid
+                if(isValid) {
+                    _StdOut.putText("Valid");
+                }
             }
+            //If text area is empty tell the user
             else{
-                _StdOut.putText("Invalid");
+                _StdOut.putText("There is no data to validate");
             }
         }
-        //Working on this -----------------------------------------------------------------!!!!
-
-
     }
 }
