@@ -456,6 +456,13 @@ module TSOS {
                 //If isValid is true print valid
                 if(isValid) {
                     _StdOut.putText("Valid.");
+                    if(_nextProcessID == null){
+                        _nextProcessID = 0;
+                    }
+                    else{
+                        _nextProcessID = _nextProcessID +1;
+                    }
+                    _StdOut.putText("PID: " + _nextProcessID);
                 }
             }
             //If text area is empty tell the user

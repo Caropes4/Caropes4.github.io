@@ -20,8 +20,7 @@ module TSOS {
                     public buffer = "",
                     public historyArray = [""],
                     public arrayLoc = 0,
-                    public img1 = null) {
-        }
+                    public img1 = null) {}
 
         public init(): void {
             this.clearScreen();
@@ -147,8 +146,15 @@ module TSOS {
             }
         }
 
-        //Textwrap...nope no Idea how to start...
-        public textWrap():void {}
+        public textWrap(text): void {
+            if (this.currentXPosition > 490)
+            {
+                this.advanceLine();
+                this.putText(text);
+
+            }
+        }
+
 
         public putText(text): void {
             // My first inclination here was to write two functions: putChar() and putString().
@@ -159,13 +165,20 @@ module TSOS {
             //
             // UPDATE: Even though we are now working in TypeScript, char and string remain undistinguished.
             //         Consider fixing that.
-            if (text !== "") {
+
+            //Text Wrap?
+
+           if (text !== "") {
+               this.textWrap(text);
                 // Draw the text at the current X and Y coordinates.
+               //for(var i=0; text.getTotalLength() > i; i++){
+
+
+               //}
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
-
 
             }
          }

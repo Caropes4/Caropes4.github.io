@@ -134,8 +134,12 @@ var TSOS;
                 }
             }
         };
-        //Textwrap...nope no Idea how to start...
-        Console.prototype.textWrap = function () { };
+        Console.prototype.textWrap = function (text) {
+            if (this.currentXPosition > 490) {
+                this.advanceLine();
+                this.putText(text);
+            }
+        };
         Console.prototype.putText = function (text) {
             // My first inclination here was to write two functions: putChar() and putString().
             // Then I remembered that JavaScript is (sadly) untyped and it won't differentiate
@@ -145,8 +149,12 @@ var TSOS;
             //
             // UPDATE: Even though we are now working in TypeScript, char and string remain undistinguished.
             //         Consider fixing that.
+            //Text Wrap?
             if (text !== "") {
+                this.textWrap(text);
                 // Draw the text at the current X and Y coordinates.
+                //for(var i=0; text.getTotalLength() > i; i++){
+                //}
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);

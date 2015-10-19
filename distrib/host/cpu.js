@@ -38,6 +38,34 @@ var TSOS;
             this.Zflag = 0;
             this.isExecuting = false;
         };
+        //Load the accumulator with a constant
+        Cpu.prototype.loadAccConst = function () { };
+        //Load the accumulator from memory
+        Cpu.prototype.loadAccMem = function () { };
+        //Store the accumulator in memory
+        Cpu.prototype.storeAccMem = function () { };
+        //Add with carry
+        Cpu.prototype.addCarry = function () { };
+        //Load the X register with a constant
+        Cpu.prototype.loadXRegConst = function () { };
+        //Load the X register from memory
+        Cpu.prototype.loadXRegMem = function () { };
+        //Load the Y register with a constant
+        Cpu.prototype.loadYRegConst = function () { };
+        //Load the Y register from memory
+        Cpu.prototype.loadYRegMem = function () { };
+        //No Operation
+        Cpu.prototype.noOper = function () { };
+        //Break (which is really a system call)
+        Cpu.prototype.breakOper = function () { };
+        //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
+        Cpu.prototype.compareXReg = function () { };
+        //Branch n bytes if Z flag = 0
+        Cpu.prototype.branch = function () { };
+        //Increment the value of a byte
+        Cpu.prototype.increment = function () { };
+        //System Call
+        Cpu.prototype.systemCall = function () { };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.

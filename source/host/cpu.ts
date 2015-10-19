@@ -37,6 +37,48 @@ module TSOS {
             this.isExecuting = false;
         }
 
+        //Load the accumulator with a constant
+        public loadAccConst(){}
+
+        //Load the accumulator from memory
+        public loadAccMem(){}
+
+        //Store the accumulator in memory
+        public storeAccMem(){}
+
+        //Add with carry
+        public addCarry(){}
+
+        //Load the X register with a constant
+        public loadXRegConst(){}
+
+        //Load the X register from memory
+        public loadXRegMem(){}
+
+        //Load the Y register with a constant
+        public loadYRegConst(){}
+
+        //Load the Y register from memory
+        public loadYRegMem(){}
+
+        //No Operation
+        public noOper(){}
+
+        //Break (which is really a system call)
+        public breakOper(){}
+
+        //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
+        public compareXReg(){}
+
+        //Branch n bytes if Z flag = 0
+        public branch(){}
+
+        //Increment the value of a byte
+        public increment(){}
+
+        //System Call
+        public systemCall(){}
+
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
