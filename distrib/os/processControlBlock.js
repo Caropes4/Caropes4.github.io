@@ -5,60 +5,42 @@ var TSOS;
 (function (TSOS) {
     //Process Control Blocks
     var PCB = (function () {
-        function PCB() {
+        //Do I need? CPU scheduling information, Memory-management information, Includes protection, Accounting information, I/O status information
+        function PCB(
+            //Process ID
+            pid, 
+            //Process State
+            processState, 
+            //Program Counter
+            programCounter, 
+            //CPU Registers
+            acc, xReg, yReg, zFlag, isExecuting) {
+            if (pid === void 0) { pid = 0; }
+            if (processState === void 0) { processState = ""; }
+            if (programCounter === void 0) { programCounter = 0; }
+            if (acc === void 0) { acc = 0; }
+            if (xReg === void 0) { xReg = 0; }
+            if (yReg === void 0) { yReg = 0; }
+            if (zFlag === void 0) { zFlag = 0; }
+            if (isExecuting === void 0) { isExecuting = false; }
+            this.pid = pid;
+            this.processState = processState;
+            this.programCounter = programCounter;
+            this.acc = acc;
+            this.xReg = xReg;
+            this.yReg = yReg;
+            this.zFlag = zFlag;
+            this.isExecuting = isExecuting;
+        }
+        PCB.prototype.init = function () {
             this.pid = _nextProcessID;
             this.processState = "new";
-        }
-        PCB.prototype.getPID = function () {
-            return this.pid;
-        };
-        //Set the process state
-        PCB.prototype.setProcessState = function (state) {
-            this.processState = state;
-        };
-        //Get the process state
-        PCB.prototype.getProcessState = function () {
-            return this.processState;
-        };
-        //Set the set program counter
-        PCB.prototype.setProgramCounter = function (counter) {
-            this.programCounter = counter;
-        };
-        //Get the program counter
-        PCB.prototype.getProgramCounter = function () {
-            return this.programCounter;
-        };
-        //Set the Accumulator
-        PCB.prototype.setAcc = function (accumulator) {
-            this.acc = accumulator;
-        };
-        //Get the Accumulator
-        PCB.prototype.getAcc = function () {
-            return this.acc;
-        };
-        //Set the X register
-        PCB.prototype.setXReg = function (reg) {
-            this.xReg = reg;
-        };
-        //Get the X register
-        PCB.prototype.getXReg = function () {
-            return this.xReg;
-        };
-        //Set the Y register
-        PCB.prototype.setYReg = function (reg) {
-            this.yReg = reg;
-        };
-        //Get the Y register
-        PCB.prototype.getYReg = function () {
-            return this.yReg;
-        };
-        //Set the Z Flag
-        PCB.prototype.setZFlag = function (reg) {
-            this.zFlag = reg;
-        };
-        //Get the Z Flag
-        PCB.prototype.getZFlag = function () {
-            return this.zFlag;
+            this.programCounter = 0;
+            this.acc = 0;
+            this.xReg = 0;
+            this.yReg = 0;
+            this.zFlag = 0;
+            this.isExecuting = false;
         };
         return PCB;
     })();

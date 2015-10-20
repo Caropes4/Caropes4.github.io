@@ -8,24 +8,35 @@ module TSOS {
 
         //Do I need? CPU scheduling information, Memory-management information, Includes protection, Accounting information, I/O status information
 
-        //Process ID
-        public pid;
-        //Process State
-        public processState;
-        //Program Counter
-        public programCounter;
 
-        //CPU Registers
-        public acc;
-        public xReg;
-        public yReg;
-        public zFlag;
+        constructor(
+            //Process ID
+            public pid : number = 0,
+            //Process State
+            public processState : string= "",
+            //Program Counter
+            public programCounter : number = 0,
+            //CPU Registers
+            public acc : number = 0,
+            public xReg : number = 0,
+            public yReg : number = 0,
+            public zFlag : number = 0,
+            public isExecuting: boolean = false) {
 
-        public constructor(){
-            this.pid = _nextProcessID;
-            this.processState = "new";
         }
 
+        public init(): void {
+            this.pid = _nextProcessID;
+            this.processState = "new";
+            this.programCounter = 0;
+            this.acc = 0;
+            this.xReg = 0;
+            this.yReg = 0;
+            this.zFlag = 0;
+            this.isExecuting = false;
+        }
+
+        /*
         public getPID(){
             return this.pid;
         }
@@ -83,6 +94,7 @@ module TSOS {
         public getZFlag(){
             return this.zFlag;
         }
+        */
 
 
     }

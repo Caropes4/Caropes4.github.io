@@ -387,14 +387,9 @@ var TSOS;
                 }
                 //If isValid is true print valid
                 if (isValid) {
-                    _StdOut.putText("Valid.");
-                    if (_nextProcessID == null) {
-                        _nextProcessID = 0;
-                    }
-                    else {
-                        _nextProcessID = _nextProcessID + 1;
-                    }
-                    _StdOut.putText("PID: " + _nextProcessID);
+                    //_currentMemory = ["90"];
+                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory);
+                    _nextProcessID = _nextProcessID + 1;
                 }
             }
             else {

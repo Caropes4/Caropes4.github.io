@@ -5,7 +5,10 @@ module TSOS {
 
     export class MemoryManager {
 
+        public memory = _currentMemory;
+        public PCB = _currentPCB;
 
+       // public
 
 
 

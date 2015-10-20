@@ -105,30 +105,35 @@
       </label>
    </div>
 
+
+    <style> table, th, td {
+        border: 1px solid black;
+    }</style>
+
     <div id="divCPU" style="margin:4px; float:left;">
         <label>
             CPU Status
             <br>
-            <table style="border: 1px solid black; background: white">
+            <table style="background: white">
                 <tr>
-                    <th style="border: 1px solid black;">PC</th>
-                    <td style="border: 1px solid black;" id  ="PC">0x00</td>
+                    <th >PC</th>
+                    <td id="PC">0x00</td>
                 </tr>
                 <tr>
-                    <th style="border: 1px solid black;">ACC</th>
-                    <td style="border: 1px solid black;" id  ="ACC">0x00</td>
+                    <th>ACC</th>
+                    <td id="ACC">0x00</td>
                 </tr>
                 <tr>
-                    <th style="border: 1px solid black;">X Reg</th>
-                    <td style="border: 1px solid black;" id  ="XReg">0x00</td>
+                    <th>X Reg</th>
+                    <td id="XReg">0x00</td>
                 </tr>
                 <tr>
-                    <th style="border: 1px solid black;">Y Reg</th>
-                    <td style="border: 1px solid black;" id  ="YReg">0x00</td>
+                    <th>Y Reg</th>
+                    <td id="YReg">0x00</td>
                 </tr>
                 <tr>
-                    <th style="border: 1px solid black;">Z Flag</th>
-                    <td style="border: 1px solid black;" id  ="ZFlag">0x0</td>
+                    <th>Z Flag</th>
+                    <td id="ZFlag">0x0</td>
                 </tr></table>
 
         </label>
@@ -137,20 +142,24 @@
         <label>
             Memory
             <br>
-            <table style="border: 1px solid black; background: white">
-                <tr>
-                    <th style="border: 1px solid black;">Month</th>
-                    <th style="border: 1px solid black;">Savings</th>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black;">January</td>
-                    <td style="border: 1px solid black;">$100</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black;">February</td>
-                    <td style="border: 1px solid black;">$80</td>
-                </tr></table>
-
+            <div style="overflow:auto; height:130px; width:330px;">
+                <table id="memory" style=" background: white;">
+                    <tr>
+                        <th>Memory 00-FF</th>
+                    </tr>
+                    <tr>
+                        <th>0x00</th>
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                        <td>00</td>
+                    </tr>
+                </table>
+            </div>
         </label>
     </div>
 

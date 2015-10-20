@@ -147,12 +147,20 @@ module TSOS {
         }
 
         public textWrap(text): void {
-            if (this.currentXPosition > 490)
-            {
-                this.advanceLine();
-                this.putText(text);
+            var char;
+            // Draw the text at the current X and Y coordinates.
+            //for(var i=0; i < text.length(); i++){
+            //    char = text.substring(i, i+1);
 
-            }
+                if (this.currentXPosition > 490)
+                {
+                    this.advanceLine();
+                    //this.putText(char);
+
+                }
+
+            //}
+
         }
 
 
@@ -170,16 +178,10 @@ module TSOS {
 
            if (text !== "") {
                this.textWrap(text);
-                // Draw the text at the current X and Y coordinates.
-               //for(var i=0; text.getTotalLength() > i; i++){
-
-
-               //}
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
-
+               _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
+               // Move the current X position.
+               var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+               this.currentXPosition = this.currentXPosition + offset;
             }
          }
 

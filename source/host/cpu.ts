@@ -24,9 +24,7 @@ module TSOS {
                     public Xreg: number = 0,
                     public Yreg: number = 0,
                     public Zflag: number = 0,
-                    public isExecuting: boolean = false) {
-
-        }
+                    public isExecuting: boolean = false) {}
 
         public init(): void {
             this.PC = 0;
@@ -79,8 +77,54 @@ module TSOS {
         //System Call
         public systemCall(){}
 
+        public decodeInstruction(instruction){
+            if(instruction == "A9" || instruction == "a9"){
+                this.loadAccConst();
+            }
+            else if(instruction == "AD" || instruction == "ad" || instruction == "Ad" || instruction == "aD"){
+                this.loadAccMem();
+            }
+            else if(instruction == "8D" || instruction == "8d"){
+                this.storeAccMem();
+            }
+            else if(instruction == "6D" || instruction == "6d"){
+                this.addCarry();
+            }
+            else if(instruction == "A2" || instruction == "a2"){
+                this.loadXRegConst();
+            }
+            else if(instruction == "AE" || instruction == "ae" || instruction == "Ae" || instruction == "aE"){
+                this.loadXRegMem();
+            }
+            else if(instruction == "A0" || instruction == "a0"){
+                this.loadYRegConst();
+            }
+            else if(instruction == "AC" || instruction == "ac" || instruction == "Ac" || instruction == "aC"){
+                this.loadYRegMem();
+            }
+            else if(instruction == "EA" || instruction == "ea" || instruction == "Ea" || instruction == "eA"){
+                this.noOper();
+            }
+            else if(instruction == "00") {
+                this.breakOper();
+            }
+            else if(instruction == "EC" || instruction == "ec" || instruction == "Ec" || instruction == "eC"){
+                this.compareXReg();
+            }
+            else if(instruction == "D0" || instruction == "d0"){
+                this.branch();
+            }
+            else if(instruction == "EE" || instruction == "ee" || instruction == "Ee" || instruction == "eE") {
+                this.increment();
+            }
+            else if(instruction == "FF" || instruction == "ff" || instruction == "Ff" || instruction == "fF") {
+                this.systemCall();
+            }
+        }
+
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
+            //this.decodeInstruction();
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }

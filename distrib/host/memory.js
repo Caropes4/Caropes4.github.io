@@ -4,8 +4,17 @@
 var TSOS;
 (function (TSOS) {
     var Memory = (function () {
-        function Memory() {
+        function Memory(memory) {
+            if (memory === void 0) { memory = 0; }
+            this.memory = memory;
         }
+        Memory.prototype.init = function () {
+            this.memory = 9;
+            //for(var x = 0; x < 256; x++){
+            //this.memory[x] = "00";
+            //}
+            //_currentMemory = this.memory;
+        };
         return Memory;
     })();
     TSOS.Memory = Memory;

@@ -26,6 +26,7 @@ const KEYBOARD_IRQ: number = 1;
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+var _Memory: TSOS.Memory; // Utilize TypeScript's type annotation system to ensure that _Memory is an instance of the Memory class
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -61,10 +62,14 @@ var _krnKeyboardDriver; //  = null;
 
 var _hardwareClockID: number = null;
 
-var _nextProcessID: number = null;
+var _nextProcessID: number = 0;
 
 var _currentPCB: TSOS.PCB;
-var _currentMemory: TSOS.Memory;
+
+var _currentMemory: any [];
+
+//Holds the string containing the instructions.
+var _loadedCode: any [] = null;
 
 
 

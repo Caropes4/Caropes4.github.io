@@ -135,10 +135,14 @@ var TSOS;
             }
         };
         Console.prototype.textWrap = function (text) {
+            var char;
+            // Draw the text at the current X and Y coordinates.
+            //for(var i=0; i < text.length(); i++){
+            //    char = text.substring(i, i+1);
             if (this.currentXPosition > 490) {
                 this.advanceLine();
-                this.putText(text);
             }
+            //}
         };
         Console.prototype.putText = function (text) {
             // My first inclination here was to write two functions: putChar() and putString().
@@ -152,9 +156,6 @@ var TSOS;
             //Text Wrap?
             if (text !== "") {
                 this.textWrap(text);
-                // Draw the text at the current X and Y coordinates.
-                //for(var i=0; text.getTotalLength() > i; i++){
-                //}
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
