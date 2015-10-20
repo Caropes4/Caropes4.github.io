@@ -33,7 +33,7 @@ var TSOS;
         Cpu.prototype.init = function () {
             this.PC = 0;
             this.Acc = 0;
-            this.Xreg = 0;
+            this.Xreg = 3;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
@@ -41,7 +41,7 @@ var TSOS;
         //Load the accumulator with a constant
         Cpu.prototype.loadAccConst = function () {
             //Load the constant into the Accumulator
-            this.Acc = _MemoryManager.hexToDec(_MemoryManager.getNextByte(1));
+            this.Acc = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC + 2;
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
@@ -50,41 +50,137 @@ var TSOS;
         //Load the accumulator from memory
         Cpu.prototype.loadAccMem = function () {
             //Gets the next Byte
-            var first = _MemoryManager.hexToDec(_MemoryManager.getNextByte(1));
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Gets the second byte
-            var second = _MemoryManager.hexToDec(_MemoryManager.getNextByte(2));
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = _MemoryManager.hexToDec(first + second);
+            var index = first + second;
             //Put into accumulator
-            _CPU.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
-            //Add 3 becasue we used 2 bytes
+            this.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
         };
         //Store the accumulator in memory
-        Cpu.prototype.storeAccMem = function () { };
+        Cpu.prototype.storeAccMem = function () {
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first + second;
+            //Put the accumulator in hex and store it in the specified location in memory.
+            _currentMemory[index] = _CPU.Acc.toString(16);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC + 3;
+            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
+        };
         //Add with carry
-        Cpu.prototype.addCarry = function () { };
+        Cpu.prototype.addCarry = function () {
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first + second;
+            //add the value at the index to the accumulator and store it in the accumulator.
+            this.Acc = _CPU.Acc + _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC + 3;
+            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
+        };
         //Load the X register with a constant
-        Cpu.prototype.loadXRegConst = function () { };
+        Cpu.prototype.loadXRegConst = function () {
+            //Load the constant into the X register
+            this.Xreg = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Add 2 to the program counter so we know where we are in memory.
+            this.PC = this.PC + 2;
+        };
         //Load the X register from memory
-        Cpu.prototype.loadXRegMem = function () { };
+        Cpu.prototype.loadXRegMem = function () {
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first + second;
+            //Put into X register
+            this.Xreg = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC + 3;
+        };
         //Load the Y register with a constant
-        Cpu.prototype.loadYRegConst = function () { };
+        Cpu.prototype.loadYRegConst = function () {
+            //Load the constant into the Y register
+            this.Yreg = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Add 2 to the program counter so we know where we are in memory.
+            this.PC = this.PC + 2;
+        };
         //Load the Y register from memory
-        Cpu.prototype.loadYRegMem = function () { };
+        Cpu.prototype.loadYRegMem = function () {
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first + second;
+            //Put into Y register
+            this.Yreg = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC + 3;
+        };
         //No Operation
-        Cpu.prototype.noOper = function () { };
+        Cpu.prototype.noOper = function () {
+            //There is no operation here so move on
+            this.PC = this.PC + 1;
+        };
         //Break (which is really a system call)
         Cpu.prototype.breakOper = function () { };
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
-        Cpu.prototype.compareXReg = function () { };
+        Cpu.prototype.compareXReg = function () {
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first + second;
+            //If value in Xreg == value at memory Zflag = 1
+            if (this.Xreg == _MemoryManager.hexToDec(_currentMemory[index])) {
+                this.Zflag = 1;
+            }
+            else {
+                this.Zflag = 0;
+            }
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC + 3;
+            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Zflag);
+        };
         //Branch n bytes if Z flag = 0
-        Cpu.prototype.branch = function () { };
+        Cpu.prototype.branch = function () {
+            if (this.Zflag == 0) {
+                //Branch to where the byte after says.
+                this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+                //Dont forget to increment for the 2 codes used.
+                this.PC = this.PC + 2;
+            }
+            else {
+                //Add two to skip the D0 code and the information after it.
+                this.PC = this.PC + 2;
+            }
+        };
         //Increment the value of a byte
         Cpu.prototype.increment = function () { };
         //System Call
-        Cpu.prototype.systemCall = function () { };
+        Cpu.prototype.systemCall = function () {
+            if (this.Xreg == 1) {
+                _Console.putText(this.Yreg.toString());
+            }
+            else if (this.Xreg == 2) {
+                //Grab the byte at the Yreg location and turn it into dec and print.
+                _Console.putText(_MemoryManager.hexToDec(_MemoryManager.getByte(this.Yreg)));
+            }
+            this.PC = this.PC + 1;
+        };
         Cpu.prototype.decodeInstruction = function (instruction) {
             if (instruction == "A9" || instruction == "a9") {
                 this.loadAccConst();

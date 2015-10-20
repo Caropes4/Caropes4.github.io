@@ -25,7 +25,7 @@ var TSOS;
             _MemoryCheckStatus = "Program successfully loaded.";
         };
         //Return the selected byte in memory
-        MemoryManager.prototype.getNextByte = function (x) {
+        MemoryManager.prototype.getByte = function (x) {
             return _currentMemory[_CPU.PC + x];
         };
         //Change a number from hex to decimal and return it.

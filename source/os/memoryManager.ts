@@ -30,7 +30,7 @@ module TSOS {
         }
 
         //Return the selected byte in memory
-        public getNextByte(x : number) : string{
+        public getByte(x : number) : string{
             return _currentMemory[_CPU.PC +x];
         }
 

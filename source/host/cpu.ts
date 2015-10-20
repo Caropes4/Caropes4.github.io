@@ -29,7 +29,7 @@ module TSOS {
         public init(): void {
             this.PC = 0;
             this.Acc = 0;
-            this.Xreg = 0;
+            this.Xreg = 3;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
@@ -40,7 +40,7 @@ module TSOS {
 
 
             //Load the constant into the Accumulator
-            this.Acc = _MemoryManager.hexToDec( _MemoryManager.getNextByte(1));
+            this.Acc = _MemoryManager.hexToDec( _MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC +2;
 
@@ -51,54 +51,154 @@ module TSOS {
         //Load the accumulator from memory
         public loadAccMem(){
             //Gets the next Byte
-            var first = _MemoryManager.hexToDec(_MemoryManager.getNextByte(1));
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Gets the second byte
-            var second = _MemoryManager.hexToDec(_MemoryManager.getNextByte(2));
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = _MemoryManager.hexToDec(first+second);
+            var index = first+second;
             //Put into accumulator
-            _CPU.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
-            //Add 3 becasue we used 2 bytes
+            this.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
             this.PC = this.PC +3
 
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
         }
 
         //Store the accumulator in memory
-        public storeAccMem(){}
+        public storeAccMem(){
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first+second;
+            //Put the accumulator in hex and store it in the specified location in memory.
+            _currentMemory[index] = _CPU.Acc.toString(16);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC +3
+
+            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
+        }
 
         //Add with carry
-        public addCarry(){}
+        public addCarry(){
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first+second;
+            //add the value at the index to the accumulator and store it in the accumulator.
+            this.Acc = _CPU.Acc + _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC +3
+
+            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
+        }
 
         //Load the X register with a constant
-        public loadXRegConst(){}
+        public loadXRegConst(){
+            //Load the constant into the X register
+            this.Xreg = _MemoryManager.hexToDec( _MemoryManager.getByte(1));
+            //Add 2 to the program counter so we know where we are in memory.
+            this.PC = this.PC +2;
+        }
 
         //Load the X register from memory
-        public loadXRegMem(){}
+        public loadXRegMem(){
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first+second;
+            //Put into X register
+            this.Xreg = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC +3
+        }
 
         //Load the Y register with a constant
-        public loadYRegConst(){}
+        public loadYRegConst(){
+            //Load the constant into the Y register
+            this.Yreg = _MemoryManager.hexToDec( _MemoryManager.getByte(1));
+            //Add 2 to the program counter so we know where we are in memory.
+            this.PC = this.PC +2;
+        }
 
         //Load the Y register from memory
-        public loadYRegMem(){}
+        public loadYRegMem(){
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first+second;
+            //Put into Y register
+            this.Yreg = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC +3
+        }
 
         //No Operation
-        public noOper(){}
+        public noOper(){
+            //There is no operation here so move on
+            this.PC = this.PC +1;
+        }
 
         //Break (which is really a system call)
         public breakOper(){}
 
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
-        public compareXReg(){}
+        public compareXReg(){
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first+second;
+
+            //If value in Xreg == value at memory Zflag = 1
+            if(this.Xreg == _MemoryManager.hexToDec(_currentMemory[index])){
+                this.Zflag = 1;
+            }else{
+                this.Zflag =0;
+            }
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC +3
+
+            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Zflag);
+        }
 
         //Branch n bytes if Z flag = 0
-        public branch(){}
+        public branch(){
+            if(this.Zflag == 0){
+                //Branch to where the byte after says.
+                this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+                //Dont forget to increment for the 2 codes used.
+                this.PC = this.PC + 2;
+            }
+            else{
+                //Add two to skip the D0 code and the information after it.
+                this.PC = this.PC + 2;
+            }
+        }
 
         //Increment the value of a byte
         public increment(){}
 
         //System Call
-        public systemCall(){}
+        public systemCall(){
+            if(this.Xreg==1){
+                _Console.putText(this.Yreg.toString());
+            }
+            else if(this.Xreg == 2){
+                //Grab the byte at the Yreg location and turn it into dec and print.
+                _Console.putText(_MemoryManager.hexToDec(_MemoryManager.getByte(this.Yreg)));
+            }
+            this.PC = this.PC +1;
+
+        }
 
         public decodeInstruction(instruction){
             if(instruction == "A9" || instruction == "a9"){
