@@ -36,7 +36,12 @@ module TSOS {
         }
 
         //Load the accumulator with a constant
-        public loadAccConst(){}
+        public loadAccConst(){
+            //Load the constant into the Accumulator
+            this.Acc = _currentMemory[this.PC + 1];
+            //Add 2 to the program counter so we know where we are in memory.
+            this.PC = this.PC +2;
+        }
 
         //Load the accumulator from memory
         public loadAccMem(){}

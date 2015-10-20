@@ -29,7 +29,7 @@ var TSOS;
             //Array location
             var y = 0;
             //Loop through the instructions and place them in memory
-            while (x < _loadedCode.length && x < 256) {
+            while (x < _loadedCode.length && y < 256) {
                 _currentMemory[y] = _loadedCode.substring(x, x + 2);
                 x = x + 2;
                 y = y + 1;

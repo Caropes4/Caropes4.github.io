@@ -462,8 +462,9 @@ module TSOS {
                 if(isValid) {
                     //Save the string in _loadedCode to be used by memory.
                     _loadedCode = code;
+                    //_MemoryManager.memoryCheck();
                     _Memory.write();
-                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory + "      " + _Memory.read(1));
+                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory + "    "+"     " + _Memory.read(1));
                     _nextProcessID = _nextProcessID +1;
                 }
             }

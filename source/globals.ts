@@ -27,6 +27,7 @@ const KEYBOARD_IRQ: number = 1;
 //
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory: TSOS.Memory; // Utilize TypeScript's type annotation system to ensure that _Memory is an instance of the Memory class
+var _MemoryManager: TSOS.MemoryManager; // Utilize TypeScript's type annotation system to ensure that _MemoryManager is an instance of the MemoryManager class
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -67,6 +68,7 @@ var _nextProcessID: number = 0;
 var _currentPCB: TSOS.PCB;
 var _currentMemory: any [];
 var _MemoryDisplay: HTMLTableElement;
+var _MemoryCheckStatus: string;
 
 //Add global variables for CPU registers
 var _PCDisplay: HTMLTableDataCellElement;
