@@ -155,11 +155,17 @@ var TSOS;
             //         Consider fixing that.
             //Text Wrap?
             if (text !== "") {
-                this.textWrap(text);
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                var char = null;
+                var x = 0;
+                while (x < text.length) {
+                    char = text.substring(x, x + 1);
+                    x = x + 1;
+                    this.textWrap(char);
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, char);
+                    // Move the current X position.
+                    var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, char);
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         };
         Console.prototype.advanceLine = function () {

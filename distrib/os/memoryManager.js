@@ -5,7 +5,7 @@ var TSOS;
 (function (TSOS) {
     var MemoryManager = (function () {
         function MemoryManager() {
-            this.memory = _currentMemory;
+            //public memory = _currentMemory;
             this.PCB = _currentPCB;
         }
         return MemoryManager;

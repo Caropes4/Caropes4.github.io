@@ -49,6 +49,7 @@ var _hardwareClockID = null;
 var _nextProcessID = 0;
 var _currentPCB;
 var _currentMemory;
+var _MemoryDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = null;
 // For testing (and enrichment)...

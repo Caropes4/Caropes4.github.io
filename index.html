@@ -12,6 +12,7 @@
    <script type="text/javascript" src="distrib/globals.js"></script>
 
    <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
+    <script type="text/javascript" src="distrib/host/memory.js"></script>
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
@@ -22,6 +23,8 @@
    <script type="text/javascript" src="distrib/os/console.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
+    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
+    <script type="text/javascript" src="distrib/os/processControlBlock.js"></script>
    <script type="text/javascript" src="distrib/os/queue.js"></script>
    <script type="text/javascript" src="distrib/os/shell.js"></script>
    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
@@ -143,7 +146,7 @@
             Memory
             <br>
             <div style="overflow:auto; height:130px; width:330px;">
-                <table id="memory" style=" background: white;">
+                <table id="memoryDisplay" style=" background: white;">
                     <tr>
                         <th>Memory 00-FF</th>
                     </tr>

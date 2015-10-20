@@ -65,11 +65,11 @@ var _hardwareClockID: number = null;
 var _nextProcessID: number = 0;
 
 var _currentPCB: TSOS.PCB;
-
 var _currentMemory: any [];
+var _MemoryDisplay: HTMLTableElement;
 
 //Holds the string containing the instructions.
-var _loadedCode: any [] = null;
+var _loadedCode: string = null;
 
 
 
