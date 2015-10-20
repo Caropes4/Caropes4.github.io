@@ -37,14 +37,32 @@ module TSOS {
 
         //Load the accumulator with a constant
         public loadAccConst(){
+
+
             //Load the constant into the Accumulator
-            this.Acc = _currentMemory[this.PC + 1];
+            this.Acc = _MemoryManager.hexToDec( _MemoryManager.getNextByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC +2;
+
+            //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
+            //_AccDisplay.value.
         }
 
         //Load the accumulator from memory
-        public loadAccMem(){}
+        public loadAccMem(){
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getNextByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getNextByte(2));
+            //Translate into decimal
+            var index = _MemoryManager.hexToDec(first+second);
+            //Put into accumulator
+            _CPU.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
+            //Add 3 becasue we used 2 bytes
+            this.PC = this.PC +3
+
+            //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
+        }
 
         //Store the accumulator in memory
         public storeAccMem(){}
@@ -129,7 +147,15 @@ module TSOS {
 
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
-            //this.decodeInstruction();
+
+            if(_CPU.PC < 256) {
+                this.decodeInstruction(_currentMemory[this.PC]);
+            }else{
+                this.isExecuting = false;
+            }
+
+
+
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }

@@ -5,12 +5,15 @@ module TSOS {
 
     export class MemoryManager {
 
-        //public memory = _currentMemory;
-        public PCB = _currentPCB;
+        public memory: any[]
 
-       // public
+        constructor(){}
 
+        public init(): void{
+            this.memory = _currentMemory;
+        }
 
+        //Cheack to see if a program is already in memory.
         public memoryCheck(): void{
             var x =0;
             while(x < 256){
@@ -26,11 +29,15 @@ module TSOS {
             _MemoryCheckStatus = "Program successfully loaded.";
         }
 
-
-        public getInstruction(indexLocation : number): string {
-            return _currentMemory[indexLocation];
+        //Return the selected byte in memory
+        public getNextByte(x : number) : string{
+            return _currentMemory[_CPU.PC +x];
         }
 
+        //Change a number from hex to decimal and return it.
+        public hexToDec(hexNumber : string) : number{
+            return parseInt(hexNumber, 16);
+        }
 
     }
 }

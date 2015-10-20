@@ -464,7 +464,8 @@ module TSOS {
                     _loadedCode = code;
                     //_MemoryManager.memoryCheck();
                     _Memory.write();
-                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory + "    "+"     " + _Memory.read(1));
+                    _CPU.isExecuting = true;
+                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory + "    "+"     " + _CPU.Acc);
                     _nextProcessID = _nextProcessID +1;
                 }
             }

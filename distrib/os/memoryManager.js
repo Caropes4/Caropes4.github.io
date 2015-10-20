@@ -5,10 +5,11 @@ var TSOS;
 (function (TSOS) {
     var MemoryManager = (function () {
         function MemoryManager() {
-            //public memory = _currentMemory;
-            this.PCB = _currentPCB;
         }
-        // public
+        MemoryManager.prototype.init = function () {
+            this.memory = _currentMemory;
+        };
+        //Cheack to see if a program is already in memory.
         MemoryManager.prototype.memoryCheck = function () {
             var x = 0;
             while (x < 256) {
@@ -23,8 +24,13 @@ var TSOS;
             _Memory.write();
             _MemoryCheckStatus = "Program successfully loaded.";
         };
-        MemoryManager.prototype.getInstruction = function (indexLocation) {
-            return _currentMemory[indexLocation];
+        //Return the selected byte in memory
+        MemoryManager.prototype.getNextByte = function (x) {
+            return _currentMemory[_CPU.PC + x];
+        };
+        //Change a number from hex to decimal and return it.
+        MemoryManager.prototype.hexToDec = function (hexNumber) {
+            return parseInt(hexNumber, 16);
         };
         return MemoryManager;
     })();
