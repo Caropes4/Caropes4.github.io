@@ -434,7 +434,7 @@ module TSOS {
         public shellLoad(args) {
             var programInput = <HTMLInputElement> document.getElementById("taProgramInput");
             var inputLength = programInput.value.length;
-            var code = null;
+            var code = "";
             if (inputLength > 0) {
                 var x = 0;
                 var isValid = true;
@@ -445,7 +445,10 @@ module TSOS {
                     if (char == "a" || char == "b" || char == "c" || char == "d" || char == "e" || char == "f" || char == "A" || char == "B" || char == "C" || char == "D" ||
                         char == "E" || char == "F" || char == "0" || char == "1" || char == "2" || char == "3" || char == "4" || char == "5" || char == "6" || char == "7" ||
                         char == "8" || char == "9" || char == " ") {
-                        code = code + char;
+                        //remove all spaces and add the character to a string
+                        if(char !== " "){
+                            code = code + char;
+                        }
                         x = x + 1;
                     }
                     //If the char is not a hex then set is valid to false and break the loop by setting x to length
@@ -457,8 +460,10 @@ module TSOS {
                 }
                 //If isValid is true print valid
                 if(isValid) {
+                    //Save the string in _loadedCode to be used by memory.
                     _loadedCode = code;
-                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _loadedCode);
+                    _Memory.write();
+                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory + "      " + _Memory.read(1));
                     _nextProcessID = _nextProcessID +1;
                 }
             }

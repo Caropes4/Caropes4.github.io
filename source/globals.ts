@@ -68,8 +68,15 @@ var _currentPCB: TSOS.PCB;
 var _currentMemory: any [];
 var _MemoryDisplay: HTMLTableElement;
 
+//Add global variables for CPU registers
+var _PCDisplay: HTMLTableDataCellElement;
+var _AccDisplay: HTMLTableDataCellElement;
+var _XRegDisplay: HTMLTableDataCellElement;
+var _YRegDisplay: HTMLTableDataCellElement;
+var _ZFlagDisplay: HTMLTableDataCellElement;
+
 //Holds the string containing the instructions.
-var _loadedCode: string = null;
+var _loadedCode: string = "";
 
 
 

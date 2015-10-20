@@ -32,6 +32,12 @@ var TSOS;
             _Canvas = document.getElementById('display');
             //MemoryDisplay
             _MemoryDisplay = document.getElementById("memoryDisplay");
+            //Global variables for CPU registers
+            _PCDisplay = document.getElementById("PC");
+            _AccDisplay = document.getElementById("ACC");
+            _XRegDisplay = document.getElementById("XReg");
+            _YRegDisplay = document.getElementById("YReg");
+            _ZFlagDisplay = document.getElementById("ZFlag");
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).

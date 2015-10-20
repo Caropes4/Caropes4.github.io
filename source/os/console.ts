@@ -179,11 +179,14 @@ module TSOS {
            if (text !== "") {
                var char = null;
                var x =0;
+               //Loop and take each character separately and so textWrap can check that they do not pass the max X coord
                while (x < text.length) {
                    char = text.substring(x , x+1);
                    x=x+1;
 
+                   //Call TextWrap
                    this.textWrap(char);
+
                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, char);
                    // Move the current X position.
                    var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, char);

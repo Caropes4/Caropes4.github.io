@@ -35,6 +35,13 @@ module TSOS {
             //MemoryDisplay
             _MemoryDisplay = <HTMLTableElement>document.getElementById("memoryDisplay");
 
+            //Global variables for CPU registers
+            _PCDisplay = <HTMLTableDataCellElement>document.getElementById("PC");
+            _AccDisplay = <HTMLTableDataCellElement>document.getElementById("ACC");
+            _XRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg");
+            _YRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg");
+            _ZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag");
+
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
 

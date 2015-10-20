@@ -50,8 +50,14 @@ var _nextProcessID = 0;
 var _currentPCB;
 var _currentMemory;
 var _MemoryDisplay;
+//Add global variables for CPU registers
+var _PCDisplay;
+var _AccDisplay;
+var _XRegDisplay;
+var _YRegDisplay;
+var _ZFlagDisplay;
 //Holds the string containing the instructions.
-var _loadedCode = null;
+var _loadedCode = "";
 // For testing (and enrichment)...
 var Glados = null; // This is the function Glados() in glados.js on Labouseur.com.
 var _GLaDOS = null; // If the above is linked in, this is the instantiated instance of Glados.
