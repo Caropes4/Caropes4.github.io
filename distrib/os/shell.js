@@ -75,6 +75,10 @@ var TSOS;
             // this shell command will tell the user if the input in User Program Input is valid Hex or not.
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Will let you know if the input in User Program Input is valid");
             this.commandList[this.commandList.length] = sc;
+            //run
+            //This shell command will run the loaded program matching the given PID
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "- Run the program loaded into memory associated with the given PID");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -404,13 +408,22 @@ var TSOS;
                     _currentPCB.yReg = _CPU.Yreg;
                     _currentPCB.zFlag = _CPU.Zflag;
                     _currentPCB.isExecuting = _CPU.isExecuting;
-                    _CPU.isExecuting = true;
-                    _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus + "   " + _currentMemory);
+                    _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                     _nextProcessID = _nextProcessID + 1;
                 }
             }
             else {
                 _StdOut.putText("There is no data to validate.");
+            }
+        };
+        //Will display run a program
+        Shell.prototype.shellRun = function (args) {
+            //Run a program
+            if (args.length > 0) {
+                _CPU.isExecuting = true;
+            }
+            else {
+                _StdOut.putText("Usage: run <pid>  Please supply a PID.");
             }
         };
         return Shell;

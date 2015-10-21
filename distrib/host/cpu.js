@@ -44,6 +44,7 @@ var TSOS;
             this.Acc = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC + 2;
+            console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
             //_AccDisplay.value.
         };
@@ -59,6 +60,7 @@ var TSOS;
             this.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
+            console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
         };
         //Store the accumulator in memory
@@ -73,6 +75,7 @@ var TSOS;
             _currentMemory[index] = this.Acc.toString(16);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
+            console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
         };
         //Add with carry
@@ -84,9 +87,10 @@ var TSOS;
             //Translate into decimal
             var index = first + second;
             //add the value at the index to the accumulator and store it in the accumulator.
-            this.Acc = _CPU.Acc + _MemoryManager.hexToDec(_currentMemory[index]);
+            this.Acc = this.Acc + _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
+            console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
         };
         //Load the X register with a constant
@@ -95,6 +99,7 @@ var TSOS;
             this.Xreg = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC + 2;
+            console.log(_CPU.PC);
         };
         //Load the X register from memory
         Cpu.prototype.loadXRegMem = function () {
@@ -108,6 +113,7 @@ var TSOS;
             this.Xreg = _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
+            console.log(_CPU.PC);
         };
         //Load the Y register with a constant
         Cpu.prototype.loadYRegConst = function () {
@@ -115,6 +121,7 @@ var TSOS;
             this.Yreg = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC + 2;
+            console.log(_CPU.PC);
         };
         //Load the Y register from memory
         Cpu.prototype.loadYRegMem = function () {
@@ -128,16 +135,20 @@ var TSOS;
             this.Yreg = _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
+            console.log(_CPU.PC);
         };
         //No Operation
         Cpu.prototype.noOper = function () {
             //There is no operation here so move on
             this.PC = this.PC + 1;
+            console.log(_CPU.PC);
         };
         //Break (which is really a system call)
         Cpu.prototype.breakOper = function () {
-            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_STR_IRQ, false));
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(BREAK_OPERATION_IRQ, false));
             this.PC = this.PC + 1;
+            console.log(_CPU.PC);
+            console.log(_CPU.Yreg);
         };
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
         Cpu.prototype.compareXReg = function () {
@@ -156,6 +167,7 @@ var TSOS;
             }
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
+            console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Zflag);
         };
         //Branch n bytes if Z flag = 0
@@ -163,16 +175,18 @@ var TSOS;
             if (this.Zflag == 0) {
                 //Branch to where the byte after says.
                 this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
-                if (this.PC > 255) {
+                this.PC = this.PC + 1;
+                //Make sure we dont go over 256
+                if (this.PC > 254) {
                     this.PC = this.PC - 256;
                 }
-                //Dont forget to increment for the 2 codes used.
-                this.PC = this.PC + 2;
+                this.PC = this.PC + 1;
             }
             else {
                 //Add two to skip the D0 code and the information after it.
                 this.PC = this.PC + 2;
             }
+            console.log(_CPU.PC);
         };
         //Increment the value of a byte
         Cpu.prototype.increment = function () {
@@ -186,7 +200,7 @@ var TSOS;
             _currentMemory[index] = (_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
-            _Console.putText("" + _currentMemory[index] + " ");
+            //_Console.putText(""+_currentMemory[index] +  " " );
         };
         //System Call
         Cpu.prototype.systemCall = function () {
@@ -195,6 +209,7 @@ var TSOS;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_INT_IRQ, this.Yreg));
             }
             else if (this.Xreg == 2) {
+                this.PC = this.PC + 1;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_STR_IRQ, this.Yreg));
             }
             else {
@@ -202,6 +217,7 @@ var TSOS;
             }
             //Did one op code add 1
             this.PC = this.PC + 1;
+            console.log(_CPU.PC);
         };
         Cpu.prototype.decodeInstruction = function (instruction) {
             if (instruction == "A9" || instruction == "a9") {
@@ -249,13 +265,10 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
-            console.log(_CPU.Yreg.toString(16));
-            console.log(_CPU.Xreg.toString(16));
-            if (_CPU.PC < 256) {
+            console.log(_currentMemory);
+            //aconsole.log(_CPU.Yreg.toString(16));
+            if (this.isExecuting = true) {
                 this.decodeInstruction(_currentMemory[this.PC]);
-            }
-            else {
-                this.isExecuting = false;
             }
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.

@@ -124,6 +124,13 @@ module TSOS {
                 "- Will let you know if the input in User Program Input is valid");
             this.commandList[this.commandList.length] = sc;
 
+            //run
+            //This shell command will run the loaded program matching the given PID
+            sc = new ShellCommand(this.shellRun,
+                "run",
+                "- Run the program loaded into memory associated with the given PID");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -430,6 +437,8 @@ module TSOS {
 
         }
 
+
+
         //Will say if the User Program Input is valid or not or if its just plain empty...
         public shellLoad(args) {
             var programInput = <HTMLInputElement> document.getElementById("taProgramInput");
@@ -473,10 +482,8 @@ module TSOS {
                     _currentPCB.yReg = _CPU.Yreg;
                     _currentPCB.zFlag = _CPU.Zflag;
                     _currentPCB.isExecuting = _CPU.isExecuting;
-                    _CPU.isExecuting = true;
 
-
-                    _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus + "   " + _currentMemory);
+                    _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                     _nextProcessID = _nextProcessID +1;
                 }
             }
@@ -485,5 +492,21 @@ module TSOS {
                 _StdOut.putText("There is no data to validate.");
             }
         }
+
+        //Will display run a program
+        public shellRun(args) {
+            //Run a program
+            if (args.length > 0) {
+
+                _CPU.isExecuting = true;
+
+            }
+            else {
+                _StdOut.putText("Usage: run <pid>  Please supply a PID.");
+            }
+        }
+
+
+
     }
 }

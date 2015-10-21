@@ -118,19 +118,24 @@ var TSOS;
                     _Console.putText(_OsShell.promptStr);
                     break;
                 case PRINT_STR_IRQ:
-                    var x = 0;
-                    while (_MemoryManager.getByte(x) != "00") {
-                        console.log("I RAN");
-                        _Console.putText(_MemoryManager.hexToDec(_MemoryManager.getByte(_CPU.Yreg)));
-                        x = x + 1;
+                    var dec = _CPU.Yreg;
+                    while (_currentMemory[dec] !== "00") {
+                        //console.log("I RAN" + _MemoryManager.getByte(x));
+                        var byte = _currentMemory[dec];
+                        var code = _MemoryManager.hexToDec(byte);
+                        var char = String.fromCharCode(code);
+                        _Console.putText(char);
+                        dec = dec + 1;
                     }
-                    _Console.advanceLine();
-                    _Console.putText(_OsShell.promptStr);
                     break;
                 case BREAK_OPERATION_IRQ:
                     //console.log("I RAN");
                     _CPU.isExecuting = false;
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
                     _Console.putText("Program no longer Executing.");
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
