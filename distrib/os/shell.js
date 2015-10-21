@@ -81,7 +81,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             //end
             //This shell command will end the running program
-            sc = new TSOS.ShellCommand(this.shellKill, "end", "- End the program running");
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "- End the program running");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
