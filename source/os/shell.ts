@@ -134,7 +134,7 @@ module TSOS {
             //end
             //This shell command will end the running program
             sc = new ShellCommand(this.shellKill,
-                "end",
+                "kill",
                 "- End the program running");
             this.commandList[this.commandList.length] = sc;
 
