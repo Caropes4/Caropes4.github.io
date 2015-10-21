@@ -33,7 +33,7 @@ var TSOS;
         Cpu.prototype.init = function () {
             this.PC = 0;
             this.Acc = 0;
-            this.Xreg = 3;
+            this.Xreg = 0;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
@@ -70,7 +70,7 @@ var TSOS;
             //Translate into decimal
             var index = first + second;
             //Put the accumulator in hex and store it in the specified location in memory.
-            _currentMemory[index] = _CPU.Acc.toString(16);
+            _currentMemory[index] = this.Acc.toString(16);
             //Add 3 because we used 2 bytes
             this.PC = this.PC + 3;
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
@@ -135,7 +135,9 @@ var TSOS;
             this.PC = this.PC + 1;
         };
         //Break (which is really a system call)
-        Cpu.prototype.breakOper = function () { };
+        Cpu.prototype.breakOper = function () {
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_STR_IRQ, false));
+        };
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
         Cpu.prototype.compareXReg = function () {
             //Gets the next Byte
@@ -160,6 +162,9 @@ var TSOS;
             if (this.Zflag == 0) {
                 //Branch to where the byte after says.
                 this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+                if (this.PC > 255) {
+                    this.PC = this.PC - 256;
+                }
                 //Dont forget to increment for the 2 codes used.
                 this.PC = this.PC + 2;
             }
@@ -169,16 +174,32 @@ var TSOS;
             }
         };
         //Increment the value of a byte
-        Cpu.prototype.increment = function () { };
+        Cpu.prototype.increment = function () {
+            //Gets the next Byte
+            var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
+            //Gets the second byte
+            var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
+            //Translate into decimal
+            var index = first + second;
+            //Increment place in memory
+            _currentMemory[index] = (_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16);
+            //Add 3 because we used 2 bytes
+            this.PC = this.PC + 3;
+            _Console.putText("" + _currentMemory[index] + " ");
+        };
         //System Call
         Cpu.prototype.systemCall = function () {
+            //Print integer
             if (this.Xreg == 1) {
-                _Console.putText(this.Yreg.toString());
+                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_INT_IRQ, this.Yreg));
             }
             else if (this.Xreg == 2) {
-                //Grab the byte at the Yreg location and turn it into dec and print.
-                _Console.putText(_MemoryManager.hexToDec(_MemoryManager.getByte(this.Yreg)));
+                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_STR_IRQ, this.Yreg));
             }
+            else {
+                this.breakOper();
+            }
+            //Did one op code add 1
             this.PC = this.PC + 1;
         };
         Cpu.prototype.decodeInstruction = function (instruction) {
@@ -227,6 +248,8 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
+            console.log(_CPU.Yreg.toString(16));
+            console.log(_CPU.Xreg.toString(16));
             if (_CPU.PC < 256) {
                 this.decodeInstruction(_currentMemory[this.PC]);
             }

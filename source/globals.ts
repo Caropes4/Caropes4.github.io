@@ -19,7 +19,9 @@ const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 100
 const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
-
+const PRINT_INT_IRQ: number =2; //Print Int
+const PRINT_STR_IRQ: number =2; //Print String
+const BREAK_OPERATION_IRQ: number = 3; //For break op
 
 //
 // Global Variables
@@ -69,6 +71,7 @@ var _currentPCB: TSOS.PCB;
 var _currentMemory: any [];
 var _MemoryDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
+var _memoryEmpty : boolean = true;
 
 //Add global variables for CPU registers
 var _PCDisplay: HTMLTableDataCellElement;

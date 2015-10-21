@@ -111,6 +111,27 @@ var TSOS;
                     _krnKeyboardDriver.isr(params); // Kernel mode device driver
                     _StdIn.handleInput();
                     break;
+                case PRINT_INT_IRQ:
+                    console.log(_CPU.Yreg.toString());
+                    _Console.putText(_CPU.Yreg.toString());
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
+                    break;
+                case PRINT_STR_IRQ:
+                    var x = 0;
+                    while (_MemoryManager.getByte(x) != "00") {
+                        console.log("I RAN");
+                        _Console.putText(_MemoryManager.hexToDec(_MemoryManager.getByte(_CPU.Yreg)));
+                        x = x + 1;
+                    }
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
+                    break;
+                case BREAK_OPERATION_IRQ:
+                    console.log("I RAN");
+                    _CPU.isExecuting = false;
+                    _Console.putText("Program no longer Executing.");
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }

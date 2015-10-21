@@ -25,6 +25,7 @@ module TSOS {
         public write(): void{
             //Clear memory
             this.clearMemory();
+            _memoryEmpty = false;
             var code = _loadedCode;
             var mem = _currentMemory;
             //Code location
@@ -42,6 +43,7 @@ module TSOS {
         //Clear the memory for a new program
         public clearMemory():void{
             this.memory = [];
+            _memoryEmpty = true;
             for(var x = 0; x < 256; x++){
                 _currentMemory[x] = "00";
             }
@@ -49,6 +51,7 @@ module TSOS {
 
         //A9 03 8D 41 00 A9 01 8D 40 00 AC 40 00 A2 01 FF EE 40 00 AE 40 00 EC 41 00 D0 EF A9 44 8D 42 00 A9 4F 8D 43 00 A9 4E 8D 44 00 A9 45 8D 45 00 A9 00 8D 46 00 A2 02 A0 42 FF 00
 
+        //a2 01 a0 02 FF a2 01 a0 05 FF a2 01 a0 12 FF
 
     }
 }

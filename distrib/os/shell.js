@@ -394,10 +394,10 @@ var TSOS;
                 if (isValid) {
                     //Save the string in _loadedCode to be used by memory.
                     _loadedCode = code;
-                    //_MemoryManager.memoryCheck();
-                    _Memory.write();
+                    _MemoryManager.memoryCheck();
+                    //_Memory.write();
                     _CPU.isExecuting = true;
-                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + _currentMemory + "    " + "     " + _CPU.Acc);
+                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + "   " + _MemoryCheckStatus + "   " + _currentMemory);
                     _nextProcessID = _nextProcessID + 1;
                 }
             }

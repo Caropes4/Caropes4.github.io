@@ -13,21 +13,18 @@ module TSOS {
             this.memory = _currentMemory;
         }
 
-        //Cheack to see if a program is already in memory.
-        public memoryCheck(): void{
-            var x =0;
-            while(x < 256){
-                if(_currentMemory[x] == "00"){
-                    x=x+1;
-                }
-                else {
-                    _MemoryCheckStatus = "A program is currently loaded into memory.";
-                    break;
-                }
+        //Check to see if a program is already in memory.
+        public memoryCheck(): void {
+
+            if (_memoryEmpty != true) {
+                _MemoryCheckStatus = "A program is currently loaded into memory.";
             }
-            _Memory.write();
-            _MemoryCheckStatus = "Program successfully loaded.";
+            else {
+                _Memory.write();
+                _MemoryCheckStatus = "Program successfully loaded.";
+            }
         }
+
 
         //Return the selected byte in memory
         public getByte(x : number) : string{

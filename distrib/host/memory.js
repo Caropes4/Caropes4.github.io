@@ -22,6 +22,7 @@ var TSOS;
         Memory.prototype.write = function () {
             //Clear memory
             this.clearMemory();
+            _memoryEmpty = false;
             var code = _loadedCode;
             var mem = _currentMemory;
             //Code location
@@ -38,6 +39,7 @@ var TSOS;
         //Clear the memory for a new program
         Memory.prototype.clearMemory = function () {
             this.memory = [];
+            _memoryEmpty = true;
             for (var x = 0; x < 256; x++) {
                 _currentMemory[x] = "00";
             }
