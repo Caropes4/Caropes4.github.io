@@ -131,6 +131,13 @@ module TSOS {
                 "- Run the program loaded into memory associated with the given PID");
             this.commandList[this.commandList.length] = sc;
 
+            //end
+            //This shell command will end the running program
+            sc = new ShellCommand(this.shellKill,
+                "end",
+                "- End the program running");
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -504,6 +511,11 @@ module TSOS {
             else {
                 _StdOut.putText("Usage: run <pid>  Please supply a PID.");
             }
+        }
+
+        public shellKill(args) {
+            //End a program
+            _CPU.breakOper();
         }
 
 

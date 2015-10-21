@@ -136,6 +136,12 @@ var TSOS;
                     _Console.putText("Program no longer Executing.");
                     _Console.advanceLine();
                     _Console.putText(_OsShell.promptStr);
+                    _Memory.clearMemory();
+                    _CPU.PC = 0;
+                    _CPU.Acc = 0;
+                    _CPU.Xreg = 0;
+                    _CPU.Yreg = 0;
+                    _CPU.Zflag = 0;
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
