@@ -395,9 +395,17 @@ var TSOS;
                     //Save the string in _loadedCode to be used by memory.
                     _loadedCode = code;
                     _MemoryManager.memoryCheck();
-                    //_Memory.write();
+                    //Setup Process Control Block
+                    _currentPCB.pid = _nextProcessID;
+                    _currentPCB.programCounter = _CPU.PC;
+                    _currentPCB.processState = "new";
+                    _currentPCB.acc = _CPU.Acc;
+                    _currentPCB.xReg = _CPU.Xreg;
+                    _currentPCB.yReg = _CPU.Yreg;
+                    _currentPCB.zFlag = _CPU.Zflag;
+                    _currentPCB.isExecuting = _CPU.isExecuting;
                     _CPU.isExecuting = true;
-                    _StdOut.putText("Valid." + "PID:" + _nextProcessID + "   " + _MemoryCheckStatus + "   " + _currentMemory);
+                    _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus + "   " + _currentMemory);
                     _nextProcessID = _nextProcessID + 1;
                 }
             }

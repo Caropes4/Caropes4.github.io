@@ -137,6 +137,7 @@ var TSOS;
         //Break (which is really a system call)
         Cpu.prototype.breakOper = function () {
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_STR_IRQ, false));
+            this.PC = this.PC + 1;
         };
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
         Cpu.prototype.compareXReg = function () {

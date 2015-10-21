@@ -149,6 +149,7 @@ module TSOS {
         //Break (which is really a system call)
         public breakOper(){
             _KernelInterruptQueue.enqueue(new Interrupt(PRINT_STR_IRQ, false));
+            this.PC = this.PC +1;
         }
 
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
@@ -182,7 +183,7 @@ module TSOS {
                     this.PC = this.PC - 256;
                 }
                 //Dont forget to increment for the 2 codes used.
-                this.PC = this.PC + 2;
+                this.PC = this.PC +2;
             }
             else{
                 //Add two to skip the D0 code and the information after it.

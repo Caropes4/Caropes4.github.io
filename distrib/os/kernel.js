@@ -128,7 +128,7 @@ var TSOS;
                     _Console.putText(_OsShell.promptStr);
                     break;
                 case BREAK_OPERATION_IRQ:
-                    console.log("I RAN");
+                    //console.log("I RAN");
                     _CPU.isExecuting = false;
                     _Console.putText("Program no longer Executing.");
                     break;
