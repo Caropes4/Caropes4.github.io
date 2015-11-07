@@ -33,7 +33,7 @@ module TSOS {
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = <HTMLCanvasElement>document.getElementById('display');
             //MemoryDisplay
-            _MemoryDisplay = <HTMLTableElement>document.getElementById("memoryDisplay");
+            _memoryTableDisplay = <HTMLTableElement>document.getElementById("memoryDisplay");
 
             //Global variables for CPU registers
             _PCDisplay = <HTMLTableDataCellElement>document.getElementById("PC");
@@ -112,6 +112,12 @@ module TSOS {
 
             _MemoryManager = new MemoryManager();
             _MemoryManager.init();
+
+
+            //Initialize memory Display
+            _MemoryDisplay = new MemoryDisplay(_memoryTableDisplay);
+            _MemoryDisplay.initRows();
+
 
             _currentPCB = new PCB();
             _currentPCB.init();

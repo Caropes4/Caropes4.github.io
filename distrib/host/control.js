@@ -31,7 +31,7 @@ var TSOS;
             // Get a global reference to the canvas.  TODO: Should we move this stuff into a Display Device Driver?
             _Canvas = document.getElementById('display');
             //MemoryDisplay
-            _MemoryDisplay = document.getElementById("memoryDisplay");
+            _memoryTableDisplay = document.getElementById("memoryDisplay");
             //Global variables for CPU registers
             _PCDisplay = document.getElementById("PC");
             _AccDisplay = document.getElementById("ACC");
@@ -91,6 +91,9 @@ var TSOS;
             _Memory.init(); //Initialize the memory
             _MemoryManager = new TSOS.MemoryManager();
             _MemoryManager.init();
+            //Initialize memory Display
+            _MemoryDisplay = new TSOS.MemoryDisplay(_memoryTableDisplay);
+            _MemoryDisplay.initRows();
             _currentPCB = new TSOS.PCB();
             _currentPCB.init();
             // ... then set the host clock pulse ...

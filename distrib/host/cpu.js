@@ -277,6 +277,7 @@ var TSOS;
             //aconsole.log(_CPU.Yreg.toString(16));
             if (this.isExecuting = true) {
                 this.updateCPUStatus();
+                _MemoryDisplay.updateDisplay();
                 this.decodeInstruction(_currentMemory[this.PC]);
             }
             // TODO: Accumulate CPU usage and profiling statistics here.

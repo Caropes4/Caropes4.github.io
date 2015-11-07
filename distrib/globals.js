@@ -26,6 +26,7 @@ var BREAK_OPERATION_IRQ = 4; //For break op
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory; // Utilize TypeScript's type annotation system to ensure that _Memory is an instance of the Memory class
 var _MemoryManager; // Utilize TypeScript's type annotation system to ensure that _MemoryManager is an instance of the MemoryManager class
+var _MemoryDisplay;
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _Canvas; // Initialized in Control.hostInit().
@@ -53,7 +54,7 @@ var _hardwareClockID = null;
 var _nextProcessID = 0;
 var _currentPCB;
 var _currentMemory;
-var _MemoryDisplay;
+var _memoryTableDisplay;
 var _MemoryCheckStatus;
 var _memoryEmpty = true;
 //Add global variables for CPU registers

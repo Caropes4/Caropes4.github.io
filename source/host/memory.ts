@@ -9,7 +9,7 @@ module TSOS {
 
         public init(): void {
             this.memory = [];
-            for(var x = 0; x < 256; x++){
+            for(var x = 0; x < 768; x++){
                 this.memory[x] = "00";
             }
             _currentMemory = this.memory;

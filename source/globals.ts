@@ -30,6 +30,7 @@ const BREAK_OPERATION_IRQ: number = 4; //For break op
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory: TSOS.Memory; // Utilize TypeScript's type annotation system to ensure that _Memory is an instance of the Memory class
 var _MemoryManager: TSOS.MemoryManager; // Utilize TypeScript's type annotation system to ensure that _MemoryManager is an instance of the MemoryManager class
+var _MemoryDisplay: TSOS.MemoryDisplay;
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -69,7 +70,7 @@ var _nextProcessID: number = 0;
 
 var _currentPCB: TSOS.PCB;
 var _currentMemory: any [];
-var _MemoryDisplay: HTMLTableElement;
+var _memoryTableDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
 var _memoryEmpty : boolean = true;
 

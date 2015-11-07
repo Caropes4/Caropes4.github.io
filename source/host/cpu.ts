@@ -300,8 +300,8 @@ module TSOS {
 
             if(this.isExecuting = true) {
                 this.updateCPUStatus();
+                _MemoryDisplay.updateDisplay();
                 this.decodeInstruction(_currentMemory[this.PC]);
-
             }
 
 
