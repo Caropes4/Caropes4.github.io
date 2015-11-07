@@ -127,6 +127,8 @@ var TSOS;
                         _Console.putText(char);
                         dec = dec + 1;
                     }
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
                     break;
                 case BREAK_OPERATION_IRQ:
                     //console.log("I RAN");

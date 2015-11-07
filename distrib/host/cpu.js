@@ -175,12 +175,12 @@ var TSOS;
             if (this.Zflag == 0) {
                 //Branch to where the byte after says.
                 this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
-                this.PC = this.PC + 1;
+                //this.PC = this.PC+1;
                 //Make sure we dont go over 256
-                if (this.PC > 254) {
+                if (this.PC > 255) {
                     this.PC = this.PC - 256;
                 }
-                this.PC = this.PC + 1;
+                this.PC = this.PC + 2;
             }
             else {
                 //Add two to skip the D0 code and the information after it.
@@ -209,7 +209,6 @@ var TSOS;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_INT_IRQ, this.Yreg));
             }
             else if (this.Xreg == 2) {
-                this.PC = this.PC + 1;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PRINT_STR_IRQ, this.Yreg));
             }
             else {

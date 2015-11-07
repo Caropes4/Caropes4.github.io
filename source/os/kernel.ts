@@ -144,6 +144,8 @@ module TSOS {
                         _Console.putText(char);
                         dec = dec+1;
                     }
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
 
                     break;
 
