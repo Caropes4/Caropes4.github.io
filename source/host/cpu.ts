@@ -282,14 +282,26 @@ module TSOS {
                 this.systemCall();
             }
         }
+        //Will update the information in CPU Status on index.html when called
+        public updateCPUStatus(): void {
+            _PCDisplay.innerHTML = "" + this.PC;
+            _AccDisplay.innerHTML = "" + this.Acc;
+            _XRegDisplay.innerHTML = "" + this.Xreg;
+            _YRegDisplay.innerHTML ="" + this.Yreg;
+            _ZFlagDisplay.innerHTML ="" + this.Zflag;
+            //console.log("I RAN UPDATE");
+        }
 
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
-            console.log(_currentMemory);
+            //console.log(_currentMemory);
             //aconsole.log(_CPU.Yreg.toString(16));
 
+
             if(this.isExecuting = true) {
+                this.updateCPUStatus();
                 this.decodeInstruction(_currentMemory[this.PC]);
+
             }
 
 
