@@ -62,7 +62,7 @@ module TSOS {
 
             //Initialize queues.
             _ReadyQueue = new Queue();
-            _ResidentQueue = new Array();
+            _ResidentQueue = new Queue();
             _TerminatedQueue = new Queue();
 
             // Check for our testing and enrichment core, which

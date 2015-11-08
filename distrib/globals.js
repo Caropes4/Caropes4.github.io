@@ -75,6 +75,9 @@ var _limit3 = 768;
 var _base1 = 0;
 var _base2 = 256;
 var _base3 = 512;
+//Initialize a global quantum variable
+var _quantum = 6;
+var _quantumLocation = 0;
 //Add global variables for CPU registers
 var _PCDisplay;
 var _AccDisplay;

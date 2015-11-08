@@ -79,7 +79,11 @@ var TSOS;
             //This shell command will run the loaded program matching the given PID
             sc = new TSOS.ShellCommand(this.shellRun, "run", "- Run the program loaded into memory associated with the given PID");
             this.commandList[this.commandList.length] = sc;
-            //end
+            //run
+            //This shell command will run the loaded program matching the given PID
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "- Run all the programs loaded into memory");
+            this.commandList[this.commandList.length] = sc;
+            //kill
             //This shell command will end the running program
             sc = new TSOS.ShellCommand(this.shellKill, "kill", "- End the program running");
             this.commandList[this.commandList.length] = sc;
@@ -425,7 +429,7 @@ var TSOS;
                         _currentPCB.isExecuting = _CPU.isExecuting;
                         _currentPCB.base = _currentBase;
                         _currentPCB.limit = _currentLimit;
-                        _ResidentQueue.push(_currentPCB);
+                        _ResidentQueue.enqueue(_currentPCB);
                         console.log(_ResidentQueue[0]);
                         console.log(_currentPCB.pid);
                         console.log(_currentPCB.base);
@@ -443,8 +447,8 @@ var TSOS;
         Shell.prototype.shellRun = function (args) {
             if (args.length > 0) {
                 //loop thought the resident queue to see if the requested PID is in the Resident queue.
-                for (var x = 0; x < _ResidentQueue.length; x++) {
-                    _currentPCB = _ResidentQueue[x];
+                for (var x = 0; x < _ResidentQueue.getSize(); x++) {
+                    _currentPCB = _ResidentQueue.dequeue();
                     if (_currentPCB.pid == args) {
                         _currentBase = _currentPCB.base;
                         _currentLimit = _currentPCB.limit;
@@ -454,9 +458,12 @@ var TSOS;
                         _CPU.Xreg = _currentPCB.xReg;
                         _CPU.Yreg = _currentPCB.yReg;
                         _CPU.Zflag = _currentPCB.zFlag;
-                        _ReadyQueue[0] = _currentPCB;
+                        _ReadyQueue.enqueue_currentPCB;
                         _CPU.isExecuting = true;
                         break;
+                    }
+                    else {
+                        _ResidentQueue.enqueue(_currentPCB);
                     }
                 }
             }
@@ -472,6 +479,25 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: run <pid>  Please supply a PID.");
             }*/
+        };
+        Shell.prototype.shellRunAll = function (args) {
+            //place all processes in the ready queue
+            while (_ResidentQueue.getSize() != 0) {
+                _currentPCB = _ResidentQueue.dequeue();
+                _ReadyQueue.enqueue(_currentPCB);
+            }
+            //Grab the first process to run.
+            _currentPCB = _ReadyQueue.dequeue();
+            _currentBase = _currentPCB.base;
+            _currentLimit = _currentPCB.limit;
+            _currentPCB.processState = "running";
+            _CPU.PC = _currentPCB.programCounter;
+            _CPU.Acc = _currentPCB.acc;
+            _CPU.Xreg = _currentPCB.xReg;
+            _CPU.Yreg = _currentPCB.yReg;
+            _CPU.Zflag = _currentPCB.zFlag;
+            _ReadyQueue.enqueue_currentPCB;
+            _CPU.isExecuting = true;
         };
         Shell.prototype.shellKill = function (args) {
             //End a program

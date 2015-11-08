@@ -151,28 +151,34 @@ module TSOS {
 
                 case BREAK_OPERATION_IRQ:
                     //console.log("I RAN");
-                    _CPU.isExecuting = false;
-                    _Console.advanceLine();
-                    _Console.putText(_OsShell.promptStr);
-                    _Console.putText("Program no longer Executing.");
-                    _Console.advanceLine();
-                    _Console.putText(_OsShell.promptStr);
-                    _Memory.clearMemory();
-                    if(_currentBase == _base1){
-                        _block1Empty = true;
+                    //If the ready queue is empty let user know that the processes are done running.
+                    _currentPCB.processState = "terminated";
+                    _TerminatedQueue.enqueue(_currentPCB);
+
+                    if(_ReadyQueue.getSize() == 0) {
+                        _CPU.isExecuting = false;
+                        _Console.advanceLine();
+                        _Console.putText(_OsShell.promptStr);
+                        _Console.putText("Program no longer Executing.");
+                        _Console.advanceLine();
+                        _Console.putText(_OsShell.promptStr);
                     }
-                    else if(_currentBase == _base2){
-                        _block2Empty = true;
-                    }
-                    else if(_currentBase == _base3){
-                        _block3Empty = true;
-                    }
+                    //Clear the memory since process is done running.
                     _CPU.PC = 0;
                     _CPU.Acc = 0;
                     _CPU.Xreg = 0;
                     _CPU.Yreg = 0;
                     _CPU.Zflag = 0;
-
+                    _Memory.clearMemory();
+                    if (_currentBase == _base1) {
+                        _block1Empty = true;
+                    }
+                    else if (_currentBase == _base2) {
+                        _block2Empty = true;
+                    }
+                    else if (_currentBase == _base3) {
+                        _block3Empty = true;
+                    }
                     break;
 
                 default:
