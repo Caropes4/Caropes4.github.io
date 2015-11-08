@@ -85,6 +85,9 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
+            //Will clear all memory partitions.
+            sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all memory partitions");
+            this.commandList[this.commandList.length] = sc;
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -473,6 +476,16 @@ var TSOS;
         Shell.prototype.shellKill = function (args) {
             //End a program
             _CPU.breakOper();
+        };
+        //Clears all memory
+        Shell.prototype.shellClearMem = function (args) {
+            for (var x = 0; x < 768; x++) {
+                _currentMemory[x] = "00";
+            }
+            _block1Empty = true;
+            _block2Empty = true;
+            _block3Empty = true;
+            _MemoryDisplay.updateDisplay();
         };
         return Shell;
     })();

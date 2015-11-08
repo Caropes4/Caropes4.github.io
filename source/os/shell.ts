@@ -141,6 +141,12 @@ module TSOS {
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
+            //Will clear all memory partitions.
+            sc = new ShellCommand(this.shellClearMem,
+                "clearmem",
+                "- Clears all memory partitions");
+            this.commandList[this.commandList.length] = sc;
+
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -558,6 +564,17 @@ module TSOS {
         public shellKill(args) {
             //End a program
             _CPU.breakOper();
+        }
+
+        //Clears all memory
+        public shellClearMem(args) {
+            for(var x = 0; x < 768; x++){
+                _currentMemory[x] = "00";
+            }
+            _block1Empty = true;
+            _block2Empty = true;
+            _block3Empty = true;
+            _MemoryDisplay.updateDisplay();
         }
 
 
