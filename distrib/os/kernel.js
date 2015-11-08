@@ -139,6 +139,15 @@ var TSOS;
                     _Console.advanceLine();
                     _Console.putText(_OsShell.promptStr);
                     _Memory.clearMemory();
+                    if (_currentBase == _base1) {
+                        _block1Empty = true;
+                    }
+                    else if (_currentBase == _base2) {
+                        _block2Empty = true;
+                    }
+                    else if (_currentBase == _base3) {
+                        _block3Empty = true;
+                    }
                     _CPU.PC = 0;
                     _CPU.Acc = 0;
                     _CPU.Xreg = 0;

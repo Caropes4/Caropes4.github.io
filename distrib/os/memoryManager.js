@@ -11,10 +11,31 @@ var TSOS;
         };
         //Check to see if a program is already in memory.
         MemoryManager.prototype.memoryCheck = function () {
-            if (_memoryEmpty != true) {
-                _MemoryCheckStatus = "A program is currently loaded into memory.";
+            //Will see if there is a program loaded into memory ar block 1 and write one in if there is not.
+            if (_block1Empty == true) {
+                //set the base and limit.
+                _currentBase = _base1;
+                _currentLimit = _limit1;
+                //update that memory is currently occupied
+                _block1Empty = false;
+                _Memory.write();
+                _MemoryCheckStatus = "Program successfully loaded.";
             }
-            else {
+            else if (_block2Empty == true) {
+                //set the base and limit.
+                _currentBase = _base2;
+                _currentLimit = _limit2;
+                //update that memory is currently occupied
+                _block2Empty = false;
+                _Memory.write();
+                _MemoryCheckStatus = "Program successfully loaded.";
+            }
+            else if (_block3Empty == true) {
+                //set the base and limit.
+                _currentBase = _base3;
+                _currentLimit = _limit3;
+                //update that memory is currently occupied
+                _block3Empty = false;
                 _Memory.write();
                 _MemoryCheckStatus = "Program successfully loaded.";
             }

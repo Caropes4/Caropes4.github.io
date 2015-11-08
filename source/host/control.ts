@@ -60,6 +60,10 @@ module TSOS {
             var taskBar = <HTMLInputElement> document.getElementById("taskBar");
             taskBar.value="Date: " + Date() + "\n" + "Status: Cooking Pie";
 
+            //Initialize queues.
+            _ReadyQueue = new Queue();
+            _ResidentQueue = new Queue();
+
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {

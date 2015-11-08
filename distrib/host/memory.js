@@ -21,26 +21,25 @@ var TSOS;
         //Write the user input to memory if it is Valid
         Memory.prototype.write = function () {
             //Clear memory
-            this.clearMemory();
-            _memoryEmpty = false;
+            //this.clearMemory();
             var code = _loadedCode;
             var mem = _currentMemory;
             //Code location
             var x = 0;
             //Array location
-            var y = 0;
+            var y = _currentBase;
             //Loop through the instructions and place them in memory
-            while (x < _loadedCode.length && y < 256) {
+            while (x < _loadedCode.length && y < _currentLimit) {
                 _currentMemory[y] = _loadedCode.substring(x, x + 2);
                 x = x + 2;
                 y = y + 1;
             }
+            _MemoryDisplay.updateDisplay();
         };
         //Clear the memory for a new program
         Memory.prototype.clearMemory = function () {
             this.memory = [];
-            _memoryEmpty = true;
-            for (var x = 0; x < 256; x++) {
+            for (var x = _currentBase; x < _currentLimit; x++) {
                 _currentMemory[x] = "00";
             }
         };

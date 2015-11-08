@@ -38,12 +38,11 @@ module TSOS {
         }
 
         public updateDisplay():void {
-            var rowIndex = 0;
             var memoryLocation = 0;
             for (var x = 0; x < 96; x++) {
                 //Will update the rows and cells to display memory
                 var row = <HTMLTableRowElement> _memoryTableDisplay.rows[x];
-                //Will update the cells in the row.
+                //Will update the cells in the row by removing the old ones and adding the new ones. Traces where it is in memory by adding to the memory location var.
                 row.deleteCell(1);
                 row.insertCell(1).innerHTML = _currentMemory[memoryLocation];
                 memoryLocation = memoryLocation + 1;
@@ -69,10 +68,6 @@ module TSOS {
                 row.insertCell(8).innerHTML = _currentMemory[memoryLocation];
                 memoryLocation = memoryLocation + 1;
             }
-
-
-
-
         }
     }
 }

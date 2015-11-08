@@ -26,7 +26,7 @@ var BREAK_OPERATION_IRQ = 4; //For break op
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory; // Utilize TypeScript's type annotation system to ensure that _Memory is an instance of the Memory class
 var _MemoryManager; // Utilize TypeScript's type annotation system to ensure that _MemoryManager is an instance of the MemoryManager class
-var _MemoryDisplay;
+var _MemoryDisplay; // Utilize TypeScript's type annotation system to ensure that _MemoryDisplay is an instance of the MemoryDisplay class
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _Canvas; // Initialized in Control.hostInit().
@@ -40,6 +40,9 @@ var _Kernel;
 var _KernelInterruptQueue; // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue = null; // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers = null; // when clearly 'any' is not what we want. There is likely a better way, but what is it?
+//Initialize the Ready and Resident Queues in Control.hostInit()
+var _ReadyQueue = null;
+var _ResidentQueue = null;
 // Standard input and output
 var _StdIn; // Same "to null or not to null" issue as above.
 var _StdOut;
@@ -57,6 +60,17 @@ var _currentMemory;
 var _memoryTableDisplay;
 var _MemoryCheckStatus;
 var _memoryEmpty = true;
+var _currentBase = 0;
+var _currentLimit = 0;
+var _block1Empty = true;
+var _block2Empty = true;
+var _block3Empty = true;
+var _limit1 = 256;
+var _limit2 = 512;
+var _limit3 = 768;
+var _base1 = 0;
+var _base2 = 256;
+var _base3 = 512;
 //Add global variables for CPU registers
 var _PCDisplay;
 var _AccDisplay;

@@ -476,22 +476,29 @@ module TSOS {
                 }
                 //If isValid is true print valid
                 if(isValid) {
-                    //Save the string in _loadedCode to be used by memory.
-                    _loadedCode = code;
-                    _MemoryManager.memoryCheck();
+                    if(_block1Empty == false && _block2Empty == false && _block3Empty == false){
+                        _MemoryCheckStatus = "All memory is currently occupied.";
+                        _StdOut.putText(""+_MemoryCheckStatus);
+                    }
+                    else {
+                        //Save the string in _loadedCode to be used by memory.
+                        _loadedCode = code;
+                        _MemoryManager.memoryCheck();
 
-                    //Setup Process Control Block
-                    _currentPCB.pid = _nextProcessID;
-                    _currentPCB.programCounter = _CPU.PC;
-                    _currentPCB.processState= "new";
-                    _currentPCB.acc = _CPU.Acc;
-                    _currentPCB.xReg = _CPU.Xreg;
-                    _currentPCB.yReg = _CPU.Yreg;
-                    _currentPCB.zFlag = _CPU.Zflag;
-                    _currentPCB.isExecuting = _CPU.isExecuting;
+                        //Setup Process Control Block
+                        _currentPCB.pid = _nextProcessID;
+                        _currentPCB.programCounter = _CPU.PC;
+                        _currentPCB.processState = "new";
+                        _currentPCB.acc = _CPU.Acc;
+                        _currentPCB.xReg = _CPU.Xreg;
+                        _currentPCB.yReg = _CPU.Yreg;
+                        _currentPCB.zFlag = _CPU.Zflag;
+                        _currentPCB.isExecuting = _CPU.isExecuting;
 
-                    _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
-                    _nextProcessID = _nextProcessID +1;
+                        _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
+                        _nextProcessID = _nextProcessID + 1;
+                    }
+
                 }
             }
             //If text area is empty tell the user
