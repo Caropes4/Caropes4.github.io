@@ -21,7 +21,10 @@ module TSOS {
             public xReg : number = 0,
             public yReg : number = 0,
             public zFlag : number = 0,
-            public isExecuting: boolean = false) {
+            public isExecuting: boolean = false,
+            // Base and limit to keep track of where the code for the pcb is stored in memory
+            public base : number = 0,
+            public limit : number = 0) {
 
         }
 
@@ -34,13 +37,15 @@ module TSOS {
             this.yReg = 0;
             this.zFlag = 0;
             this.isExecuting = false;
+            this.base = 0;
+            this.limit = 0;
         }
 
-        /*
+
         public getPID(){
             return this.pid;
         }
-
+        /*
         //Set the process state
         public setProcessState(state){
             this.processState = state;

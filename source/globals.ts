@@ -50,9 +50,10 @@ var _KernelInterruptQueue;          // Initializing this to null (which I would 
 var _KernelInputQueue: any = null;  // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers: any[] = null;   // when clearly 'any' is not what we want. There is likely a better way, but what is it?
 
-//Initialize the Ready and Resident Queues in Control.hostInit()
+//Initialize the Ready, Resident, and Terminated Queues in Control.hostInit()
 var _ReadyQueue: any = null;
 var _ResidentQueue: any = null;
+var _TerminatedQueue: any = null;
 
 // Standard input and output
 var _StdIn;    // Same "to null or not to null" issue as above.
@@ -76,15 +77,19 @@ var _currentPCB: TSOS.PCB;
 var _currentMemory: any [];
 var _memoryTableDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
-var _memoryEmpty : boolean = true;
+
+//The current base and limit to be used when going through memory
 var _currentBase = 0;
 var _currentLimit = 0;
+//Booleans to distinguish if a block of memory is free or not
 var _block1Empty : boolean = true;
 var _block2Empty : boolean = true;
 var _block3Empty : boolean = true;
+//The limit for eack block of memory
 var _limit1 = 256;
 var _limit2 = 512;
 var _limit3 = 768;
+//The base for each block of memory
 var _base1 = 0;
 var _base2 = 256;
 var _base3 = 512;

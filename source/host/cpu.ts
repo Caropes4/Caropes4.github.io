@@ -43,7 +43,7 @@ module TSOS {
             this.Acc = _MemoryManager.hexToDec( _MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC +2;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
             //_AccDisplay.value.
         }
@@ -55,12 +55,12 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second + _currentPCB.base;
             //Put into accumulator
             this.Acc = _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC +3;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[this.PC] +  " " + this.Acc);
         }
 
@@ -71,12 +71,12 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second + _currentPCB.base;
             //Put the accumulator in hex and store it in the specified location in memory.
             _currentMemory[index] = this.Acc.toString(16);
             //Add 3 because we used 2 bytes
             this.PC = this.PC +3;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
         }
 
@@ -87,12 +87,12 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second  + _currentPCB.base;
             //add the value at the index to the accumulator and store it in the accumulator.
             this.Acc = this.Acc + _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC +3;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
 
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
         }
@@ -103,7 +103,7 @@ module TSOS {
             this.Xreg = _MemoryManager.hexToDec( _MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC +2;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
         }
 
         //Load the X register from memory
@@ -113,12 +113,12 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second + _currentPCB.base;
             //Put into X register
             this.Xreg = _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC +3;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
         }
 
         //Load the Y register with a constant
@@ -127,7 +127,7 @@ module TSOS {
             this.Yreg = _MemoryManager.hexToDec( _MemoryManager.getByte(1));
             //Add 2 to the program counter so we know where we are in memory.
             this.PC = this.PC +2;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
         }
 
         //Load the Y register from memory
@@ -137,27 +137,27 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second + _currentPCB.base;
             //Put into Y register
             this.Yreg = _MemoryManager.hexToDec(_currentMemory[index]);
             //Add 3 because we used 2 bytes
             this.PC = this.PC +3;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
         }
 
         //No Operation
         public noOper(){
             //There is no operation here so move on
             this.PC = this.PC +1;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
         }
 
         //Break (which is really a system call)
         public breakOper(){
             _KernelInterruptQueue.enqueue(new Interrupt(BREAK_OPERATION_IRQ, false));
-            this.PC = this.PC +1;
-            console.log(_CPU.PC);
-            console.log(_CPU.Yreg);
+            //this.PC = this.PC +1;
+            //console.log(_CPU.PC);
+            //console.log(_CPU.Yreg);
         }
 
         //Compare a byte in memory to the X reg Sets the Z (zero) flag if equal
@@ -167,7 +167,7 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second + _currentPCB.base;
 
             //If value in Xreg == value at memory Zflag = 1
             if(this.Xreg == _MemoryManager.hexToDec(_currentMemory[index])){
@@ -178,7 +178,7 @@ module TSOS {
             //Add 3 because we used 2 bytes
             this.PC = this.PC +3;
 
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
             //Test _Console.putText(""+_currentMemory[index] +  " " + this.Zflag);
         }
 
@@ -187,19 +187,19 @@ module TSOS {
             if(this.Zflag == 0){
                 //Branch to where the byte after says.
                 this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
-                //this.PC = this.PC+1;
-                //Make sure we dont go over 256
-                if( this.PC > 255 ) {
+                this.PC = this.PC+2;
+                //Make sure we dont go over the limit
+                if(this.PC > _currentLimit-1 ) {
                     this.PC = this.PC - 256;
                 }
-                this.PC = this.PC+2;
+                //this.PC = this.PC+1;
                 //Dont forget to increment for the 2 codes used.
 
             }else {
                 //Add two to skip the D0 code and the information after it.
                 this.PC = this.PC + 2;
             }
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
 
         }
 
@@ -210,7 +210,7 @@ module TSOS {
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second;
+            var index = first+second + _currentPCB.base;
             //Increment place in memory
             _currentMemory[index] = (_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16);
             //Add 3 because we used 2 bytes
@@ -235,7 +235,7 @@ module TSOS {
             }
             //Did one op code add 1
             this.PC = this.PC +1;
-            console.log(_CPU.PC);
+            //console.log(_CPU.PC);
         }
 
         public decodeInstruction(instruction){

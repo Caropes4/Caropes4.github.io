@@ -62,7 +62,8 @@ module TSOS {
 
             //Initialize queues.
             _ReadyQueue = new Queue();
-            _ResidentQueue = new Queue();
+            _ResidentQueue = new Array();
+            _TerminatedQueue = new Queue();
 
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().

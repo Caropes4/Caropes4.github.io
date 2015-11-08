@@ -40,9 +40,10 @@ var _Kernel;
 var _KernelInterruptQueue; // Initializing this to null (which I would normally do) would then require us to specify the 'any' type, as below.
 var _KernelInputQueue = null; // Is this better? I don't like uninitialized variables. But I also don't like using the type specifier 'any'
 var _KernelBuffers = null; // when clearly 'any' is not what we want. There is likely a better way, but what is it?
-//Initialize the Ready and Resident Queues in Control.hostInit()
+//Initialize the Ready, Resident, and Terminated Queues in Control.hostInit()
 var _ReadyQueue = null;
 var _ResidentQueue = null;
+var _TerminatedQueue = null;
 // Standard input and output
 var _StdIn; // Same "to null or not to null" issue as above.
 var _StdOut;
@@ -59,15 +60,18 @@ var _currentPCB;
 var _currentMemory;
 var _memoryTableDisplay;
 var _MemoryCheckStatus;
-var _memoryEmpty = true;
+//The current base and limit to be used when going through memory
 var _currentBase = 0;
 var _currentLimit = 0;
+//Booleans to distinguish if a block of memory is free or not
 var _block1Empty = true;
 var _block2Empty = true;
 var _block3Empty = true;
+//The limit for eack block of memory
 var _limit1 = 256;
 var _limit2 = 512;
 var _limit3 = 768;
+//The base for each block of memory
 var _base1 = 0;
 var _base2 = 256;
 var _base3 = 512;

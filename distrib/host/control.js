@@ -53,7 +53,8 @@ var TSOS;
             taskBar.value = "Date: " + Date() + "\n" + "Status: Cooking Pie";
             //Initialize queues.
             _ReadyQueue = new TSOS.Queue();
-            _ResidentQueue = new TSOS.Queue();
+            _ResidentQueue = new Array();
+            _TerminatedQueue = new TSOS.Queue();
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {

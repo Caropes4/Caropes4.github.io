@@ -476,24 +476,36 @@ module TSOS {
                 }
                 //If isValid is true print valid
                 if(isValid) {
+                    //Check to make sure that all of memory is not taken
                     if(_block1Empty == false && _block2Empty == false && _block3Empty == false){
                         _MemoryCheckStatus = "All memory is currently occupied.";
                         _StdOut.putText(""+_MemoryCheckStatus);
                     }
+                    //If memory is not full do the following.
                     else {
                         //Save the string in _loadedCode to be used by memory.
                         _loadedCode = code;
                         _MemoryManager.memoryCheck();
 
                         //Setup Process Control Block
+                        _currentPCB = new PCB();
+                        _currentPCB.init();
                         _currentPCB.pid = _nextProcessID;
-                        _currentPCB.programCounter = _CPU.PC;
+                        _currentPCB.programCounter = _currentBase;
                         _currentPCB.processState = "new";
                         _currentPCB.acc = _CPU.Acc;
                         _currentPCB.xReg = _CPU.Xreg;
                         _currentPCB.yReg = _CPU.Yreg;
                         _currentPCB.zFlag = _CPU.Zflag;
                         _currentPCB.isExecuting = _CPU.isExecuting;
+                        _currentPCB.base = _currentBase;
+                        _currentPCB.limit = _currentLimit;
+
+                        _ResidentQueue.push(_currentPCB);
+                        console.log(_ResidentQueue[0]);
+                        console.log(_currentPCB.pid);
+                        console.log(_currentPCB.base);
+                        console.log(_currentPCB.limit);
 
                         _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                         _nextProcessID = _nextProcessID + 1;
@@ -509,7 +521,30 @@ module TSOS {
 
         //Will display run a program
         public shellRun(args) {
-            //Run a program
+            if (args.length > 0) {
+                //loop thought the resident queue to see if the requested PID is in the Resident queue.
+                for (var x = 0; x < _ResidentQueue.length; x++) {
+                    _currentPCB = _ResidentQueue[x];
+                    if (_currentPCB.pid == args) {
+                        _currentBase = _currentPCB.base;
+                        _currentLimit = _currentPCB.limit;
+                        _currentPCB.processState = "running";
+                        _CPU.PC = _currentPCB.programCounter;
+                        _CPU.Acc = _currentPCB.acc;
+                        _CPU.Xreg = _currentPCB.xReg;
+                        _CPU.Yreg = _currentPCB.yReg;
+                        _CPU.Zflag = _currentPCB.zFlag;
+                        _ReadyQueue[0] = _currentPCB;
+                        _CPU.isExecuting = true;
+                        break;
+                    }
+                }
+            }
+            //If no Pid is given or found tell the user the following.
+            else {
+                _StdOut.putText("Usage: run <pid>  Please supply a valid PID.");
+            }
+            /*//Run a program
             if (args.length > 0) {
 
                 _CPU.isExecuting = true;
@@ -517,7 +552,7 @@ module TSOS {
             }
             else {
                 _StdOut.putText("Usage: run <pid>  Please supply a PID.");
-            }
+            }*/
         }
 
         public shellKill(args) {

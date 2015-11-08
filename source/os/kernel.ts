@@ -127,14 +127,14 @@ module TSOS {
                     _StdIn.handleInput();
                     break;
                 case PRINT_INT_IRQ:
-                    console.log(_CPU.Yreg.toString());
+                    //console.log(_CPU.Yreg.toString());
                     _Console.putText(_CPU.Yreg.toString());
                     _Console.advanceLine();
                     _Console.putText(_OsShell.promptStr);
                     break;
 
                 case PRINT_STR_IRQ:
-                    var dec = _CPU.Yreg;
+                    var dec = _CPU.Yreg + _currentPCB.base;
                     while(_currentMemory[dec] !== "00") {
 
                         //console.log("I RAN" + _MemoryManager.getByte(x));
