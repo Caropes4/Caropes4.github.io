@@ -274,41 +274,6 @@ var TSOS;
             _ZFlagDisplay.innerHTML = "" + this.Zflag;
             //console.log("I RAN UPDATE");
         };
-        /*//set up round robin.
-        public roundRobin() : void{
-            //If the quantum location = quantum then switch the current process to the next one waiting.
-            if(_ReadyQueue.getSize!=0 || _currentPCB.processState == "running") {
-                if (_quantumLocation == _quantum) {
-                    //Save the current CPU registers in the current PCB
-                    _currentPCB.programCounter = this.PC;
-                    _currentPCB.acc = this.Acc;
-                    _currentPCB.xReg = this.Xreg;
-                    _currentPCB.yReg = this.Yreg;
-                    _currentPCB.zFlag = this.Zflag;
-                    //Place the PCB back in the ready queue.
-                    if (_currentPCB.processState != "terminated") {
-                        _currentPCB.processState = "waiting";
-                        _ReadyQueue.enqueue(_currentPCB);
-                    }
-                    //Grab the next PCB
-                    _currentPCB = _ReadyQueue.dequeue();
-                    this.PC = _currentPCB.programCounter;
-                    this.Acc = _currentPCB.acc;
-                    this.Xreg = _currentPCB.xReg;
-                    this.Yreg = _currentPCB.yReg;
-                    this.Zflag = _currentPCB.zFlag;
-                    _currentPCB.processState = "running";
-                    //Set the quatumlocation back to 0 for the new process
-                    _quantumLocation = 0;
-                }
-                //Add 1 to the quantum location
-                _quantumLocation = _quantumLocation + 1;
-            }
-            else{
-                this.breakOper();
-            }
-        }
-        */
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             //console.log(_currentMemory);

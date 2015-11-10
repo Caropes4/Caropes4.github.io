@@ -158,30 +158,9 @@ var TSOS;
                     _MemoryDisplay.updateDisplay();
                     _CPU.updateCPUStatus();
                     break;
+                //Runs round robin
                 case CPU_SCHEDULER_IRQ:
-                    //Round robin
-                    if (_ReadyQueue.getSize() != 0) {
-                        if (_quantumLocation == _quantum) {
-                            //Save the current CPU registers in the current PCB
-                            this.updatePCB();
-                            //Place the PCB back in the ready queue.
-                            if (_currentPCB.processState != "terminated") {
-                                _currentPCB.processState = "waiting";
-                                _ReadyQueue.enqueue(_currentPCB);
-                            }
-                            //Grab the next PCB
-                            _currentPCB = _ReadyQueue.dequeue();
-                            if (_currentPCB.processState == "terminated") {
-                                _currentPCB = _ReadyQueue.dequeue();
-                            }
-                            this.updateCPURegisters();
-                            _currentPCB.processState = "running";
-                            //Set the quatumlocation back to 0 for the new process
-                            _quantumLocation = 0;
-                        }
-                        //Add 1 to the quantum location
-                        _quantumLocation = _quantumLocation + 1;
-                    }
+                    this.roundRobin();
                     break;
                 //If given an invalid op code do the following
                 case INVALID_OPCODE_IRQ:
@@ -195,6 +174,31 @@ var TSOS;
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
+            }
+        };
+        Kernel.prototype.roundRobin = function () {
+            //Round robin
+            if (_ReadyQueue.getSize() != 0) {
+                if (_quantumLocation == _quantum) {
+                    //Save the current CPU registers in the current PCB
+                    this.updatePCB();
+                    //Place the PCB back in the ready queue.
+                    if (_currentPCB.processState != "terminated") {
+                        _currentPCB.processState = "waiting";
+                        _ReadyQueue.enqueue(_currentPCB);
+                    }
+                    //Grab the next PCB
+                    _currentPCB = _ReadyQueue.dequeue();
+                    if (_currentPCB.processState == "terminated") {
+                        _currentPCB = _ReadyQueue.dequeue();
+                    }
+                    this.updateCPURegisters();
+                    _currentPCB.processState = "running";
+                    //Set the quatumlocation back to 0 for the new process
+                    _quantumLocation = 0;
+                }
+                //Add 1 to the quantum location
+                _quantumLocation = _quantumLocation + 1;
             }
         };
         //Will update the current PCB with the CPU registers
