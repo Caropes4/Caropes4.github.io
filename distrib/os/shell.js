@@ -464,7 +464,7 @@ var TSOS;
                         _CPU.Xreg = _currentPCB.xReg;
                         _CPU.Yreg = _currentPCB.yReg;
                         _CPU.Zflag = _currentPCB.zFlag;
-                        _ReadyQueue.enqueue_currentPCB;
+                        //_ReadyQueue.enqueue(_currentPCB);
                         _CPU.isExecuting = true;
                         _Kernel.updateCurrentPCBStatus();
                     }
@@ -513,10 +513,30 @@ var TSOS;
             }
             _Kernel.updateReadyQueueStatus();
         };
+        //Will kill the given program.
         Shell.prototype.shellKill = function (args) {
             //End a program
             if (args.length > 0) {
-                _CPU.breakOper();
+                if (_currentPCB.pid == parseInt(args)) {
+                    _CPU.breakOper();
+                }
+                else if (_ReadyQueue.getSize() != 0) {
+                    for (var x = 0; x < _ReadyQueue.getSize(); x = x + 1) {
+                        _PCBAtLocation = _ReadyQueue.dequeue();
+                        if (_PCBAtLocation.pid == parseInt(args)) {
+                            _TerminatedQueue.enqueue(_PCBAtLocation);
+                            _StdOut.putText("Process: PID " + args + " was terminated.");
+                            _Memory.clearMemory();
+                            _MemoryManager.updateMemoryPartitionStatus();
+                        }
+                        else {
+                            _ReadyQueue.enqueue(_PCBAtLocation);
+                        }
+                    }
+                }
+                else {
+                    _StdOut.putText("No program with that PID is running.");
+                }
             }
             else {
                 _StdOut.putText("Usage: kill <pid>  Please supply a valid PID.");
@@ -524,16 +544,28 @@ var TSOS;
         };
         //Clears all memory
         Shell.prototype.shellClearMem = function (args) {
-            //Loop thtough all of memory and clear it
-            for (var x = 0; x < 768; x++) {
-                _currentMemory[x] = "00";
+            //Make sure no programs are running
+            if (_ReadyQueue.getSize() == 0 && _currentPCB.processState != "Running") {
+                //Loop thtough all of memory and clear it
+                for (var x = 0; x < 768; x++) {
+                    _currentMemory[x] = "00";
+                }
+                //Set all memory block status' to empty
+                _block1Empty = true;
+                _block2Empty = true;
+                _block3Empty = true;
+                //Update the memory display
+                _MemoryDisplay.updateDisplay();
+                _CPU.PC = 0;
+                _CPU.Acc = 0;
+                _CPU.Xreg = 0;
+                _CPU.Yreg = 0;
+                _CPU.Zflag = 0;
+                _Kernel.updateCPUStatus();
             }
-            //Set all memory block status' to empty
-            _block1Empty = true;
-            _block2Empty = true;
-            _block3Empty = true;
-            //Update the memory display
-            _MemoryDisplay.updateDisplay();
+            else {
+                _StdOut.putText("A program is currently running. Kill all processes before attempting to clear memory.");
+            }
         };
         //Will set the quantum to the specified number
         Shell.prototype.shellQuantum = function (args) {
@@ -546,7 +578,7 @@ var TSOS;
                 _StdOut.putText("Usage: quantum <int>  Please supply a valid int.");
             }
         };
-        // TODO: Will list the active PIDs
+        //Will list the active PIDs (Anything in the Ready queue or the process currently running
         Shell.prototype.shellPS = function (args) {
             var message = "";
             if (_currentPCB.processState == "Running") {

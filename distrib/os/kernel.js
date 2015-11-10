@@ -159,7 +159,7 @@ var TSOS;
                         _Console.putText(_OsShell.promptStr);
                     }
                     _MemoryDisplay.updateDisplay();
-                    _CPU.updateCPUStatus();
+                    this.updateCPUStatus();
                     break;
                 //Runs round robin
                 case CPU_SCHEDULER_IRQ:
@@ -291,6 +291,15 @@ var TSOS;
                     _RQZFlagDisplay.innerHTML = " ";
                 }
             }
+        };
+        //Will update the information in CPU Status on index.html when called
+        Kernel.prototype.updateCPUStatus = function () {
+            _PCDisplay.innerHTML = "" + _CPU.PC;
+            _AccDisplay.innerHTML = "" + _CPU.Acc;
+            _XRegDisplay.innerHTML = "" + _CPU.Xreg;
+            _YRegDisplay.innerHTML = "" + _CPU.Yreg;
+            _ZFlagDisplay.innerHTML = "" + _CPU.Zflag;
+            //console.log("I RAN UPDATE");
         };
         Kernel.prototype.krnTimerISR = function () {
             // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {

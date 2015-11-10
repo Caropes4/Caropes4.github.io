@@ -268,21 +268,12 @@ var TSOS;
             else {
             }
         };
-        //Will update the information in CPU Status on index.html when called
-        Cpu.prototype.updateCPUStatus = function () {
-            _PCDisplay.innerHTML = "" + this.PC;
-            _AccDisplay.innerHTML = "" + this.Acc;
-            _XRegDisplay.innerHTML = "" + this.Xreg;
-            _YRegDisplay.innerHTML = "" + this.Yreg;
-            _ZFlagDisplay.innerHTML = "" + this.Zflag;
-            //console.log("I RAN UPDATE");
-        };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             //console.log(_currentMemory);
             //console.log(_CPU.Yreg.toString(16));
             //this.roundRobin();
-            this.updateCPUStatus();
+            _Kernel.updateCPUStatus();
             _MemoryDisplay.updateDisplay();
             this.decodeInstruction(_currentMemory[this.PC]);
             //console.log(""+_ReadyQueue.getSize());

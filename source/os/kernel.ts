@@ -181,7 +181,7 @@ module TSOS {
                         _Console.putText(_OsShell.promptStr);
                     }
                     _MemoryDisplay.updateDisplay();
-                    _CPU.updateCPUStatus();
+                    this.updateCPUStatus();
                     break;
 
                 //Runs round robin
@@ -331,6 +331,16 @@ module TSOS {
                     }
                 }
             }
+
+        //Will update the information in CPU Status on index.html when called
+        public updateCPUStatus(): void {
+            _PCDisplay.innerHTML = "" + _CPU.PC;
+            _AccDisplay.innerHTML = "" + _CPU.Acc;
+            _XRegDisplay.innerHTML = "" + _CPU.Xreg;
+            _YRegDisplay.innerHTML ="" + _CPU.Yreg;
+            _ZFlagDisplay.innerHTML ="" + _CPU.Zflag;
+            //console.log("I RAN UPDATE");
+        }
 
 
         public krnTimerISR() {
