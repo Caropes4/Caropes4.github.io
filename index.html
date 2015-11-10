@@ -152,37 +152,88 @@
             </div>
         </label>
     </div>
-      <div style=" height:10px; width:10px;"></div>
+      <div style=" height:20px; width:10px;"> </div>
 
-      <div id="divPCB" style="margin-left:4px; float:bottom;">
+      <div id="divPCB" style="margin-left:4px; float:left;">
           <label>
               Current PCB
               <br>
-              <div style="overflow:auto; height:150px; width:330px;">
+              <div style="overflow:auto; height:180px; width:330px;">
                   <table style="background: white">
                       <tr>
-                          <th >PC</th>
-                          <td id="PCBPID">0x00</td>
+                          <th >PID</th>
+                          <td id="PCBPID">No PCB</td>
+                      </tr>
+                      <tr>
+                          <th >State</th>
+                          <td id="PCBState">No PCB</td>
                       </tr>
                       <tr>
                           <th >PC</th>
-                          <td id="PCBPC">0x00</td>
+                          <td id="PCBPC">No PCB</td>
                       </tr>
                       <tr>
                           <th>ACC</th>
-                          <td id="PCBACC">0x00</td>
+                          <td id="PCBACC">No PCB</td>
                       </tr>
                       <tr>
                           <th>X Reg</th>
-                          <td id="PCBXReg">0x00</td>
+                          <td id="PCBXReg">No PCB</td>
                       </tr>
                       <tr>
                           <th>Y Reg</th>
-                          <td id="PCBYReg">0x00</td>
+                          <td id="PCBYReg">No PCB</td>
                       </tr>
                       <tr>
                           <th>Z Flag</th>
-                          <td id="PCBZFlag">0x0</td>
+                          <td id="PCBZFlag">No PCB</td>
+                      </tr></table>
+              </div>
+          </label>
+      </div>
+
+      <div id="divReadyQueue" style="margin-left:4px; float:top;">
+          <label>
+              Ready Queue
+              <br>
+              <div style="overflow:auto; height:180px; width:330px;">
+                  <table style="background: white">
+                      <tr>
+                          <td>PID</td>
+                          <td>State</td>
+                          <td>PC</td>
+                          <td>ACC</td>
+                          <td>XReg</td>
+                          <td>YReg</td>
+                          <td>ZFlag</td>
+                      </tr>
+                      <tr>
+                          <td id = "PID0"></td>
+                          <td id = "State0"></td>
+                          <td id = "PC0"></td>
+                          <td id = "Acc0"></td>
+                          <td id = "XReg0"></td>
+                          <td id = "YReg0"></td>
+                          <td id = "ZFlag0"></td>
+                      </tr>
+                      <tr>
+                          <td id = "PID1"></td>
+                          <td id = "State1"></td>
+                          <td id = "PC1"></td>
+                          <td id = "Acc1"></td>
+                          <td id = "XReg1"></td>
+                          <td id = "YReg1"></td>
+                          <td id = "ZFlag1"></td>
+                      </tr>
+                      <!--<tr>
+                          <td id = "PID2"></td>
+                          <td id = "State2"></td>
+                          <td id = "PC2"></td>
+                          <td id = "Acc2"></td>
+                          <td id = "XReg2"></td>
+                          <td id = "YReg2"></td>
+                          <td id = "ZFlag2"></td>
+                      </tr>-->
                       </tr></table>
               </div>
           </label>

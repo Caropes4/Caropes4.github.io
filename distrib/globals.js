@@ -60,6 +60,8 @@ var _krnKeyboardDriver; //  = null;
 var _hardwareClockID = null;
 var _nextProcessID = 0;
 var _currentPCB;
+//Var for updating the ready queue
+var _PCBAtLocation;
 var _currentMemory;
 var _memoryTableDisplay;
 var _MemoryCheckStatus;
@@ -94,6 +96,15 @@ var _PCBAccDisplay;
 var _PCBXRegDisplay;
 var _PCBYRegDisplay;
 var _PCBZFlagDisplay;
+var _PCBStateDisplay;
+//Add globals for Ready Queue display
+var _RQPIDDisplay;
+var _RQStateDisplay;
+var _RQPCDisplay;
+var _RQAccDisplay;
+var _RQXRegDisplay;
+var _RQYRegDisplay;
+var _RQZFlagDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = "";
 // For testing (and enrichment)...

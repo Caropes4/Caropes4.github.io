@@ -37,6 +37,9 @@ var TSOS;
             }
             return retVal;
         };
+        Queue.prototype.getPCB = function (index) {
+            return this.q[index];
+        };
         return Queue;
     })();
     TSOS.Queue = Queue;

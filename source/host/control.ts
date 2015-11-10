@@ -44,11 +44,24 @@ module TSOS {
 
             //Global variables for Current PCB registers
             _PCBPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PCBPID");
+            _PCBStateDisplay = <HTMLTableDataCellElement>document.getElementById("PCBState");
             _PCBPCDisplay = <HTMLTableDataCellElement>document.getElementById("PCBPC");
             _PCBAccDisplay = <HTMLTableDataCellElement>document.getElementById("PCBACC");
             _PCBXRegDisplay = <HTMLTableDataCellElement>document.getElementById("PCBXReg");
             _PCBYRegDisplay = <HTMLTableDataCellElement>document.getElementById("PCBYReg");
             _PCBZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("PCBZFlag");
+
+
+            //Global variables for Current Ready Queue PCBs
+            _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID1");
+            _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State1");
+            _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC1");
+            _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc1");
+            _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg1");
+            _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg1");
+            _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag1");
+
+
 
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");

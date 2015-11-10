@@ -40,11 +40,20 @@ var TSOS;
             _ZFlagDisplay = document.getElementById("ZFlag");
             //Global variables for Current PCB registers
             _PCBPIDDisplay = document.getElementById("PCBPID");
+            _PCBStateDisplay = document.getElementById("PCBState");
             _PCBPCDisplay = document.getElementById("PCBPC");
             _PCBAccDisplay = document.getElementById("PCBACC");
             _PCBXRegDisplay = document.getElementById("PCBXReg");
             _PCBYRegDisplay = document.getElementById("PCBYReg");
             _PCBZFlagDisplay = document.getElementById("PCBZFlag");
+            //Global variables for Current Ready Queue PCBs
+            _RQPIDDisplay = document.getElementById("PID1");
+            _RQStateDisplay = document.getElementById("State1");
+            _RQPCDisplay = document.getElementById("PC1");
+            _RQAccDisplay = document.getElementById("Acc1");
+            _RQXRegDisplay = document.getElementById("XReg1");
+            _RQYRegDisplay = document.getElementById("YReg1");
+            _RQZFlagDisplay = document.getElementById("ZFlag1");
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).

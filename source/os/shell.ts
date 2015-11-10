@@ -142,7 +142,7 @@ module TSOS {
             //This shell command will end the running program
             sc = new ShellCommand(this.shellKill,
                 "kill",
-                "- End the program running");
+                "- End the program matching the PID given");
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
@@ -511,7 +511,7 @@ module TSOS {
                         _currentPCB.init();
                         _currentPCB.pid = _nextProcessID;
                         _currentPCB.programCounter = _currentBase;
-                        _currentPCB.processState = "new";
+                        _currentPCB.processState = "New";
                         _currentPCB.acc = _CPU.Acc;
                         _currentPCB.xReg = _CPU.Xreg;
                         _currentPCB.yReg = _CPU.Yreg;
@@ -547,7 +547,7 @@ module TSOS {
                     if (_currentPCB.pid == args) {
                         _currentBase = _currentPCB.base;
                         _currentLimit = _currentPCB.limit;
-                        _currentPCB.processState = "running";
+                        _currentPCB.processState = "Running";
                         _CPU.PC = _currentPCB.programCounter;
                         _CPU.Acc = _currentPCB.acc;
                         _CPU.Xreg = _currentPCB.xReg;
@@ -555,7 +555,7 @@ module TSOS {
                         _CPU.Zflag = _currentPCB.zFlag;
                         _ReadyQueue.enqueue_currentPCB;
                         _CPU.isExecuting = true;
-                        break;
+                        _Kernel.updateCurrentPCBStatus();
                     }
                     else{
                         _ResidentQueue.enqueue(_currentPCB);
@@ -581,6 +581,7 @@ module TSOS {
             //place all processes in the ready queue
             while (_ResidentQueue.getSize() != 0) {
                 _currentPCB = _ResidentQueue.dequeue();
+                _currentPCB.processState = "Ready";
                 _ReadyQueue.enqueue(_currentPCB);
             }
             if(_ReadyQueue.getSize()!=0) {
@@ -588,7 +589,7 @@ module TSOS {
                 _currentPCB = _ReadyQueue.dequeue();
                 _currentBase = _currentPCB.base;
                 _currentLimit = _currentPCB.limit;
-                _currentPCB.processState = "running";
+                _currentPCB.processState = "Running";
                 _CPU.PC = _currentPCB.programCounter;
                 _CPU.Acc = _currentPCB.acc;
                 _CPU.Xreg = _currentPCB.xReg;
@@ -596,29 +597,41 @@ module TSOS {
                 _CPU.Zflag = _currentPCB.zFlag;
                 //_ReadyQueue.enqueue_currentPCB;
                 _CPU.isExecuting = true;
+                _Kernel.updateCurrentPCBStatus();
             }
             else{
                 _StdOut.putText("No programs are currently loaded.");
             }
+            _Kernel.updateReadyQueueStatus();
         }
 
         public shellKill(args) {
             //End a program
-            _CPU.breakOper();
+            if(args.length >0) {
+                _CPU.breakOper();
+            }
+            else {
+                _StdOut.putText("Usage: kill <pid>  Please supply a valid PID.");
+            }
         }
 
         //Clears all memory
         public shellClearMem(args) {
+            //Loop thtough all of memory and clear it
             for(var x = 0; x < 768; x++){
                 _currentMemory[x] = "00";
             }
+            //Set all memory block status' to empty
             _block1Empty = true;
             _block2Empty = true;
             _block3Empty = true;
+            //Update the memory display
             _MemoryDisplay.updateDisplay();
         }
 
+        //Will set the quantum to the specified number
         public shellQuantum(args) {
+            //Set the new quantum
             if (args.length > 0) {
                 _quantum = parseInt(args);
                 console.log(""+_quantum);

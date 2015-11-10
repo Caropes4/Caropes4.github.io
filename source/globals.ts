@@ -77,6 +77,8 @@ var _hardwareClockID: number = null;
 var _nextProcessID: number = 0;
 
 var _currentPCB: TSOS.PCB;
+//Var for updating the ready queue
+var _PCBAtLocation: TSOS.PCB;
 var _currentMemory: any [];
 var _memoryTableDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
@@ -114,6 +116,16 @@ var _PCBAccDisplay: HTMLTableDataCellElement;
 var _PCBXRegDisplay: HTMLTableDataCellElement;
 var _PCBYRegDisplay: HTMLTableDataCellElement;
 var _PCBZFlagDisplay: HTMLTableDataCellElement;
+var _PCBStateDisplay: HTMLTableDataCellElement;
+
+//Add globals for Ready Queue display
+var _RQPIDDisplay: HTMLTableDataCellElement;
+var _RQStateDisplay: HTMLTableDataCellElement;
+var _RQPCDisplay: HTMLTableDataCellElement;
+var _RQAccDisplay: HTMLTableDataCellElement;
+var _RQXRegDisplay: HTMLTableDataCellElement;
+var _RQYRegDisplay: HTMLTableDataCellElement;
+var _RQZFlagDisplay: HTMLTableDataCellElement;
 
 //Holds the string containing the instructions.
 var _loadedCode: string = "";

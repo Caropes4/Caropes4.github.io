@@ -195,11 +195,11 @@ module TSOS {
                 //Branch to where the byte after says.
                 this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
                 this.PC = this.PC+2;
-                console.log(this.PC);
+                //console.log(this.PC);
                 //Make sure we dont go over the limit
                 if(this.PC > _currentPCB.limit-1 ) {
                     this.PC = this.PC - 256;
-                    console.log(this.PC);
+                    //console.log(this.PC);
                 }
                 //this.PC = this.PC+1;
                 //Dont forget to increment for the 2 codes used.
@@ -290,6 +290,10 @@ module TSOS {
             else if(instruction == "FF" || instruction == "ff" || instruction == "Ff" || instruction == "fF") {
                 this.systemCall();
             }
+            else{
+                //TODO: If there is and invalid op code do the following
+
+            }
         }
         //Will update the information in CPU Status on index.html when called
         public updateCPUStatus(): void {
@@ -304,7 +308,7 @@ module TSOS {
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
             //console.log(_currentMemory);
-            //aconsole.log(_CPU.Yreg.toString(16));
+            //console.log(_CPU.Yreg.toString(16));
 
             //this.roundRobin();
             this.updateCPUStatus();

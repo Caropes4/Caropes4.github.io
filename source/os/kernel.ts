@@ -154,7 +154,7 @@ module TSOS {
                     //console.log("I RAN");
                     //If the ready queue is empty let user know that the processes are done running.
                     this.updatePCB();
-                    _currentPCB.processState = "terminated";
+                    _currentPCB.processState = "Terminated";
                     _TerminatedQueue.enqueue(_currentPCB);
 
                     //Set the quatumlocation back to 0 for the new process
@@ -168,9 +168,9 @@ module TSOS {
                     if(_ReadyQueue.getSize() != 0) {
                         _currentPCB = _ReadyQueue.dequeue();
                         this.updateCPURegisters();
-                        _currentPCB.processState = "running";
+                        _currentPCB.processState = "Running";
                     }
-                    else if(_ReadyQueue.getSize() == 0 && _currentPCB.processState == "terminated"){
+                    else if(_ReadyQueue.getSize() == 0 && _currentPCB.processState == "Terminated"){
                         _CPU.isExecuting = false;
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
@@ -209,25 +209,27 @@ module TSOS {
         public roundRobin(){
             //Round robin
             if (_ReadyQueue.getSize() != 0) {
+                this.updateReadyQueueStatus();
                 this.updatePCB();
                 if (_quantumLocation == _quantum) {
+                    this.updateReadyQueueStatus();
                     //Save the current CPU registers in the current PCB
                     this.updatePCB();
                     //Place the PCB back in the ready queue.
-                    if(_currentPCB.processState != "terminated") {
-                        _currentPCB.processState = "ready";
+                    if(_currentPCB.processState != "Terminated") {
+                        _currentPCB.processState = "Ready";
                         _ReadyQueue.enqueue(_currentPCB);
                     }
                     //Grab the next PCB
                     _currentPCB = _ReadyQueue.dequeue();
                     //check to make sure it was not terminated
-                    if(_currentPCB.processState == "terminated"){
+                    if(_currentPCB.processState == "Terminated"){
                         _TerminatedQueue.enqueue(_currentPCB);
                         _currentPCB = _ReadyQueue.dequeue();
                     }
                     this.updateCPURegisters();
+                    _currentPCB.processState = "Running";
                     this.updateCurrentPCBStatus();
-                    _currentPCB.processState = "running";
 
                     //Set the quatumlocation back to 0 for the new process
                     _quantumLocation = 0;
@@ -256,17 +258,46 @@ module TSOS {
             _CPU.Xreg = _currentPCB.xReg;
             _CPU.Yreg = _currentPCB.yReg;
             _CPU.Zflag = _currentPCB.zFlag;
+            //console.log(_ReadyQueue.getPCB(0));
         }
 
         //Will update the information in CPU Status on index.html when called
         public updateCurrentPCBStatus(): void {
+            _PCBStateDisplay.innerHTML = "" + _currentPCB.processState;
             _PCBPIDDisplay.innerHTML = "" + _currentPCB.pid;
             _PCBPCDisplay.innerHTML = "" + _currentPCB.programCounter;
             _PCBAccDisplay.innerHTML = "" + _currentPCB.acc;
             _PCBXRegDisplay.innerHTML = "" + _currentPCB.xReg;
             _PCBYRegDisplay.innerHTML ="" + _currentPCB.yReg;
-            _PCBZFlagDisplay.innerHTML ="" + _currentPCB.zFlag + " "+ _currentPCB.base + " "+ _currentPCB.limit;
+            _PCBZFlagDisplay.innerHTML ="" + _currentPCB.zFlag;
             //console.log("I RAN UPDATE");
+        }
+
+        //Will update the Readyqueue display with the PCB information of the PCBs inside it.
+        public updateReadyQueueStatus(): void{
+            if(_ReadyQueue.getSize() != 0){
+                for(var x = 0; x<_ReadyQueue.getSize(); x=x+1){
+                    _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID"+x);
+                    _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State"+x);
+                    _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC"+x);
+                    _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc"+x);
+                    _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg"+x);
+                    _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg"+x);
+                    _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag"+x);
+
+                    _PCBAtLocation = _ReadyQueue.getPCB(x);
+
+                    _RQPIDDisplay.innerHTML = "" + _PCBAtLocation.pid;
+                    _RQStateDisplay.innerHTML = "" + _PCBAtLocation.processState;
+                    _RQPCDisplay.innerHTML = "" + _PCBAtLocation.programCounter;
+                    _RQAccDisplay.innerHTML = "" + _PCBAtLocation.acc;
+                    _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
+                    _RQYRegDisplay.innerHTML ="" + _PCBAtLocation.yReg;
+                    _RQZFlagDisplay.innerHTML ="" + _PCBAtLocation.zFlag;
+                }
+
+            }
+
         }
 
 

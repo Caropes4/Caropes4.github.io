@@ -40,5 +40,9 @@ module TSOS {
             }
             return retVal;
         }
+
+        public getPCB(index : number){
+            return this.q[index];
+        }
     }
 }
