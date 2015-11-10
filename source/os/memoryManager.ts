@@ -47,6 +47,19 @@ module TSOS {
             }
         }
 
+        //Will update the memory partitions to say if they are free or occupied
+        public updateMemoryPartitionStatus(){
+            //Figure out what the memory partition was and mark it as empty
+            if (_currentPCB.base == _base1) {
+                _block1Empty = true;
+            }
+            else if (_currentPCB.base == _base2) {
+                _block2Empty = true;
+            }
+            else if (_currentPCB.base == _base3) {
+                _block3Empty = true;
+            }
+        }
 
         //Return the selected byte in memory
         public getByte(x : number) : string{

@@ -19,6 +19,9 @@ var KEYBOARD_IRQ = 1;
 var PRINT_INT_IRQ = 2; //Print Int
 var PRINT_STR_IRQ = 3; //Print String
 var BREAK_OPERATION_IRQ = 4; //For break op
+var CPU_SCHEDULER_IRQ = 5; //For cpu scheduler.
+var INVALID_OPCODE_IRQ = 6; //For invalid op codes.
+var MEMORY_OUT_OF_BOUNDS_IRQ = 7; //For cpu scheduler.
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.

@@ -154,6 +154,12 @@ module TSOS {
                 "- Clears all memory partitions");
             this.commandList[this.commandList.length] = sc;
 
+            //Will change the quantum
+            sc = new ShellCommand(this.shellQuantum,
+                "quantum",
+                "- Sets the quantum <int>");
+            this.commandList[this.commandList.length] = sc;
+
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -515,7 +521,7 @@ module TSOS {
                         _currentPCB.limit = _currentLimit;
 
                         _ResidentQueue.enqueue(_currentPCB);
-                        console.log(_ResidentQueue[0]);
+                        console.log(_ResidentQueue.getSize());
                         console.log(_currentPCB.pid);
                         console.log(_currentPCB.base);
                         console.log(_currentPCB.limit);
@@ -577,18 +583,23 @@ module TSOS {
                 _currentPCB = _ResidentQueue.dequeue();
                 _ReadyQueue.enqueue(_currentPCB);
             }
-            //Grab the first process to run.
-            _currentPCB = _ReadyQueue.dequeue();
-            _currentBase = _currentPCB.base;
-            _currentLimit = _currentPCB.limit;
-            _currentPCB.processState = "running";
-            _CPU.PC = _currentPCB.programCounter;
-            _CPU.Acc = _currentPCB.acc;
-            _CPU.Xreg = _currentPCB.xReg;
-            _CPU.Yreg = _currentPCB.yReg;
-            _CPU.Zflag = _currentPCB.zFlag;
-            _ReadyQueue.enqueue_currentPCB;
-            _CPU.isExecuting = true;
+            if(_ReadyQueue.getSize()!=0) {
+                //Grab the first process to run.
+                _currentPCB = _ReadyQueue.dequeue();
+                _currentBase = _currentPCB.base;
+                _currentLimit = _currentPCB.limit;
+                _currentPCB.processState = "running";
+                _CPU.PC = _currentPCB.programCounter;
+                _CPU.Acc = _currentPCB.acc;
+                _CPU.Xreg = _currentPCB.xReg;
+                _CPU.Yreg = _currentPCB.yReg;
+                _CPU.Zflag = _currentPCB.zFlag;
+                //_ReadyQueue.enqueue_currentPCB;
+                _CPU.isExecuting = true;
+            }
+            else{
+                _StdOut.putText("No programs are currently loaded.");
+            }
         }
 
         public shellKill(args) {
@@ -606,6 +617,19 @@ module TSOS {
             _block3Empty = true;
             _MemoryDisplay.updateDisplay();
         }
+
+        public shellQuantum(args) {
+            if (args.length > 0) {
+                _quantum = parseInt(args);
+                console.log(""+_quantum);
+            }
+            //If no int is given
+            else {
+                _StdOut.putText("Usage: quantum <int>  Please supply a valid int.");
+            }
+
+        }
+
 
 
 

@@ -65,19 +65,25 @@ module TSOS {
         }
 
         //Store the accumulator in memory
-        public storeAccMem(){
+        public storeAccMem() {
             //Gets the next Byte
             var first = _MemoryManager.hexToDec(_MemoryManager.getByte(1));
             //Gets the second byte
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
-            var index = first+second + _currentPCB.base;
-            //Put the accumulator in hex and store it in the specified location in memory.
-            _currentMemory[index] = this.Acc.toString(16);
-            //Add 3 because we used 2 bytes
-            this.PC = this.PC +3;
-            //console.log(_CPU.PC);
-            //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
+            var index = first + second + _currentPCB.base;
+            //check to make sure that it doesnt store data outside its partition.
+            if (index > _currentPCB.limit - 1) {
+                _KernelInterruptQueue.enqueue(new Interrupt(MEMORY_OUT_OF_BOUNDS_IRQ, false));
+            }
+            else {
+                //Put the accumulator in hex and store it in the specified location in memory.
+                _currentMemory[index] = this.Acc.toString(16);
+                //Add 3 because we used 2 bytes
+                 this.PC = this.PC + 3;
+                 //console.log(_CPU.PC);
+                //Test _Console.putText(""+_currentMemory[index] +  " " + this.Acc);
+            }
         }
 
         //Add with carry
@@ -154,8 +160,9 @@ module TSOS {
 
         //Break (which is really a system call)
         public breakOper(){
+            this.PC = this.PC +1;
             _KernelInterruptQueue.enqueue(new Interrupt(BREAK_OPERATION_IRQ, false));
-            //this.PC = this.PC +1;
+
             //console.log(_CPU.PC);
             //console.log(_CPU.Yreg);
         }
@@ -230,9 +237,9 @@ module TSOS {
             else if(this.Xreg == 2){
                 _KernelInterruptQueue.enqueue(new Interrupt(PRINT_STR_IRQ, this.Yreg));
             }
-            else{
-                this.breakOper();
-            }
+            //else{
+            //    this.breakOper();
+            //}
             //Did one op code add 1
             this.PC = this.PC +1;
             //console.log(_CPU.PC);
@@ -292,55 +299,22 @@ module TSOS {
             //console.log("I RAN UPDATE");
         }
 
-        //set up round robin.
-        public roundRobin() : void{
-            //If the quantum location = quantum then switch the current process to the next one waiting.
-            if(_ReadyQueue.getSize!=0) {
-                if (_quantumLocation == _quantum) {
-                    //Save the current CPU registers in the current PCB
-                    _currentPCB.programCounter = this.PC;
-                    _currentPCB.acc = this.Acc;
-                    _currentPCB.xReg = this.Xreg;
-                    _currentPCB.yReg = this.Yreg;
-                    _currentPCB.zFlag = this.Zflag;
-                    //Place the PCB back in the ready queue.
-                    if (_currentPCB.processState != "terminated") {
-                        _currentPCB.processState = "waiting";
-                        _ReadyQueue.enqueue(_currentPCB);
-                    }
-                    //Grab the next PCB
-                    _currentPCB = _ReadyQueue.dequeue();
-                    this.PC = _currentPCB.programCounter;
-                    this.Acc = _currentPCB.acc;
-                    this.Xreg = _currentPCB.xReg;
-                    this.Yreg = _currentPCB.yReg;
-                    this.Zflag = _currentPCB.zFlag;
-                    _currentPCB.processState = "running";
-                    //Set the quatumlocation back to 0 for the new process
-                    _quantumLocation = 0;
-                }
-                //Add 1 to the quantum location
-                _quantumLocation = _quantumLocation + 1;
-            }
-            else{
-                this.breakOper();
-            }
-        }
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
             //console.log(_currentMemory);
             //aconsole.log(_CPU.Yreg.toString(16));
 
+            //this.roundRobin();
+            this.updateCPUStatus();
+            _MemoryDisplay.updateDisplay();
+            this.decodeInstruction(_currentMemory[this.PC]);
+            console.log(""+_ReadyQueue.getSize());
+            console.log(""+_ResidentQueue.getSize());
 
-            if(this.isExecuting = true) {
-                this.roundRobin();
-                this.updateCPUStatus();
-                _MemoryDisplay.updateDisplay();
-                this.decodeInstruction(_currentMemory[this.PC]);
+            //If Ready queue is not empty continue round robin
+            if(_ReadyQueue.getSize() !=0) {
+                _KernelInterruptQueue.enqueue(new Interrupt(CPU_SCHEDULER_IRQ, false));
             }
-
-
-
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
         }

@@ -152,10 +152,24 @@ module TSOS {
                 case BREAK_OPERATION_IRQ:
                     //console.log("I RAN");
                     //If the ready queue is empty let user know that the processes are done running.
+                    this.updatePCB();
                     _currentPCB.processState = "terminated";
                     _TerminatedQueue.enqueue(_currentPCB);
 
-                    if(_ReadyQueue.getSize() == 0) {
+                    //Set the quatumlocation back to 0 for the new process
+                    _quantumLocation = 0;
+
+                    //Clear the memory since process is done running. And update the status
+                    _Memory.clearMemory();
+                    _MemoryManager.updateMemoryPartitionStatus();
+
+                    //If the ready queue still has PCBs in it grab the next one and continue running
+                    if(_ReadyQueue.getSize() != 0) {
+                        _currentPCB = _ReadyQueue.dequeue();
+                        this.updateCPURegisters();
+                        _currentPCB.processState = "running";
+                    }
+                    else if(_ReadyQueue.getSize() == 0 && _currentPCB.processState == "terminated"){
                         _CPU.isExecuting = false;
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
@@ -163,27 +177,79 @@ module TSOS {
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
                     }
-                    //Clear the memory since process is done running.
-                    _CPU.PC = 0;
-                    _CPU.Acc = 0;
-                    _CPU.Xreg = 0;
-                    _CPU.Yreg = 0;
-                    _CPU.Zflag = 0;
-                    _Memory.clearMemory();
-                    if (_currentBase == _base1) {
-                        _block1Empty = true;
-                    }
-                    else if (_currentBase == _base2) {
-                        _block2Empty = true;
-                    }
-                    else if (_currentBase == _base3) {
-                        _block3Empty = true;
-                    }
+                    _MemoryDisplay.updateDisplay();
+                    _CPU.updateCPUStatus();
                     break;
+
+                //Runs round robin
+                case CPU_SCHEDULER_IRQ:
+                    this.roundRobin();
+                    break;
+
+                //If given an invalid op code do the following
+                case INVALID_OPCODE_IRQ:
+
+                    break;
+
+                //If memory goes out of bound do the following
+                case MEMORY_OUT_OF_BOUNDS_IRQ:
+                    _CPU.isExecuting = false;
+                    _Console.putText("Program used all avalible memory and has been terminated.");
+                    _Console.advanceLine();
+                    _Console.putText(_OsShell.promptStr);
+                    break;
+
 
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }
+        }
+
+        public roundRobin(){
+            //Round robin
+            if (_ReadyQueue.getSize() != 0) {
+                if (_quantumLocation == _quantum) {
+                    //Save the current CPU registers in the current PCB
+                    this.updatePCB();
+                    //Place the PCB back in the ready queue.
+                    if(_currentPCB.processState != "terminated") {
+                        _currentPCB.processState = "waiting";
+                        _ReadyQueue.enqueue(_currentPCB);
+                    }
+                    //Grab the next PCB
+                    _currentPCB = _ReadyQueue.dequeue();
+                    if(_currentPCB.processState == "terminated"){
+                        _currentPCB = _ReadyQueue.dequeue();
+                    }
+                    this.updateCPURegisters();
+                    _currentPCB.processState = "running";
+                    //Set the quatumlocation back to 0 for the new process
+                    _quantumLocation = 0;
+                }
+                //Add 1 to the quantum location
+                _quantumLocation = _quantumLocation + 1;
+            }
+        }
+
+        //Will update the current PCB with the CPU registers
+        public updatePCB(){
+            //Set the current PCB registers to the current CPU ones.
+            _currentPCB.programCounter = _CPU.PC;
+            _currentPCB.acc = _CPU.Acc;
+            _currentPCB.xReg = _CPU.Xreg;
+            _currentPCB.yReg = _CPU.Yreg;
+            _currentPCB.zFlag = _CPU.Zflag;
+            //console.log(""+_currentPCB.processState);
+        }
+
+        //Will set the cpu registers to the information form the currentPCB
+        public updateCPURegisters(){
+            //Set the current CPU registers to the current PCB ones.
+            _CPU.PC = _currentPCB.programCounter;
+            _CPU.Acc = _currentPCB.acc;
+            _CPU.Xreg = _currentPCB.xReg;
+            _CPU.Yreg = _currentPCB.yReg;
+            _CPU.Zflag = _currentPCB.zFlag;
         }
 
         public krnTimerISR() {

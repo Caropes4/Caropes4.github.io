@@ -40,6 +40,19 @@ var TSOS;
                 _MemoryCheckStatus = "Program successfully loaded.";
             }
         };
+        //Will update the memory partitions to say if they are free or occupied
+        MemoryManager.prototype.updateMemoryPartitionStatus = function () {
+            //Figure out what the memory partition was and mark it as empty
+            if (_currentPCB.base == _base1) {
+                _block1Empty = true;
+            }
+            else if (_currentPCB.base == _base2) {
+                _block2Empty = true;
+            }
+            else if (_currentPCB.base == _base3) {
+                _block3Empty = true;
+            }
+        };
         //Return the selected byte in memory
         MemoryManager.prototype.getByte = function (x) {
             return _currentMemory[_CPU.PC + x];

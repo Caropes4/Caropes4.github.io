@@ -22,6 +22,9 @@ const KEYBOARD_IRQ: number = 1;
 const PRINT_INT_IRQ: number =2; //Print Int
 const PRINT_STR_IRQ: number =3; //Print String
 const BREAK_OPERATION_IRQ: number = 4; //For break op
+const CPU_SCHEDULER_IRQ: number = 5; //For cpu scheduler.
+const INVALID_OPCODE_IRQ: number = 6; //For invalid op codes.
+const MEMORY_OUT_OF_BOUNDS_IRQ: number = 7; //For cpu scheduler.
 
 //
 // Global Variables

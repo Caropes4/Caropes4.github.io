@@ -39,7 +39,7 @@ var TSOS;
         //Clear the memory for a new program
         Memory.prototype.clearMemory = function () {
             this.memory = [];
-            for (var x = _currentBase; x < _currentLimit; x++) {
+            for (var x = _currentPCB.base; x < _currentPCB.limit; x++) {
                 _currentMemory[x] = "00";
             }
         };
