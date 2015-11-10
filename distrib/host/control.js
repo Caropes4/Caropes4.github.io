@@ -38,6 +38,13 @@ var TSOS;
             _XRegDisplay = document.getElementById("XReg");
             _YRegDisplay = document.getElementById("YReg");
             _ZFlagDisplay = document.getElementById("ZFlag");
+            //Global variables for Current PCB registers
+            _PCBPIDDisplay = document.getElementById("PCBPID");
+            _PCBPCDisplay = document.getElementById("PCBPC");
+            _PCBAccDisplay = document.getElementById("PCBACC");
+            _PCBXRegDisplay = document.getElementById("PCBXReg");
+            _PCBYRegDisplay = document.getElementById("PCBYReg");
+            _PCBZFlagDisplay = document.getElementById("PCBZFlag");
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).
@@ -98,8 +105,8 @@ var TSOS;
             //Initialize memory Display
             _MemoryDisplay = new TSOS.MemoryDisplay(_memoryTableDisplay);
             _MemoryDisplay.initRows();
-            _currentPCB = new TSOS.PCB();
-            _currentPCB.init();
+            //_currentPCB = new PCB();
+            //_currentPCB.init();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.

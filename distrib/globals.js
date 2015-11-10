@@ -87,6 +87,13 @@ var _AccDisplay;
 var _XRegDisplay;
 var _YRegDisplay;
 var _ZFlagDisplay;
+//Add global variables for Current PCB
+var _PCBPIDDisplay;
+var _PCBPCDisplay;
+var _PCBAccDisplay;
+var _PCBXRegDisplay;
+var _PCBYRegDisplay;
+var _PCBZFlagDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = "";
 // For testing (and enrichment)...

@@ -180,9 +180,11 @@ var TSOS;
                 //Branch to where the byte after says.
                 this.PC = this.PC + _MemoryManager.hexToDec(_MemoryManager.getByte(1));
                 this.PC = this.PC + 2;
+                console.log(this.PC);
                 //Make sure we dont go over the limit
-                if (this.PC > _currentLimit - 1) {
+                if (this.PC > _currentPCB.limit - 1) {
                     this.PC = this.PC - 256;
+                    console.log(this.PC);
                 }
             }
             else {
@@ -282,8 +284,8 @@ var TSOS;
             this.updateCPUStatus();
             _MemoryDisplay.updateDisplay();
             this.decodeInstruction(_currentMemory[this.PC]);
-            console.log("" + _ReadyQueue.getSize());
-            console.log("" + _ResidentQueue.getSize());
+            //console.log(""+_ReadyQueue.getSize());
+            //console.log(""+_ResidentQueue.getSize());
             //If Ready queue is not empty continue round robin
             if (_ReadyQueue.getSize() != 0) {
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CPU_SCHEDULER_IRQ, false));

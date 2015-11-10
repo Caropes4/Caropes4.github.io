@@ -42,6 +42,14 @@ module TSOS {
             _YRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg");
             _ZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag");
 
+            //Global variables for Current PCB registers
+            _PCBPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PCBPID");
+            _PCBPCDisplay = <HTMLTableDataCellElement>document.getElementById("PCBPC");
+            _PCBAccDisplay = <HTMLTableDataCellElement>document.getElementById("PCBACC");
+            _PCBXRegDisplay = <HTMLTableDataCellElement>document.getElementById("PCBXReg");
+            _PCBYRegDisplay = <HTMLTableDataCellElement>document.getElementById("PCBYReg");
+            _PCBZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("PCBZFlag");
+
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
 
@@ -123,9 +131,8 @@ module TSOS {
             _MemoryDisplay = new MemoryDisplay(_memoryTableDisplay);
             _MemoryDisplay.initRows();
 
-
-            _currentPCB = new PCB();
-            _currentPCB.init();
+            //_currentPCB = new PCB();
+            //_currentPCB.init();
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

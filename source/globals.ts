@@ -107,6 +107,14 @@ var _XRegDisplay: HTMLTableDataCellElement;
 var _YRegDisplay: HTMLTableDataCellElement;
 var _ZFlagDisplay: HTMLTableDataCellElement;
 
+//Add global variables for Current PCB
+var _PCBPIDDisplay: HTMLTableDataCellElement;
+var _PCBPCDisplay: HTMLTableDataCellElement;
+var _PCBAccDisplay: HTMLTableDataCellElement;
+var _PCBXRegDisplay: HTMLTableDataCellElement;
+var _PCBYRegDisplay: HTMLTableDataCellElement;
+var _PCBZFlagDisplay: HTMLTableDataCellElement;
+
 //Holds the string containing the instructions.
 var _loadedCode: string = "";
 

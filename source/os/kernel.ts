@@ -131,6 +131,7 @@ module TSOS {
                     _Console.putText(_CPU.Yreg.toString());
                     _Console.advanceLine();
                     _Console.putText(_OsShell.promptStr);
+                    //console.log(""+ _currentPCB.xReg);
                     break;
 
                 case PRINT_STR_IRQ:
@@ -208,21 +209,26 @@ module TSOS {
         public roundRobin(){
             //Round robin
             if (_ReadyQueue.getSize() != 0) {
+                this.updatePCB();
                 if (_quantumLocation == _quantum) {
                     //Save the current CPU registers in the current PCB
                     this.updatePCB();
                     //Place the PCB back in the ready queue.
                     if(_currentPCB.processState != "terminated") {
-                        _currentPCB.processState = "waiting";
+                        _currentPCB.processState = "ready";
                         _ReadyQueue.enqueue(_currentPCB);
                     }
                     //Grab the next PCB
                     _currentPCB = _ReadyQueue.dequeue();
+                    //check to make sure it was not terminated
                     if(_currentPCB.processState == "terminated"){
+                        _TerminatedQueue.enqueue(_currentPCB);
                         _currentPCB = _ReadyQueue.dequeue();
                     }
                     this.updateCPURegisters();
+                    this.updateCurrentPCBStatus();
                     _currentPCB.processState = "running";
+
                     //Set the quatumlocation back to 0 for the new process
                     _quantumLocation = 0;
                 }
@@ -242,7 +248,7 @@ module TSOS {
             //console.log(""+_currentPCB.processState);
         }
 
-        //Will set the cpu registers to the information form the currentPCB
+        //Will set the cpu registers to the information from the currentPCB
         public updateCPURegisters(){
             //Set the current CPU registers to the current PCB ones.
             _CPU.PC = _currentPCB.programCounter;
@@ -251,6 +257,18 @@ module TSOS {
             _CPU.Yreg = _currentPCB.yReg;
             _CPU.Zflag = _currentPCB.zFlag;
         }
+
+        //Will update the information in CPU Status on index.html when called
+        public updateCurrentPCBStatus(): void {
+            _PCBPIDDisplay.innerHTML = "" + _currentPCB.pid;
+            _PCBPCDisplay.innerHTML = "" + _currentPCB.programCounter;
+            _PCBAccDisplay.innerHTML = "" + _currentPCB.acc;
+            _PCBXRegDisplay.innerHTML = "" + _currentPCB.xReg;
+            _PCBYRegDisplay.innerHTML ="" + _currentPCB.yReg;
+            _PCBZFlagDisplay.innerHTML ="" + _currentPCB.zFlag + " "+ _currentPCB.base + " "+ _currentPCB.limit;
+            //console.log("I RAN UPDATE");
+        }
+
 
         public krnTimerISR() {
             // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
