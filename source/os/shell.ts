@@ -160,6 +160,12 @@ module TSOS {
                 "- Sets the quantum <int>");
             this.commandList[this.commandList.length] = sc;
 
+            //Will list the active PIDs
+            sc = new ShellCommand(this.shellPS,
+                "ps",
+                "- Lists the active PIDs");
+            this.commandList[this.commandList.length] = sc;
+
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -640,7 +646,25 @@ module TSOS {
             else {
                 _StdOut.putText("Usage: quantum <int>  Please supply a valid int.");
             }
+        }
 
+        // TODO: Will list the active PIDs
+        public shellPS(args) {
+            var message = "";
+            if(_currentPCB.processState =="Running") {
+                message = message + _currentPCB.pid;
+                if (_ReadyQueue.getSize() != 0) {
+                    for (var x = 0; x < _ReadyQueue.getSize(); x = x + 1) {
+                        _PCBAtLocation = _ReadyQueue.getPCB(x);
+                        message = message + ", " + _PCBAtLocation.pid;
+                    }
+                }
+                _StdOut.putText("PIDs: " + message);
+            }
+            //If no int is given
+            else {
+                _StdOut.putText("No processes are currently running.");
+            }
         }
 
 

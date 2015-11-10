@@ -156,6 +156,8 @@ module TSOS {
                     this.updatePCB();
                     _currentPCB.processState = "Terminated";
                     _TerminatedQueue.enqueue(_currentPCB);
+                    this.updateCurrentPCBStatus();
+                    this.clearReadyQueueStatus();
 
                     //Set the quatumlocation back to 0 for the new process
                     _quantumLocation = 0;
@@ -275,6 +277,7 @@ module TSOS {
 
         //Will update the Readyqueue display with the PCB information of the PCBs inside it.
         public updateReadyQueueStatus(): void{
+            this.clearReadyQueueStatus();
             if(_ReadyQueue.getSize() != 0){
                 for(var x = 0; x<_ReadyQueue.getSize(); x=x+1){
                     _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID"+x);
@@ -284,9 +287,12 @@ module TSOS {
                     _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg"+x);
                     _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg"+x);
                     _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag"+x);
+                    //console.log(""+_RQPIDDisplay.innerHTML);
 
+                    //Store the PCB in the global variable.
                     _PCBAtLocation = _ReadyQueue.getPCB(x);
 
+                    //Set the Ready queue display to the PCB contents
                     _RQPIDDisplay.innerHTML = "" + _PCBAtLocation.pid;
                     _RQStateDisplay.innerHTML = "" + _PCBAtLocation.processState;
                     _RQPCDisplay.innerHTML = "" + _PCBAtLocation.programCounter;
@@ -295,10 +301,36 @@ module TSOS {
                     _RQYRegDisplay.innerHTML ="" + _PCBAtLocation.yReg;
                     _RQZFlagDisplay.innerHTML ="" + _PCBAtLocation.zFlag;
                 }
-
             }
 
         }
+
+        //Will clear the ready queue display when a process is no longer in it.
+        public clearReadyQueueStatus(){
+                for(var x = 0; x<2; x=x+1) {
+                    //Grab the PID data cell
+                    _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID" + x);
+
+                    //If the running PID matched on in the table clear the data for that PID
+                    if(_currentPCB.pid == parseInt(_RQPIDDisplay.innerHTML)) {
+                        _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID" + x);
+                        _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State" + x);
+                        _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC" + x);
+                        _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc" + x);
+                        _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg" + x);
+                        _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg" + x);
+                        _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag" + x);
+                        //Set the display to empty
+                        _RQPIDDisplay.innerHTML = " ";
+                        _RQStateDisplay.innerHTML = " ";
+                        _RQPCDisplay.innerHTML = " ";
+                        _RQAccDisplay.innerHTML = " ";
+                        _RQXRegDisplay.innerHTML = " ";
+                        _RQYRegDisplay.innerHTML = " ";
+                        _RQZFlagDisplay.innerHTML = " ";
+                    }
+                }
+            }
 
 
         public krnTimerISR() {
