@@ -182,6 +182,7 @@ var TSOS;
         };
         Kernel.prototype.roundRobin = function () {
             //Round robin
+            _FileSystemDisplay.updateDisplay();
             if (_RoundRobin = true) {
                 if (_ReadyQueue.getSize() != 0) {
                     this.updateReadyQueueStatus();

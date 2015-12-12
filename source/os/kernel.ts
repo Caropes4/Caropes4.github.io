@@ -211,6 +211,7 @@ module TSOS {
 
         public roundRobin() {
             //Round robin
+            _FileSystemDisplay.updateDisplay();
             if (_RoundRobin = true) {
                 if (_ReadyQueue.getSize() != 0) {
                     this.updateReadyQueueStatus();

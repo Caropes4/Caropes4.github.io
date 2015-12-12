@@ -14,8 +14,7 @@ module TSOS {
 
 
         public initRows(): void {
-            var row = <HTMLTableRowElement> _fileSystemTableDisplay.insertRow(x);
-
+            var row = <HTMLTableRowElement> _fileSystemTableDisplay.insertRow(0);
             row.insertCell(0).innerHTML = "T:S:B";
             row.insertCell(1).innerHTML = "DATA";
             var rowIndex = 1;
@@ -29,23 +28,27 @@ module TSOS {
                         row.insertCell(0).innerHTML = x+":"+y+":"+z ;
                         row.insertCell(1).innerHTML = "0000000000000000000000000000000000000000000000000000000000000000";
                         rowIndex = rowIndex+1;
+                        //this.updateDisplay();
                     }
                 }
             }
         }
 
         public updateDisplay():void {
-            var memoryLocation = 0;
-            for (var x = 0; x < 96; x++) {
-                //Will update the rows and cells to display memory
-                var row = <HTMLTableRowElement> _fileSystemTableDisplay.rows[x];
-                //Will update the cells in the row by removing the old ones and adding the new ones. Traces where it is in memory by adding to the memory location var.
-                row.deleteCell(1);
-                row.insertCell(1).innerHTML = _currentMemory[memoryLocation];
-                memoryLocation = memoryLocation + 1;
-                row.deleteCell(2);
-                row.insertCell(2).innerHTML = _currentMemory[memoryLocation];
-                memoryLocation = memoryLocation + 1;
+            var rowIndex = 1;
+            //Loop through and update the Display
+            for(var x = 0; x < _FileSystemDeviceDriver.tracks; x++){
+                for(var y = 0; y < _FileSystemDeviceDriver.sectors; y++){
+                    for(var z = 0; z < _FileSystemDeviceDriver.blocks; z++){
+                        var row = <HTMLTableRowElement> _fileSystemTableDisplay.rows[rowIndex];
+                        var key = x+""+y+""+z;
+                        //Remove and update the row
+                        row.deleteCell(1);
+                        row.insertCell(1).innerHTML = sessionStorage.getItem(key);
+                        console.log(sessionStorage.getItem(key));
+                        rowIndex = rowIndex + 1;
+                    }
+                }
             }
         }
     }

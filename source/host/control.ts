@@ -152,7 +152,7 @@ module TSOS {
 
             _FileSystemDisplay = new FileSystemDisplay(_fileSystemTableDisplay);
             _FileSystemDisplay.initRows();
-            
+
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
