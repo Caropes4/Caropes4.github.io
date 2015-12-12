@@ -10,10 +10,6 @@ module TSOS {
 
         public init():void {
             this.table = _memoryTableDisplay;
-            //this.row = null;
-            //this.cell = null;
-
-            //this.initRows();
         }
 
         public initRows(): void {

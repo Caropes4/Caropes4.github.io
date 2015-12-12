@@ -32,6 +32,8 @@ var TSOS;
             _Canvas = document.getElementById('display');
             //MemoryDisplay
             _memoryTableDisplay = document.getElementById("memoryDisplay");
+            //Disk display
+            _fileSystemTableDisplay = document.getElementById("fileSystemDisplay");
             //Global variables for CPU registers
             _PCDisplay = document.getElementById("PC");
             _AccDisplay = document.getElementById("ACC");
@@ -111,11 +113,13 @@ var TSOS;
             _Memory.init(); //Initialize the memory
             _MemoryManager = new TSOS.MemoryManager();
             _MemoryManager.init();
+            _FileSystemDeviceDriver = new TSOS.FileSystemDeviceDriver();
+            _FileSystemDeviceDriver.init();
             //Initialize memory Display
             _MemoryDisplay = new TSOS.MemoryDisplay(_memoryTableDisplay);
             _MemoryDisplay.initRows();
-            //_currentPCB = new PCB();
-            //_currentPCB.init();
+            _FileSystemDisplay = new TSOS.FileSystemDisplay(_fileSystemTableDisplay);
+            _FileSystemDisplay.initRows();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.

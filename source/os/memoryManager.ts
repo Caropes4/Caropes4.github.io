@@ -5,7 +5,7 @@ module TSOS {
 
     export class MemoryManager {
 
-        public memory: any[]
+        public memory: any[];
 
         constructor(){}
 

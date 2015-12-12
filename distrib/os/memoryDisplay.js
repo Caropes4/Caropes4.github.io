@@ -9,9 +9,6 @@ var TSOS;
         }
         MemoryDisplay.prototype.init = function () {
             this.table = _memoryTableDisplay;
-            //this.row = null;
-            //this.cell = null;
-            //this.initRows();
         };
         MemoryDisplay.prototype.initRows = function () {
             var rowIndex = 0;

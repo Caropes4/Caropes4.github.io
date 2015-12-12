@@ -34,6 +34,9 @@ var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure th
 var _Memory: TSOS.Memory; // Utilize TypeScript's type annotation system to ensure that _Memory is an instance of the Memory class
 var _MemoryManager: TSOS.MemoryManager; // Utilize TypeScript's type annotation system to ensure that _MemoryManager is an instance of the MemoryManager class
 var _MemoryDisplay: TSOS.MemoryDisplay; // Utilize TypeScript's type annotation system to ensure that _MemoryDisplay is an instance of the MemoryDisplay class
+var _FileSystemDeviceDriver: TSOS.FileSystemDeviceDriver; // Utilize TypeScript's type annotation system to ensure that _FileSystemDeviceDriver is an instance of the FileSystemDeviceDriver class
+var _FileSystemDisplay: TSOS.FileSystemDisplay; // Utilize TypeScript's type annotation system to ensure that _FileSystemDisplay is an instance of the FileSystemDisplay class
+
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -81,7 +84,8 @@ var _currentPCB: TSOS.PCB;
 var _PCBAtLocation: TSOS.PCB;
 var _currentMemory: any [];
 var _memoryTableDisplay: HTMLTableElement;
-var _fileSystemDisplay: HTMLTableElement;
+var _currentDisk: any [];
+var _fileSystemTableDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
 
 //The current base and limit to be used when going through memory

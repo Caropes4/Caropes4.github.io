@@ -35,6 +35,9 @@ module TSOS {
             //MemoryDisplay
             _memoryTableDisplay = <HTMLTableElement>document.getElementById("memoryDisplay");
 
+            //Disk display
+            _fileSystemTableDisplay = <HTMLTableElement>document.getElementById("fileSystemDisplay");
+
             //Global variables for CPU registers
             _PCDisplay = <HTMLTableDataCellElement>document.getElementById("PC");
             _AccDisplay = <HTMLTableDataCellElement>document.getElementById("ACC");
@@ -139,14 +142,17 @@ module TSOS {
             _MemoryManager = new MemoryManager();
             _MemoryManager.init();
 
+            _FileSystemDeviceDriver = new FileSystemDeviceDriver();
+            _FileSystemDeviceDriver.init();
+
 
             //Initialize memory Display
             _MemoryDisplay = new MemoryDisplay(_memoryTableDisplay);
             _MemoryDisplay.initRows();
 
-            //_currentPCB = new PCB();
-            //_currentPCB.init();
-
+            _FileSystemDisplay = new FileSystemDisplay(_fileSystemTableDisplay);
+            _FileSystemDisplay.initRows();
+            
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
