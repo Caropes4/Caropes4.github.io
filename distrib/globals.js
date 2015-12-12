@@ -82,6 +82,7 @@ var _base2 = 256;
 var _base3 = 512;
 //Initialize a global quantum variable
 var _quantum = 6;
+var _originalQuantum = 6;
 var _quantumLocation = 0;
 //Add global variables for CPU registers
 var _PCDisplay;
@@ -107,6 +108,10 @@ var _RQYRegDisplay;
 var _RQZFlagDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = "";
+//Set Schedule
+var _RoundRobin = true;
+var _FirstComeFirstServe = false;
+var _Priority = false;
 // For testing (and enrichment)...
 var Glados = null; // This is the function Glados() in glados.js on Labouseur.com.
 var _GLaDOS = null; // If the above is linked in, this is the instantiated instance of Glados.

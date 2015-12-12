@@ -98,6 +98,8 @@ var TSOS;
             //Will list the active PIDs
             sc = new TSOS.ShellCommand(this.shellPS, "ps", "- Lists the active PIDs");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "- Changes the current Scheduling algorithm <rr, fcfs, or priority>");
+            this.commandList[this.commandList.length] = sc;
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -436,10 +438,10 @@ var TSOS;
                         _currentPCB.base = _currentBase;
                         _currentPCB.limit = _currentLimit;
                         _ResidentQueue.enqueue(_currentPCB);
-                        console.log(_ResidentQueue.getSize());
-                        console.log(_currentPCB.pid);
-                        console.log(_currentPCB.base);
-                        console.log(_currentPCB.limit);
+                        //console.log(_ResidentQueue.getSize());
+                        //console.log(_currentPCB.pid);
+                        //console.log(_currentPCB.base);
+                        //console.log(_currentPCB.limit);
                         _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                         _nextProcessID = _nextProcessID + 1;
                     }
@@ -572,7 +574,8 @@ var TSOS;
             //Set the new quantum
             if (args.length > 0) {
                 _quantum = parseInt(args);
-                console.log("" + _quantum);
+                //Will save the Quantum that has been selected incase the user uses first come first serve
+                _originalQuantum = _quantum;
             }
             else {
                 _StdOut.putText("Usage: quantum <int>  Please supply a valid int.");
@@ -593,6 +596,30 @@ var TSOS;
             }
             else {
                 _StdOut.putText("No processes are currently running.");
+            }
+        };
+        //Will set the quantum to the specified number
+        Shell.prototype.shellSetSchedule = function (args) {
+            //Set the new quantum
+            if (args.length > 0) {
+                if (args == "rr") {
+                    _RoundRobin = true;
+                    _FirstComeFirstServe = false;
+                    _Priority = false;
+                }
+                else if (args == "fcfs") {
+                    _RoundRobin = true;
+                    _FirstComeFirstServe = true;
+                    _Priority = false;
+                }
+                else if (args = "priority") {
+                    _RoundRobin = false;
+                    _FirstComeFirstServe = false;
+                    _Priority = true;
+                }
+            }
+            else {
+                _StdOut.putText("Usage: setschedule <rr, fcfs, priority>  Please supply a valid command.");
             }
         };
         return Shell;

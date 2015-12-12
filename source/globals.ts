@@ -81,6 +81,7 @@ var _currentPCB: TSOS.PCB;
 var _PCBAtLocation: TSOS.PCB;
 var _currentMemory: any [];
 var _memoryTableDisplay: HTMLTableElement;
+var _fileSystemDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
 
 //The current base and limit to be used when going through memory
@@ -100,6 +101,7 @@ var _base2 = 256;
 var _base3 = 512;
 //Initialize a global quantum variable
 var _quantum = 6;
+var _originalQuantum = 6;
 var _quantumLocation = 0;
 
 //Add global variables for CPU registers
@@ -130,7 +132,10 @@ var _RQZFlagDisplay: HTMLTableDataCellElement;
 //Holds the string containing the instructions.
 var _loadedCode: string = "";
 
-
+//Set Schedule
+var _RoundRobin : boolean = true;
+var _FirstComeFirstServe : boolean = false;
+var _Priority : boolean = false;
 
 
 // For testing (and enrichment)...

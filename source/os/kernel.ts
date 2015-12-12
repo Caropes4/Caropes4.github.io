@@ -186,6 +186,7 @@ module TSOS {
 
                 //Runs round robin
                 case CPU_SCHEDULER_IRQ:
+                    this.firstComeFirstServe();
                     this.roundRobin();
                     break;
 
@@ -208,36 +209,49 @@ module TSOS {
             }
         }
 
-        public roundRobin(){
+        public roundRobin() {
             //Round robin
-            if (_ReadyQueue.getSize() != 0) {
-                this.updateReadyQueueStatus();
-                this.updatePCB();
-                if (_quantumLocation == _quantum) {
+            if (_RoundRobin = true) {
+                if (_ReadyQueue.getSize() != 0) {
                     this.updateReadyQueueStatus();
-                    //Save the current CPU registers in the current PCB
                     this.updatePCB();
-                    //Place the PCB back in the ready queue.
-                    if(_currentPCB.processState != "Terminated") {
-                        _currentPCB.processState = "Ready";
-                        _ReadyQueue.enqueue(_currentPCB);
-                    }
-                    //Grab the next PCB
-                    _currentPCB = _ReadyQueue.dequeue();
-                    //check to make sure it was not terminated
-                    if(_currentPCB.processState == "Terminated"){
-                        _TerminatedQueue.enqueue(_currentPCB);
+                    if (_quantumLocation == _quantum) {
+                        this.updateReadyQueueStatus();
+                        //Save the current CPU registers in the current PCB
+                        this.updatePCB();
+                        //Place the PCB back in the ready queue.
+                        if (_currentPCB.processState != "Terminated") {
+                            _currentPCB.processState = "Ready";
+                            _ReadyQueue.enqueue(_currentPCB);
+                        }
+                        //Grab the next PCB
                         _currentPCB = _ReadyQueue.dequeue();
-                    }
-                    this.updateCPURegisters();
-                    _currentPCB.processState = "Running";
-                    this.updateCurrentPCBStatus();
+                        //check to make sure it was not terminated
+                        if (_currentPCB.processState == "Terminated") {
+                            _TerminatedQueue.enqueue(_currentPCB);
+                            _currentPCB = _ReadyQueue.dequeue();
+                        }
+                        this.updateCPURegisters();
+                        _currentPCB.processState = "Running";
+                        this.updateCurrentPCBStatus();
 
-                    //Set the quatumlocation back to 0 for the new process
-                    _quantumLocation = 0;
+                        //Set the quatumlocation back to 0 for the new process
+                        _quantumLocation = 0;
+                    }
+                    //Add 1 to the quantum location
+                    _quantumLocation = _quantumLocation + 1;
                 }
-                //Add 1 to the quantum location
-                _quantumLocation = _quantumLocation + 1;
+            }
+        }
+
+        public firstComeFirstServe(){
+            if(_FirstComeFirstServe == true ) {
+                //If the quantum is high enough RoundRobin becomes first come first serve
+                _quantum = 10000000000000;
+            }
+            else{
+                //if it is not enabled set it back to the original;
+                _quantum = _originalQuantum;
             }
         }
 
