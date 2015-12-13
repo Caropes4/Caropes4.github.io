@@ -100,6 +100,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "- Changes the current Scheduling algorithm <rr, fcfs, or priority>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellGetSchedule, "getschedule", "- Rerurns the current scheduling algorithm");
+            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellCreate, "create", "- creates a file <filename>");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellRead, "read", "- reads a file <filename>");
@@ -606,10 +608,10 @@ var TSOS;
                 _StdOut.putText("No processes are currently running.");
             }
         };
-        //Will set the quantum to the specified number
+        //Will set the schedule to the algorithm selected
         Shell.prototype.shellSetSchedule = function (args) {
-            //Set the new quantum
             if (args.length > 0) {
+                //round robin
                 if (args == "rr") {
                     _RoundRobin = true;
                     _FirstComeFirstServe = false;
@@ -628,6 +630,18 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: setschedule <rr, fcfs, priority>  Please supply a valid command.");
+            }
+        };
+        //Will return the current scheduleing algorithm being used
+        Shell.prototype.shellGetSchedule = function (args) {
+            if (_RoundRobin == true && _FirstComeFirstServe == false) {
+                _StdOut.putText("Current Scheduling Algorithm : Round Robin");
+            }
+            else if (_RoundRobin == true && _FirstComeFirstServe == true) {
+                _StdOut.putText("Current Scheduling Algorithm : First Come First Serve");
+            }
+            else if (_Priority == true) {
+                _StdOut.putText("Current Scheduling Algorithm : Priority");
             }
         };
         //Will create a file
@@ -690,8 +704,14 @@ var TSOS;
                 console.log(keysArray[x]);
                 files = files + _FileSystemDeviceDriver.getFileName(keysArray[x]) + ", ";
             }
-            //Print the files on disk
-            _StdOut.putText("Files on Disk: " + files);
+            //If the array is empty say nothing is on the disk
+            if (keysArray.length == 0) {
+                _StdOut.putText("No Files on Disk");
+            }
+            else {
+                //Print the files on disk
+                _StdOut.putText("Files on Disk: " + files);
+            }
         };
         return Shell;
     })();
