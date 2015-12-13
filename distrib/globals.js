@@ -113,6 +113,9 @@ var _RQYRegDisplay;
 var _RQZFlagDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = "";
+var _tracks = 4;
+var _sectors = 8;
+var _blocks = 8;
 var _fileExists = false;
 var _success = false;
 //Set Schedule

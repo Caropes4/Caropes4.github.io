@@ -37,9 +37,9 @@ module TSOS {
         public updateDisplay():void {
             var rowIndex = 1;
             //Loop through and update the Display
-            for(var x = 0; x < _krnFileSystemDeviceDriver.tracks; x++){
-                for(var y = 0; y < _krnFileSystemDeviceDriver.sectors; y++){
-                    for(var z = 0; z < _krnFileSystemDeviceDriver.blocks; z++){
+            for(var x = 0; x < _tracks; x++){
+                for(var y = 0; y < _sectors; y++){
+                    for(var z = 0; z < _blocks; z++){
                         var row = <HTMLTableRowElement> _fileSystemTableDisplay.rows[rowIndex];
                         var key = x+""+y+""+z;
                         //Remove and update the row

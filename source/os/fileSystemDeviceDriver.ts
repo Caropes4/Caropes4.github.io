@@ -13,7 +13,7 @@ module TSOS {
 
         constructor() {
             // Override the base method pointers.
-            super(this.krnFileSystemDeviceDriverEntry, this.init());
+            super(this.krnFileSystemDeviceDriverEntry, this.format());
         }
 
         public krnFileSystemDeviceDriverEntry() {
@@ -22,18 +22,14 @@ module TSOS {
             // More?
         }
 
-        //initiate sessions storage
-        public init():void {
-            this.tracks = 4;
-            this.sectors = 8;
-            this.blocks = 8;
-
+        //Will format
+        public format():void{
             //Clear the session storage
             sessionStorage.clear();
             //For loops to initialize data in sessionStorage
-            for(var x = 0; x < this.tracks; x++){
-                for(var y = 0; y < this.sectors; y++){
-                    for(var z = 0; z < this.blocks; z++){
+            for(var x = 0; x < _tracks; x++){
+                for(var y = 0; y < _sectors; y++){
+                    for(var z = 0; z < _blocks; z++){
                         var key = x+""+y+""+z;
                         sessionStorage.setItem(key,"0000000000000000000000000000000000000000000000000000000000000000");
                     }
@@ -41,15 +37,13 @@ module TSOS {
             }
         }
 
-        
-
         //Will create a file
         public create(fileName:string):void{
             var done = false;
             //Loop thorough an find free space from 000 - 077
             for(var x = 0; x <= 0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if(key != "000") {
                             var meta = sessionStorage.getItem(key).substr(0, 1);
@@ -85,9 +79,9 @@ module TSOS {
         public read(fileName:string):void{
             var done = false;
             //Loop through and find the file
-            for(var x = 0; x < this.tracks; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+            for(var x = 0; x < _tracks; x++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         var meta = sessionStorage.getItem(key).substr(0, 1);
                         //Make sure meta is in use
@@ -138,8 +132,8 @@ module TSOS {
             var done = false;
             //Loop through and find the file in 000 - 077
             for(var x = 0; x <=0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if(key != "000") {
                             //Make sure meta is in use
@@ -187,8 +181,8 @@ module TSOS {
             var done = false;
             //Loop through and find the file in 000 - 077
             for(var x = 0; x <=0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if(key != "000") {
                             //Make sure meta is in use
@@ -226,8 +220,8 @@ module TSOS {
             var keysArray = new Array();
             //Loop through and find the file in 000 - 077
             for(var x = 0; x <=0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if (key != "000") {
                             //Make sure meta is in use

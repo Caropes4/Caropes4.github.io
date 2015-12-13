@@ -137,6 +137,9 @@ var _RQZFlagDisplay: HTMLTableDataCellElement;
 //Holds the string containing the instructions.
 var _loadedCode: string = "";
 
+var _tracks = 4;
+var _sectors = 8;
+var _blocks = 8;
 var _fileExists : boolean = false;
 var _success : boolean = false;
 //Set Schedule

@@ -12,24 +12,21 @@ var TSOS;
         __extends(FileSystemDeviceDriver, _super);
         function FileSystemDeviceDriver() {
             // Override the base method pointers.
-            _super.call(this, this.krnFileSystemDeviceDriverEntry, this.init());
+            _super.call(this, this.krnFileSystemDeviceDriverEntry, this.format());
         }
         FileSystemDeviceDriver.prototype.krnFileSystemDeviceDriverEntry = function () {
             // Initialization routine for this, the kernel-mode Keyboard Device Driver.
             this.status = "loaded";
             // More?
         };
-        //initiate sessions storage
-        FileSystemDeviceDriver.prototype.init = function () {
-            this.tracks = 4;
-            this.sectors = 8;
-            this.blocks = 8;
+        //Will format
+        FileSystemDeviceDriver.prototype.format = function () {
             //Clear the session storage
             sessionStorage.clear();
             //For loops to initialize data in sessionStorage
-            for (var x = 0; x < this.tracks; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+            for (var x = 0; x < _tracks; x++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         sessionStorage.setItem(key, "0000000000000000000000000000000000000000000000000000000000000000");
                     }
@@ -41,8 +38,8 @@ var TSOS;
             var done = false;
             //Loop thorough an find free space from 000 - 077
             for (var x = 0; x <= 0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if (key != "000") {
                             var meta = sessionStorage.getItem(key).substr(0, 1);
@@ -76,9 +73,9 @@ var TSOS;
         FileSystemDeviceDriver.prototype.read = function (fileName) {
             var done = false;
             //Loop through and find the file
-            for (var x = 0; x < this.tracks; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+            for (var x = 0; x < _tracks; x++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         var meta = sessionStorage.getItem(key).substr(0, 1);
                         //Make sure meta is in use
@@ -126,8 +123,8 @@ var TSOS;
             var done = false;
             //Loop through and find the file in 000 - 077
             for (var x = 0; x <= 0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if (key != "000") {
                             //Make sure meta is in use
@@ -173,8 +170,8 @@ var TSOS;
             var done = false;
             //Loop through and find the file in 000 - 077
             for (var x = 0; x <= 0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if (key != "000") {
                             //Make sure meta is in use
@@ -211,8 +208,8 @@ var TSOS;
             var keysArray = new Array();
             //Loop through and find the file in 000 - 077
             for (var x = 0; x <= 0; x++) {
-                for (var y = 0; y < this.sectors; y++) {
-                    for (var z = 0; z < this.blocks; z++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
                         var key = x + "" + y + "" + z;
                         if (key != "000") {
                             //Make sure meta is in use

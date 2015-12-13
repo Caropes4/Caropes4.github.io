@@ -196,6 +196,11 @@ module TSOS {
                 "- Lists the files on disk");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellFormat,
+                "format",
+                "- Formats the disk");
+            this.commandList[this.commandList.length] = sc;
+
 
             //
             // Display the initial prompt.
@@ -829,13 +834,21 @@ module TSOS {
             }
         }
 
+        //Will format the disk
+        public shellFormat(args) {
+            _krnFileSystemDeviceDriver.format();
+            _FileSystemDisplay.updateDisplay();
+            //Print the files on disk
+            _StdOut.putText("Success");
+        }
+
+
         //Will display all files on disk
         public shellLs(args) {
             var keysArray = _krnFileSystemDeviceDriver.filesOnDisk();
             var files = "";
             //loop through the array of filekeys
             for(var x = 0; x < keysArray.length; x++){
-                console.log(keysArray[x]);
                 files = files +_krnFileSystemDeviceDriver.getFileName(keysArray[x]) + ", ";
             }
             //If the array is empty say nothing is on the disk
