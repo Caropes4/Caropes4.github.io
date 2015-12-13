@@ -186,6 +186,12 @@ module TSOS {
                 "- deletes a file <filename>");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellLs,
+                "ls",
+                "- Lists the files on disk");
+            this.commandList[this.commandList.length] = sc;
+
+
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -802,6 +808,18 @@ module TSOS {
             }
         }
 
+        //Will display all files on disk
+        public shellLs(args) {
+            var keysArray = _FileSystemDeviceDriver.filesOnDisk();
+            var files = "";
+            //loop through the array of filekeys
+            for(var x = 0; x < keysArray.length; x++){
+                console.log(keysArray[x]);
+                files = files +_FileSystemDeviceDriver.getFileName(keysArray[x]) + ", ";
+            }
+            //Print the files on disk
+            _StdOut.putText("Files on Disk: " + files);
+        }
 
     }
 }

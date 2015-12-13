@@ -59,6 +59,7 @@ var TSOS;
                 }
             }
         };
+        //Will read the file and display the filename and data associated with it.
         FileSystemDeviceDriver.prototype.read = function (fileName) {
             var done = false;
             //Loop through and find the file
@@ -190,6 +191,28 @@ var TSOS;
             if (!done) {
                 return "000";
             }
+        };
+        //Return the keys of all files on disk
+        FileSystemDeviceDriver.prototype.filesOnDisk = function () {
+            var done = false;
+            var keysArray = new Array();
+            //Loop through and find the file in 000 - 077
+            for (var x = 0; x <= 0; x++) {
+                for (var y = 0; y < this.sectors; y++) {
+                    for (var z = 0; z < this.blocks; z++) {
+                        var key = x + "" + y + "" + z;
+                        if (key != "000") {
+                            //Make sure meta is in use
+                            var meta = sessionStorage.getItem(key).substr(0, 1);
+                            if (meta == "1") {
+                                keysArray.push(key);
+                            }
+                        }
+                    }
+                }
+            }
+            console.log(keysArray);
+            return keysArray;
         };
         //Used to put a string into hex
         FileSystemDeviceDriver.prototype.stringToHex = function (str) {
