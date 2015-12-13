@@ -128,9 +128,17 @@ module TSOS {
             //If the key exists delete the file and success
             else{
                 _success = true;
-                sessionStorage.setItem(key,"0000000000000000000000000000000000000000000000000000000000000000");
+                this.deleteRecursive(key);
                 _FileSystemDisplay.updateDisplay();
             }
+
+        }
+
+        public deleteRecursive(key:string){
+            if(this.doesKeyHaveData(key)){
+                this.deleteRecursive(sessionStorage.getItem(key).substr(1,3))
+            }
+            sessionStorage.setItem(key, "0000000000000000000000000000000000000000000000000000000000000000")
         }
 
         //will tell us if the file contains data or not false = no data true = data
