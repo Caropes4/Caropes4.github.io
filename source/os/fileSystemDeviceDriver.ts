@@ -105,8 +105,20 @@ module TSOS {
             }
         }
 
+        //Will delete the file that is specified
         public delete(fileName:string):void{
-            
+            //Get the key of the file name
+            var key = this.findFileKey(fileName);
+            //If no file exists failure
+            if(key == "000"){
+                _success = false;
+            }
+            //If the key exists delete the file and success
+            else{
+                _success = true;
+                sessionStorage.setItem(key,"0000000000000000000000000000000000000000000000000000000000000000");
+                _FileSystemDisplay.updateDisplay();
+            }
         }
 
         //Will let us know if a file name is already in use
@@ -157,6 +169,43 @@ module TSOS {
             }
             //return the file name
             return this.hexToString(fileName);
+        }
+
+        public findFileKey(fileName:string){
+            var done = false;
+            //Loop through and find the file in 000 - 077
+            for(var x = 0; x <=0; x++) {
+                for (var y = 0; y < this.sectors; y++) {
+                    for (var z = 0; z < this.blocks; z++) {
+                        var key = x + "" + y + "" + z;
+                        if(key != "000") {
+                            //Make sure meta is in use
+                            var meta = sessionStorage.getItem(key).substr(0, 1);
+                            if(meta == "1"){
+                                var compare = this.getFileName(key);
+                                var fileName1 = ""+fileName;
+                                //Make sure file names match
+                                if(compare === fileName1) {
+                                    return key;
+                                    done = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    //If the file was created break out of the loop
+                    if(done){
+                        break;
+                    }
+                }
+                //If the file was created break out of the loop
+                if(done){
+                    break;
+                }
+            }
+            if(!done){
+                return "000";
+            }
         }
 
         //Used to put a string into hex

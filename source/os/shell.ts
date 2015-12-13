@@ -181,6 +181,11 @@ module TSOS {
                 "- reads a file <filename>");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellDelete,
+                "delete",
+                "- deletes a file <filename>");
+            this.commandList[this.commandList.length] = sc;
+
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -755,7 +760,7 @@ module TSOS {
                     _StdOut.putText("Failure");
                 }
             }
-            //If no int is given
+            //If no filename is given
             else {
                 _StdOut.putText("Usage: create <filename>  Please supply a filename.");
             }
@@ -773,12 +778,29 @@ module TSOS {
                     _StdOut.putText("Failure");
                 }
             }
-            //If no int is given
+            //If no filename is given
             else {
                 _StdOut.putText("Usage: read <filename>  Please supply a filename.");
             }
         }
 
+        //Will delete a file
+        public shellDelete(args) {
+            _success = false;
+            if (args.length > 0) {
+                //Call read function
+                _FileSystemDeviceDriver.delete(args);
+                if(_success){
+                    _StdOut.putText("Success");
+                }else{
+                    _StdOut.putText("Failure");
+                }
+            }
+            //If no filename is given
+            else {
+                _StdOut.putText("Usage: delete <filename>  Please supply a filename.");
+            }
+        }
 
 
     }

@@ -104,6 +104,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellRead, "read", "- reads a file <filename>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "- deletes a file <filename>");
+            this.commandList[this.commandList.length] = sc;
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -658,6 +660,23 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: read <filename>  Please supply a filename.");
+            }
+        };
+        //Will delete a file
+        Shell.prototype.shellDelete = function (args) {
+            _success = false;
+            if (args.length > 0) {
+                //Call read function
+                _FileSystemDeviceDriver.delete(args);
+                if (_success) {
+                    _StdOut.putText("Success");
+                }
+                else {
+                    _StdOut.putText("Failure");
+                }
+            }
+            else {
+                _StdOut.putText("Usage: delete <filename>  Please supply a filename.");
             }
         };
         return Shell;
