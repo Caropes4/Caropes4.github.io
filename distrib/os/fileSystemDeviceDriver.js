@@ -50,26 +50,31 @@ var TSOS;
                 _success = true;
             }
         };
-        //Will read the file and display the filename and data associated with it.
+        //Will read the file and display the data associated with it.
         FileSystemDeviceDriver.prototype.read = function (fileName) {
-            //Get the key
-            var key = this.findFileKey(fileName);
-            var string = "";
-            if (this.doesKeyHaveData(key) == false) {
-                _success = false;
+            if (this.doesFileExist(fileName)) {
+                //Get the key
+                var key = this.findFileKey(fileName);
+                var string = "";
+                if (this.doesKeyHaveData(key) == false) {
+                    _success = false;
+                }
+                else {
+                    //Loop and check meta for keys.
+                    while (this.doesKeyHaveData(key) == true) {
+                        //Grab the next key
+                        key = sessionStorage.getItem(key).substr(1, 3);
+                        //Add the data to the string
+                        string = string + this.hexToString(sessionStorage.getItem(key));
+                    }
+                    //Display the string
+                    _Console.putText(string);
+                    _Console.advanceLine();
+                    _success = true;
+                }
             }
             else {
-                //Loop and check meta for keys.
-                while (this.doesKeyHaveData(key) == true) {
-                    //Grab the next key
-                    key = sessionStorage.getItem(key).substr(1, 3);
-                    //Add the data to the string
-                    string = string + this.hexToString(sessionStorage.getItem(key));
-                }
-                //Display the string
-                _Console.putText(string);
-                _Console.advanceLine();
-                _success = true;
+                _success = false;
             }
         };
         FileSystemDeviceDriver.prototype.write = function (fileName, data) {
@@ -118,6 +123,54 @@ var TSOS;
                 this.deleteRecursive(sessionStorage.getItem(key).substr(1, 3));
             }
             sessionStorage.setItem(key, "0000000000000000000000000000000000000000000000000000000000000000");
+        };
+        //Will read the file and data associated with it in Hex.
+        FileSystemDeviceDriver.prototype.readHex = function (fileName) {
+            //Get the key
+            var key = this.findFileKey(fileName);
+            var string = "";
+            if (this.doesKeyHaveData(key) == false) {
+                _success = false;
+            }
+            else {
+                //Loop and check meta for keys.
+                while (this.doesKeyHaveData(key) == true) {
+                    //Grab the next key
+                    key = sessionStorage.getItem(key).substr(1, 3);
+                    //Add the data to the string
+                    string = string + sessionStorage.getItem(key);
+                }
+                //Display the string
+                _Console.putText(string);
+                _Console.advanceLine();
+                _success = true;
+            }
+        };
+        //Used to put a program in hex in storage
+        FileSystemDeviceDriver.prototype.writeHex = function (fileName, data) {
+            if (this.doesFileExist(fileName)) {
+                //get the key of the file so we can change the meta
+                var fileKey = this.findFileKey(fileName);
+                //Get the next free data block
+                var dataKey = this.nextFreeDataBlock();
+                //Set up the data
+                var data = "1---" + data;
+                while (data.length < 64) {
+                    data = data + "0";
+                }
+                //Place data in storage
+                sessionStorage.setItem(dataKey, data);
+                //Fix data in the fileKey
+                var currentKey = fileKey;
+                while (this.doesKeyHaveData(currentKey) == true) {
+                    currentKey = sessionStorage.getItem(currentKey).substr(1, 3);
+                }
+                if (!this.doesKeyHaveData(currentKey)) {
+                    var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
+                    sessionStorage.setItem(currentKey, newData);
+                    _success = true;
+                }
+            }
         };
         //will tell us if the file contains data or not false = no data true = data
         FileSystemDeviceDriver.prototype.doesKeyHaveData = function (key) {

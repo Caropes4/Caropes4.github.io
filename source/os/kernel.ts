@@ -217,6 +217,12 @@ module TSOS {
             }
         }
 
+        //Will swap things from memory to the disk and then back
+        public rollInRollOut(){
+
+        }
+
+        //Round robin scheduling algorithm
         public roundRobin() {
             //Round robin
             _FileSystemDisplay.updateDisplay();
@@ -253,6 +259,7 @@ module TSOS {
             }
         }
 
+        //FCFS algorithm
         public firstComeFirstServe(){
             if(_FirstComeFirstServe == true ) {
                 //If the quantum is high enough RoundRobin becomes first come first serve
@@ -264,6 +271,7 @@ module TSOS {
             }
         }
 
+        //Priority Algorithm
         public priority() {
             if(_Priority == true){
 

@@ -544,8 +544,13 @@ module TSOS {
                 if(isValid) {
                     //Check to make sure that all of memory is not taken
                     if(_block1Empty == false && _block2Empty == false && _block3Empty == false){
-                        _MemoryCheckStatus = "All memory is currently occupied.";
-                        _StdOut.putText(""+_MemoryCheckStatus);
+                        _MemoryCheckStatus = "Program loaded onto disk.";
+                       // _StdOut.putText(""+_MemoryCheckStatus);
+                        _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
+                        _krnFileSystemDeviceDriver.create("#" + _nextProcessID);
+                        _krnFileSystemDeviceDriver.writeHex("#" + _nextProcessID, code);
+                        _FileSystemDisplay.updateDisplay();
+                        _nextProcessID = _nextProcessID + 1;
                     }
                     //If memory is not full do the following.
                     else {
@@ -568,10 +573,6 @@ module TSOS {
                         _currentPCB.limit = _currentLimit;
 
                         _ResidentQueue.enqueue(_currentPCB);
-                        //console.log(_ResidentQueue.getSize());
-                        //console.log(_currentPCB.pid);
-                        //console.log(_currentPCB.base);
-                        //console.log(_currentPCB.limit);
 
                         _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                         _nextProcessID = _nextProcessID + 1;

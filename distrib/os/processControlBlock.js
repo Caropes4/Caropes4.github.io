@@ -16,7 +16,7 @@ var TSOS;
             //CPU Registers
             acc, xReg, yReg, zFlag, isExecuting, 
             // Base and limit to keep track of where the code for the pcb is stored in memory
-            base, limit) {
+            base, limit, loc) {
             if (pid === void 0) { pid = 0; }
             if (processState === void 0) { processState = ""; }
             if (programCounter === void 0) { programCounter = 0; }
@@ -27,6 +27,7 @@ var TSOS;
             if (isExecuting === void 0) { isExecuting = false; }
             if (base === void 0) { base = 0; }
             if (limit === void 0) { limit = 0; }
+            if (loc === void 0) { loc = ""; }
             this.pid = pid;
             this.processState = processState;
             this.programCounter = programCounter;
@@ -37,6 +38,7 @@ var TSOS;
             this.isExecuting = isExecuting;
             this.base = base;
             this.limit = limit;
+            this.loc = loc;
         }
         PCB.prototype.init = function () {
             this.pid = _nextProcessID;
@@ -49,6 +51,7 @@ var TSOS;
             this.isExecuting = false;
             this.base = 0;
             this.limit = 0;
+            this.loc = "";
         };
         PCB.prototype.getPID = function () {
             return this.pid;

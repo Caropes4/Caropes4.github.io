@@ -24,7 +24,8 @@ module TSOS {
             public isExecuting: boolean = false,
             // Base and limit to keep track of where the code for the pcb is stored in memory
             public base : number = 0,
-            public limit : number = 0) {
+            public limit : number = 0,
+            public loc : string = "") {
         }
 
         public init(): void {
@@ -38,6 +39,7 @@ module TSOS {
             this.isExecuting = false;
             this.base = 0;
             this.limit = 0;
+            this.loc = "";
         }
 
 

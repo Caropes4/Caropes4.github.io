@@ -187,6 +187,10 @@ var TSOS;
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }
         };
+        //Will swap things from memory to the disk and then back
+        Kernel.prototype.rollInRollOut = function () {
+        };
+        //Round robin scheduling algorithm
         Kernel.prototype.roundRobin = function () {
             //Round robin
             _FileSystemDisplay.updateDisplay();
@@ -221,6 +225,7 @@ var TSOS;
                 }
             }
         };
+        //FCFS algorithm
         Kernel.prototype.firstComeFirstServe = function () {
             if (_FirstComeFirstServe == true) {
                 //If the quantum is high enough RoundRobin becomes first come first serve
@@ -231,6 +236,7 @@ var TSOS;
                 _quantum = _originalQuantum;
             }
         };
+        //Priority Algorithm
         Kernel.prototype.priority = function () {
             if (_Priority == true) {
             }
