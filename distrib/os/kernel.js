@@ -41,6 +41,8 @@ var TSOS;
             _krnFileSystemDeviceDriver = new TSOS.FileSystemDeviceDriver(); // Construct it.
             _krnFileSystemDeviceDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnFileSystemDeviceDriver.status);
+            //will format the disk
+            _krnFileSystemDeviceDriver.format();
             //
             // ... more?
             //

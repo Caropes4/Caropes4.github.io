@@ -13,7 +13,7 @@ module TSOS {
 
         constructor() {
             // Override the base method pointers.
-            super(this.krnFileSystemDeviceDriverEntry, this.format());
+            super(this.krnFileSystemDeviceDriverEntry);
         }
 
         public krnFileSystemDeviceDriverEntry() {
@@ -39,39 +39,19 @@ module TSOS {
 
         //Will create a file
         public create(fileName:string):void{
-            var done = false;
-            //Loop thorough an find free space from 000 - 077
-            for(var x = 0; x <= 0; x++) {
-                for (var y = 0; y < _sectors; y++) {
-                    for (var z = 0; z < _blocks; z++) {
-                        var key = x + "" + y + "" + z;
-                        if(key != "000") {
-                            var meta = sessionStorage.getItem(key).substr(0, 1);
-                            if (meta == "0" && this.doesFileExist(fileName) == false) {
-                                var data = "1---" + this.stringToHex(fileName);
-                                while (data.length < 64) {
-                                    data = data + "0";
-                                }
-                                //Place the file on the disk
-                                sessionStorage.setItem(key, data);
-                                _FileSystemDisplay.updateDisplay();
-                                _success = true;
-                                //If the file was created break out of the loop
-                                done = true;
-                                break;
-                            }
-                        }
-
-                    }
-                    //If the file was created break out of the loop
-                    if(done){
-                        break;
-                    }
+            //Make sure file does not already exist
+            if(this.doesFileExist(fileName) == false){
+                var data = "1---" + this.stringToHex(fileName);
+                while (data.length < 64) {
+                    data = data + "0";
                 }
-                //If the file was created break out of the loop
-                if(done){
-                    break;
-                }
+                //Get next free directory block
+                var key = this.nextFreeDirectoryBlock();
+                //Place the file on the disk
+                sessionStorage.setItem(key, data);
+                //Update the display
+                _FileSystemDisplay.updateDisplay();
+                _success = true;
             }
         }
 
@@ -111,6 +91,32 @@ module TSOS {
             }
         }
 
+        public write(fileName:string, data:string):void {
+            if (this.doesFileExist(fileName)) {
+                //get the key of the file so we can change the meta
+                var fileKey = this.findFileKey(fileName);
+                var dataKey = "";
+                //Start on track 1 for data storage
+                for (var x = 1; x < _tracks; x++) {
+                    for (var y = 0; y < _sectors; y++) {
+                        for (var z = 0; z < _blocks; z++) {
+                            var key = x + "" + y + "" + z;
+                            var meta = sessionStorage.getItem(key).substr(0, 1);
+                            //Make sure meta is in use
+                            if (meta == "0") {
+                                dataKey = key;
+                                sessionStorage.setItem(key, data);
+                                var data = "1---" + this.stringToHex(fileName);
+                                while (data.length < 64) {
+                                    data = data + "0";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         //Will delete the file that is specified
         public delete(fileName:string):void{
             //Get the key of the file name
@@ -126,6 +132,19 @@ module TSOS {
                 _FileSystemDisplay.updateDisplay();
             }
         }
+
+        public doesFileHaveData(fileName:string){
+            var key = this.findFileKey(fileName);
+            var meta = sessionStorage.getItem(key).substr(0,4);
+            //Check if meta has an address in it
+            if(meta == "1---"){
+                return true
+            }
+            else{
+                return false;
+            }
+        }
+
 
         //Will let us know if a file name is already in use
         public doesFileExist(fileName:string){
@@ -199,14 +218,6 @@ module TSOS {
                             }
                         }
                     }
-                    //If the file was created break out of the loop
-                    if(done){
-                        break;
-                    }
-                }
-                //If the file was created break out of the loop
-                if(done){
-                    break;
                 }
             }
             if(!done){
@@ -235,6 +246,26 @@ module TSOS {
             }
             console.log(keysArray);
             return keysArray;
+        }
+
+        //Will find the next free block in the directory
+        public nextFreeDirectoryBlock(){
+            //Loop though and find the next open block and return the key
+            for(var x = 0; x <=0; x++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
+                        var key = x + "" + y + "" + z;
+                        if (key != "000") {
+                            //Make sure meta is not in use
+                            var meta = sessionStorage.getItem(key).substr(0, 1);
+                            if (meta == "0") {
+                                return key;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         //Used to put a string into hex
