@@ -52,37 +52,24 @@ var TSOS;
         };
         //Will read the file and display the filename and data associated with it.
         FileSystemDeviceDriver.prototype.read = function (fileName) {
-            var done = false;
-            //Loop through and find the file
-            for (var x = 0; x < _tracks; x++) {
-                for (var y = 0; y < _sectors; y++) {
-                    for (var z = 0; z < _blocks; z++) {
-                        var key = x + "" + y + "" + z;
-                        var meta = sessionStorage.getItem(key).substr(0, 1);
-                        //Make sure meta is in use
-                        if (meta == "1") {
-                            var compare = this.getFileName(key);
-                            var fileName1 = "" + fileName;
-                            //Make sure file names match
-                            if (compare === fileName1) {
-                                _Console.putText("" + this.hexToString(sessionStorage.getItem(key)) + " ");
-                                _Console.advanceLine();
-                                _success = true;
-                                //If the file was created break out of the loop
-                                done = true;
-                                break;
-                            }
-                        }
-                    }
-                    //If the file was created break out of the loop
-                    if (done) {
-                        break;
-                    }
+            //Get the key
+            var key = this.findFileKey(fileName);
+            var string = "";
+            if (this.doesKeyHaveData(key) == false) {
+                _success = false;
+            }
+            else {
+                //Loop and check meta for keys.
+                while (this.doesKeyHaveData(key) == true) {
+                    //Grab the next key
+                    key = sessionStorage.getItem(key).substr(1, 3);
+                    //Add the data to the string
+                    string = string + this.hexToString(sessionStorage.getItem(key));
                 }
-                //If the file was created break out of the loop
-                if (done) {
-                    break;
-                }
+                //Display the string
+                _Console.putText(string);
+                _Console.advanceLine();
+                _success = true;
             }
         };
         FileSystemDeviceDriver.prototype.write = function (fileName, data) {
@@ -91,6 +78,8 @@ var TSOS;
                 var fileKey = this.findFileKey(fileName);
                 //Get the next free data block
                 var dataKey = this.nextFreeDataBlock();
+                //if(this.stringToHex(data).length > 60){
+                //}
                 //Set up the data
                 var data = "1---" + this.stringToHex(data);
                 while (data.length < 64) {

@@ -812,7 +812,7 @@ module TSOS {
                 if(_success){
                     _StdOut.putText("Success");
                 }else{
-                    _StdOut.putText("Failure");
+                    _StdOut.putText("Failure it is possible there is no data to read");
                 }
             }
             //If no filename is given
@@ -887,6 +887,9 @@ module TSOS {
                     _StdOut.putText("File does not exist. Failed to write");
                 }
 
+            }
+            else{
+                _StdOut.putText("Please provide a <filename> and <data>");
             }
         }
 
