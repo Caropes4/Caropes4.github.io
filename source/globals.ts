@@ -136,6 +136,8 @@ var _RQZFlagDisplay: HTMLTableDataCellElement;
 //Holds the string containing the instructions.
 var _loadedCode: string = "";
 
+var _fileExists : boolean = false;
+var _success : boolean = false;
 //Set Schedule
 var _RoundRobin : boolean = true;
 var _FirstComeFirstServe : boolean = false;

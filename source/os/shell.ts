@@ -171,6 +171,11 @@ module TSOS {
                 "- Changes the current Scheduling algorithm <rr, fcfs, or priority>");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellCreate,
+                "create",
+                "- creates a file <filename>");
+            this.commandList[this.commandList.length] = sc;
+
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -729,6 +734,26 @@ module TSOS {
             //If no int is given
             else {
                 _StdOut.putText("Usage: setschedule <rr, fcfs, priority>  Please supply a valid command.");
+            }
+        }
+
+        //Will creat a file
+        public shellCreate(args) {
+            _success = false;
+            //Set the new quantum
+            if (args.length > 0) {
+                _quantum = parseInt(args);
+                //Will save the Quantum that has been selected incase the user uses first come first serve
+                _FileSystemDeviceDriver.create(args);
+                if(_success){
+                    _StdOut.putText("Success");
+                }else{
+                    _StdOut.putText("Failure");
+                }
+            }
+            //If no int is given
+            else {
+                _StdOut.putText("Usage: create <filename>  Please supply a filename.");
             }
         }
 

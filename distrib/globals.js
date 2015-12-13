@@ -112,6 +112,8 @@ var _RQYRegDisplay;
 var _RQZFlagDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = "";
+var _fileExists = false;
+var _success = false;
 //Set Schedule
 var _RoundRobin = true;
 var _FirstComeFirstServe = false;
