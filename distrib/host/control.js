@@ -113,8 +113,8 @@ var TSOS;
             _Memory.init(); //Initialize the memory
             _MemoryManager = new TSOS.MemoryManager();
             _MemoryManager.init();
-            _FileSystemDeviceDriver = new TSOS.FileSystemDeviceDriver();
-            _FileSystemDeviceDriver.init();
+            //_FileSystemDeviceDriver = new FileSystemDeviceDriver();
+            //_FileSystemDeviceDriver.init();
             //Initialize memory Display
             _MemoryDisplay = new TSOS.MemoryDisplay(_memoryTableDisplay);
             _MemoryDisplay.initRows();

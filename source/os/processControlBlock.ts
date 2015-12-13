@@ -25,7 +25,6 @@ module TSOS {
             // Base and limit to keep track of where the code for the pcb is stored in memory
             public base : number = 0,
             public limit : number = 0) {
-
         }
 
         public init(): void {

@@ -780,7 +780,7 @@ module TSOS {
 
             if (args.length > 0) {
                 //call create function
-                _FileSystemDeviceDriver.create(args);
+                _krnFileSystemDeviceDriver.create(args);
                 if(_success){
                     _StdOut.putText("Success");
                 }else{
@@ -798,7 +798,7 @@ module TSOS {
             _success = false;
             if (args.length > 0) {
                 //Call read function
-                _FileSystemDeviceDriver.read(args);
+                _krnFileSystemDeviceDriver.read(args);
                 if(_success){
                     _StdOut.putText("Success");
                 }else{
@@ -816,7 +816,7 @@ module TSOS {
             _success = false;
             if (args.length > 0) {
                 //Call read function
-                _FileSystemDeviceDriver.delete(args);
+                _krnFileSystemDeviceDriver.delete(args);
                 if(_success){
                     _StdOut.putText("Success");
                 }else{
@@ -831,12 +831,12 @@ module TSOS {
 
         //Will display all files on disk
         public shellLs(args) {
-            var keysArray = _FileSystemDeviceDriver.filesOnDisk();
+            var keysArray = _krnFileSystemDeviceDriver.filesOnDisk();
             var files = "";
             //loop through the array of filekeys
             for(var x = 0; x < keysArray.length; x++){
                 console.log(keysArray[x]);
-                files = files +_FileSystemDeviceDriver.getFileName(keysArray[x]) + ", ";
+                files = files +_krnFileSystemDeviceDriver.getFileName(keysArray[x]) + ", ";
             }
             //If the array is empty say nothing is on the disk
             if(keysArray.length == 0){

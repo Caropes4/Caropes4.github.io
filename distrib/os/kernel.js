@@ -36,6 +36,11 @@ var TSOS;
             _krnKeyboardDriver = new TSOS.DeviceDriverKeyboard(); // Construct it.
             _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
+            // Load the file system Device Driver
+            this.krnTrace("Loading the file system device driver.");
+            _krnFileSystemDeviceDriver = new TSOS.FileSystemDeviceDriver(); // Construct it.
+            _krnFileSystemDeviceDriver.driverEntry(); // Call the driverEntry() initialization routine.
+            this.krnTrace(_krnFileSystemDeviceDriver.status);
             //
             // ... more?
             //
@@ -222,6 +227,10 @@ var TSOS;
             else {
                 //if it is not enabled set it back to the original;
                 _quantum = _originalQuantum;
+            }
+        };
+        Kernel.prototype.priority = function () {
+            if (_Priority == true) {
             }
         };
         //Will update the current PCB with the CPU registers

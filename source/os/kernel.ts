@@ -41,6 +41,12 @@ module TSOS {
             _krnKeyboardDriver.driverEntry();                    // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
 
+            // Load the file system Device Driver
+            this.krnTrace("Loading the file system device driver.");
+            _krnFileSystemDeviceDriver = new FileSystemDeviceDriver();     // Construct it.
+            _krnFileSystemDeviceDriver.driverEntry();                    // Call the driverEntry() initialization routine.
+            this.krnTrace(_krnFileSystemDeviceDriver.status);
+
             //
             // ... more?
             //
@@ -253,6 +259,12 @@ module TSOS {
             else{
                 //if it is not enabled set it back to the original;
                 _quantum = _originalQuantum;
+            }
+        }
+
+        public priority() {
+            if(_Priority == true){
+
             }
         }
 

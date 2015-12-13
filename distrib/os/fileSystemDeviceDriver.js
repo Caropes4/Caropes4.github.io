@@ -1,11 +1,24 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 /**
  * Created by CharlieRopes on 12/11/15.
  */
 var TSOS;
 (function (TSOS) {
-    var FileSystemDeviceDriver = (function () {
+    var FileSystemDeviceDriver = (function (_super) {
+        __extends(FileSystemDeviceDriver, _super);
         function FileSystemDeviceDriver() {
+            // Override the base method pointers.
+            _super.call(this, this.krnFileSystemDeviceDriverEntry, this.init());
         }
+        FileSystemDeviceDriver.prototype.krnFileSystemDeviceDriverEntry = function () {
+            // Initialization routine for this, the kernel-mode Keyboard Device Driver.
+            this.status = "loaded";
+            // More?
+        };
         //initiate sessions storage
         FileSystemDeviceDriver.prototype.init = function () {
             this.tracks = 4;
@@ -240,6 +253,6 @@ var TSOS;
             return newString;
         };
         return FileSystemDeviceDriver;
-    })();
+    })(TSOS.DeviceDriver);
     TSOS.FileSystemDeviceDriver = FileSystemDeviceDriver;
 })(TSOS || (TSOS = {}));

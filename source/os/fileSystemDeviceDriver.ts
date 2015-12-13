@@ -3,14 +3,23 @@
  */
 module TSOS {
 
-    export class FileSystemDeviceDriver {
+    export class FileSystemDeviceDriver extends DeviceDriver{
 
         public tracks;
         public sectors;
         public blocks;
 
 
+
         constructor() {
+            // Override the base method pointers.
+            super(this.krnFileSystemDeviceDriverEntry, this.init());
+        }
+
+        public krnFileSystemDeviceDriverEntry() {
+            // Initialization routine for this, the kernel-mode Keyboard Device Driver.
+            this.status = "loaded";
+            // More?
         }
 
         //initiate sessions storage
@@ -31,6 +40,8 @@ module TSOS {
                 }
             }
         }
+
+        
 
         //Will create a file
         public create(fileName:string):void{

@@ -142,8 +142,8 @@ module TSOS {
             _MemoryManager = new MemoryManager();
             _MemoryManager.init();
 
-            _FileSystemDeviceDriver = new FileSystemDeviceDriver();
-            _FileSystemDeviceDriver.init();
+            //_FileSystemDeviceDriver = new FileSystemDeviceDriver();
+            //_FileSystemDeviceDriver.init();
 
 
             //Initialize memory Display
