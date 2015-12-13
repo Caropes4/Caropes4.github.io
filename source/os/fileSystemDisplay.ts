@@ -45,7 +45,6 @@ module TSOS {
                         //Remove and update the row
                         row.deleteCell(1);
                         row.insertCell(1).innerHTML = sessionStorage.getItem(key);
-                        console.log(sessionStorage.getItem(key));
                         rowIndex = rowIndex + 1;
                     }
                 }
