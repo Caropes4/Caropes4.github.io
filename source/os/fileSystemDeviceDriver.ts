@@ -92,27 +92,27 @@ module TSOS {
         }
 
         public write(fileName:string, data:string):void {
-            if (this.doesFileExist(fileName)) {
+            if(this.doesFileExist(fileName)) {
                 //get the key of the file so we can change the meta
                 var fileKey = this.findFileKey(fileName);
-                var dataKey = "";
-                //Start on track 1 for data storage
-                for (var x = 1; x < _tracks; x++) {
-                    for (var y = 0; y < _sectors; y++) {
-                        for (var z = 0; z < _blocks; z++) {
-                            var key = x + "" + y + "" + z;
-                            var meta = sessionStorage.getItem(key).substr(0, 1);
-                            //Make sure meta is in use
-                            if (meta == "0") {
-                                dataKey = key;
-                                sessionStorage.setItem(key, data);
-                                var data = "1---" + this.stringToHex(fileName);
-                                while (data.length < 64) {
-                                    data = data + "0";
-                                }
-                            }
-                        }
+                //Get the next free data block
+                var dataKey = this.nextFreeDataBlock();
+                //Set up the data
+                var data = "1---" + this.stringToHex(data);
+                while(data.length < 64){
+                    data = data + "0";
+                }
+                //Place data in storage
+                sessionStorage.setItem(dataKey, data);
+                //Fix data in the fileKey
+                var currentKey = fileKey;
+                while(this.doesKeyHaveData(currentKey) == true) {
+                    currentKey = sessionStorage.getItem(currentKey).substr(1,3);
                     }
+                if(!this.doesKeyHaveData(currentKey)) {
+                    var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
+                    sessionStorage.setItem(currentKey, newData);
+                    _success = true;
                 }
             }
         }
@@ -133,20 +133,21 @@ module TSOS {
             }
         }
 
-        public doesFileHaveData(fileName:string){
-            var key = this.findFileKey(fileName);
+        //will tell us if the file contains data or not false = no data true = data
+        public doesKeyHaveData(key:string){
             var meta = sessionStorage.getItem(key).substr(0,4);
             //Check if meta has an address in it
             if(meta == "1---"){
-                return true
+                //file has no data
+                return false
             }
             else{
-                return false;
+                //file has data
+                return true;
             }
         }
 
-
-        //Will let us know if a file name is already in use
+        //Will let us know if a file name is already in use true = inuse false = unused
         public doesFileExist(fileName:string){
             var done = false;
             //Loop through and find the file in 000 - 077
@@ -196,6 +197,7 @@ module TSOS {
             return this.hexToString(fileName);
         }
 
+        //Will find the key of a specified file
         public findFileKey(fileName:string){
             var done = false;
             //Loop through and find the file in 000 - 077
@@ -268,6 +270,24 @@ module TSOS {
             }
         }
 
+        //Will find the next free block for data
+        public nextFreeDataBlock(){
+            //Loop though and find the next open block and return the key
+            for(var x = 1; x <4; x++) {
+                for (var y = 0; y < _sectors; y++) {
+                    for (var z = 0; z < _blocks; z++) {
+                        var key = x + "" + y + "" + z;
+                        //Make sure meta is not in use
+                        var meta = sessionStorage.getItem(key).substr(0, 1);
+                        if (meta == "0") {
+                            return key;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         //Used to put a string into hex
         public stringToHex(str : string){
             var newString = "";
@@ -294,11 +314,6 @@ module TSOS {
             //return the string
             return newString;
         }
-
-
-
-
-
 
     }
 }

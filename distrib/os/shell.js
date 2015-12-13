@@ -112,6 +112,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellFormat, "format", "- Formats the disk");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "- Writes data to a file on the disk");
+            this.commandList[this.commandList.length] = sc;
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -719,6 +721,27 @@ var TSOS;
             else {
                 //Print the files on disk
                 _StdOut.putText("Files on Disk: " + files);
+            }
+        };
+        //Will write data to a file on the disk
+        Shell.prototype.shellWrite = function (args) {
+            _success = false;
+            if (args.length > 1) {
+                //If the file exists
+                if (_krnFileSystemDeviceDriver.doesFileExist(args[0])) {
+                    _krnFileSystemDeviceDriver.write(args[0], args[1]);
+                    //If it was successful
+                    if (_success) {
+                        _FileSystemDisplay.updateDisplay();
+                        _StdOut.putText("Success");
+                    }
+                    else {
+                        _StdOut.putText("Failed to write");
+                    }
+                }
+                else {
+                    _StdOut.putText("File does not exist. Failed to write");
+                }
             }
         };
         return Shell;

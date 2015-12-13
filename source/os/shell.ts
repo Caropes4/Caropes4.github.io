@@ -201,6 +201,11 @@ module TSOS {
                 "- Formats the disk");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellWrite,
+                "write",
+                "- Writes data to a file on the disk");
+            this.commandList[this.commandList.length] = sc;
+
 
             //
             // Display the initial prompt.
@@ -857,6 +862,31 @@ module TSOS {
             }else {
                 //Print the files on disk
                 _StdOut.putText("Files on Disk: " + files);
+            }
+        }
+
+        //Will write data to a file on the disk
+        public shellWrite(args) {
+            _success = false;
+            if(args.length > 1) {
+                //If the file exists
+                if(_krnFileSystemDeviceDriver.doesFileExist(args[0])) {
+                    _krnFileSystemDeviceDriver.write(args[0], args[1]);
+                    //If it was successful
+                    if(_success){
+                        _FileSystemDisplay.updateDisplay();
+                        _StdOut.putText("Success");
+                    }
+                    //If it failed
+                    else{
+                        _StdOut.putText("Failed to write");
+                    }
+                }
+                //If the file does not exist
+                else{
+                    _StdOut.putText("File does not exist. Failed to write");
+                }
+
             }
         }
 
