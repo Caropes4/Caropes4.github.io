@@ -102,6 +102,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellCreate, "create", "- creates a file <filename>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRead, "read", "- reads a file <filename>");
+            this.commandList[this.commandList.length] = sc;
             //
             // Display the initial prompt.
             this.putPrompt();
@@ -624,13 +626,11 @@ var TSOS;
                 _StdOut.putText("Usage: setschedule <rr, fcfs, priority>  Please supply a valid command.");
             }
         };
-        //Will creat a file
+        //Will create a file
         Shell.prototype.shellCreate = function (args) {
             _success = false;
-            //Set the new quantum
             if (args.length > 0) {
-                _quantum = parseInt(args);
-                //Will save the Quantum that has been selected incase the user uses first come first serve
+                //call create function
                 _FileSystemDeviceDriver.create(args);
                 if (_success) {
                     _StdOut.putText("Success");
@@ -641,6 +641,23 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: create <filename>  Please supply a filename.");
+            }
+        };
+        //Will read a file
+        Shell.prototype.shellRead = function (args) {
+            _success = false;
+            if (args.length > 0) {
+                //Call read function
+                _FileSystemDeviceDriver.read(args);
+                if (_success) {
+                    _StdOut.putText("Success");
+                }
+                else {
+                    _StdOut.putText("Failure");
+                }
+            }
+            else {
+                _StdOut.putText("Usage: read <filename>  Please supply a filename.");
             }
         };
         return Shell;
