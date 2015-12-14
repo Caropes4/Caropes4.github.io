@@ -311,27 +311,29 @@ var TSOS;
         Kernel.prototype.updateReadyQueueStatus = function () {
             this.clearReadyQueueStatus();
             if (_ReadyQueue.getSize() != 0) {
-                for (var x = 0; x < 6; x = x + 1) {
-                    _RQPIDDisplay = document.getElementById("PID" + x);
-                    _RQStateDisplay = document.getElementById("State" + x);
-                    _RQPCDisplay = document.getElementById("PC" + x);
-                    _RQAccDisplay = document.getElementById("Acc" + x);
-                    _RQXRegDisplay = document.getElementById("XReg" + x);
-                    _RQYRegDisplay = document.getElementById("YReg" + x);
-                    _RQZFlagDisplay = document.getElementById("ZFlag" + x);
-                    _RQLocationDisplay = document.getElementById("Loc" + x);
-                    //console.log(""+_RQPIDDisplay.innerHTML);
-                    //Store the PCB in the global variable.
-                    _PCBAtLocation = _ReadyQueue.getPCB(x);
-                    //Set the Ready queue display to the PCB contents
-                    _RQPIDDisplay.innerHTML = "" + _PCBAtLocation.pid;
-                    _RQStateDisplay.innerHTML = "" + _PCBAtLocation.processState;
-                    _RQPCDisplay.innerHTML = "" + _PCBAtLocation.programCounter;
-                    _RQAccDisplay.innerHTML = "" + _PCBAtLocation.acc;
-                    _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
-                    _RQYRegDisplay.innerHTML = "" + _PCBAtLocation.yReg;
-                    _RQZFlagDisplay.innerHTML = "" + _PCBAtLocation.zFlag;
-                    _RQLocationDisplay.innerHTML = "" + _PCBAtLocation.loc;
+                for (var x = 0; x < _ReadyQueue.getSize(); x = x + 1) {
+                    if (x < 6) {
+                        _RQPIDDisplay = document.getElementById("PID" + x);
+                        _RQStateDisplay = document.getElementById("State" + x);
+                        _RQPCDisplay = document.getElementById("PC" + x);
+                        _RQAccDisplay = document.getElementById("Acc" + x);
+                        _RQXRegDisplay = document.getElementById("XReg" + x);
+                        _RQYRegDisplay = document.getElementById("YReg" + x);
+                        _RQZFlagDisplay = document.getElementById("ZFlag" + x);
+                        _RQLocationDisplay = document.getElementById("Loc" + x);
+                        //console.log(""+_RQPIDDisplay.innerHTML);
+                        //Store the PCB in the global variable.
+                        _PCBAtLocation = _ReadyQueue.getPCB(x);
+                        //Set the Ready queue display to the PCB contents
+                        _RQPIDDisplay.innerHTML = "" + _PCBAtLocation.pid;
+                        _RQStateDisplay.innerHTML = "" + _PCBAtLocation.processState;
+                        _RQPCDisplay.innerHTML = "" + _PCBAtLocation.programCounter;
+                        _RQAccDisplay.innerHTML = "" + _PCBAtLocation.acc;
+                        _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
+                        _RQYRegDisplay.innerHTML = "" + _PCBAtLocation.yReg;
+                        _RQZFlagDisplay.innerHTML = "" + _PCBAtLocation.zFlag;
+                        _RQLocationDisplay.innerHTML = "" + _PCBAtLocation.loc;
+                    }
                 }
             }
         };

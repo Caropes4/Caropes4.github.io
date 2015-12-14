@@ -353,29 +353,31 @@ module TSOS {
         public updateReadyQueueStatus(): void{
             this.clearReadyQueueStatus();
             if(_ReadyQueue.getSize() != 0){
-                for(var x = 0; x< 6; x=x+1){
-                    _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID"+x);
-                    _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State"+x);
-                    _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC"+x);
-                    _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc"+x);
-                    _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg"+x);
-                    _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg"+x);
-                    _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag"+x);
-                    _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc"+x);
-                    //console.log(""+_RQPIDDisplay.innerHTML);
+                for(var x = 0; x<_ReadyQueue.getSize(); x=x+1){
+                    if(x<6) {
+                        _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID" + x);
+                        _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State" + x);
+                        _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC" + x);
+                        _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc" + x);
+                        _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg" + x);
+                        _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg" + x);
+                        _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag" + x);
+                        _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc" + x);
+                        //console.log(""+_RQPIDDisplay.innerHTML);
 
-                    //Store the PCB in the global variable.
-                    _PCBAtLocation = _ReadyQueue.getPCB(x);
+                        //Store the PCB in the global variable.
+                        _PCBAtLocation = _ReadyQueue.getPCB(x);
 
-                    //Set the Ready queue display to the PCB contents
-                    _RQPIDDisplay.innerHTML = "" + _PCBAtLocation.pid;
-                    _RQStateDisplay.innerHTML = "" + _PCBAtLocation.processState;
-                    _RQPCDisplay.innerHTML = "" + _PCBAtLocation.programCounter;
-                    _RQAccDisplay.innerHTML = "" + _PCBAtLocation.acc;
-                    _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
-                    _RQYRegDisplay.innerHTML ="" + _PCBAtLocation.yReg;
-                    _RQZFlagDisplay.innerHTML ="" + _PCBAtLocation.zFlag;
-                    _RQLocationDisplay.innerHTML ="" + _PCBAtLocation.loc;
+                        //Set the Ready queue display to the PCB contents
+                        _RQPIDDisplay.innerHTML = "" + _PCBAtLocation.pid;
+                        _RQStateDisplay.innerHTML = "" + _PCBAtLocation.processState;
+                        _RQPCDisplay.innerHTML = "" + _PCBAtLocation.programCounter;
+                        _RQAccDisplay.innerHTML = "" + _PCBAtLocation.acc;
+                        _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
+                        _RQYRegDisplay.innerHTML = "" + _PCBAtLocation.yReg;
+                        _RQZFlagDisplay.innerHTML = "" + _PCBAtLocation.zFlag;
+                        _RQLocationDisplay.innerHTML = "" + _PCBAtLocation.loc;
+                    }
                 }
             }
 

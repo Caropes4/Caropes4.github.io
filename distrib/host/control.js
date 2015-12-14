@@ -51,17 +51,15 @@ var TSOS;
             _PCBYRegDisplay = document.getElementById("PCBYReg");
             _PCBZFlagDisplay = document.getElementById("PCBZFlag");
             _PCBLocationDisplay = document.getElementById("PCBLoc");
-            /*
-                        //Global variables for Current Ready Queue PCBs
-                        _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID1");
-                        _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State1");
-                        _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC1");
-                        _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc1");
-                        _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg1");
-                        _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg1");
-                        _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag1");
-                        _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc1");
-            */
+            //Global variables for Current Ready Queue PCBs
+            _RQPIDDisplay = document.getElementById("PID1");
+            _RQStateDisplay = document.getElementById("State1");
+            _RQPCDisplay = document.getElementById("PC1");
+            _RQAccDisplay = document.getElementById("Acc1");
+            _RQXRegDisplay = document.getElementById("XReg1");
+            _RQYRegDisplay = document.getElementById("YReg1");
+            _RQZFlagDisplay = document.getElementById("ZFlag1");
+            _RQLocationDisplay = document.getElementById("Loc1");
             // Get a global reference to the drawing context.
             _DrawingContext = _Canvas.getContext("2d");
             // Enable the added-in canvas text functions (see canvastext.ts for provenance and details).

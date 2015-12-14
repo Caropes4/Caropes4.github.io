@@ -59,7 +59,7 @@ module TSOS {
             _PCBZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("PCBZFlag");
             _PCBLocationDisplay = <HTMLTableDataCellElement>document.getElementById("PCBLoc");
 
-/*
+
             //Global variables for Current Ready Queue PCBs
             _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID1");
             _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State1");
@@ -69,7 +69,7 @@ module TSOS {
             _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg1");
             _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag1");
             _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc1");
-*/
+
 
 
             // Get a global reference to the drawing context.
