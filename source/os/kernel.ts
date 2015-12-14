@@ -173,7 +173,7 @@ module TSOS {
                     _quantumLocation = 0;
 
                     //Clear the memory since process is done running. And update the status
-                    _Memory.clearMemory();
+                    //_Memory.clearMemory();
                     _MemoryManager.updateMemoryPartitionStatus();
 
                     //If the ready queue still has PCBs in it grab the next one and continue running
@@ -247,8 +247,9 @@ module TSOS {
                         else if (_currentPCB.processState != "Terminated") {
                             _currentPCB.processState = "Ready";
                             //Check the next pcb in the queue and if its on_disk swap it with the process that just finished
-                            if (_ReadyQueue.getSize() > 1) {
+                            if (_ReadyQueue.getSize() > 0) {
                                 _nextPCB = _ReadyQueue.dequeue();
+                                //If the next pcb is on disk move it to memory and put the pcb that just ended into memory
                                 if (_nextPCB.loc == "On_Disk") {
                                     if (_ReadyQueue.getSize() > 1) {
                                         //Set current pcb to on_disk and write it to disk
@@ -260,8 +261,7 @@ module TSOS {
                                         _Memory.clearMemory();
                                         _MemoryManager.updateMemoryPartitionStatus();
                                     }
-                                    //Get the pcb on disk and move it to memory
-                                    //console.log(_krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid));
+                                    //Get the pcb data on disk and move it to memory
                                     _loadedCode = _krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid);
                                     //Write the data from the disk to memory
                                     _MemoryManager.memoryCheck();
@@ -279,12 +279,7 @@ module TSOS {
                                 _currentPCB = _nextPCB;
                             }
                         }
-                        //Grab the next PCB
-                        //_currentPCB = _ReadyQueue.dequeue();
-                        if (_currentPCB.processState == "Terminated") {
-                            _TerminatedQueue.enqueue(_currentPCB);
-                            _currentPCB = _ReadyQueue.dequeue();
-                        }
+                        //Update the Displays and registers
                         this.updateCPURegisters();
                         _currentPCB.processState = "Running";
                         this.updateCurrentPCBStatus();
