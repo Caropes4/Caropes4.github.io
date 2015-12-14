@@ -45,6 +45,7 @@ module TSOS {
             _YRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg");
             _ZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag");
 
+
             //Global variables for Current PCB registers
             _PCBPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PCBPID");
             _PCBStateDisplay = <HTMLTableDataCellElement>document.getElementById("PCBState");
@@ -53,6 +54,7 @@ module TSOS {
             _PCBXRegDisplay = <HTMLTableDataCellElement>document.getElementById("PCBXReg");
             _PCBYRegDisplay = <HTMLTableDataCellElement>document.getElementById("PCBYReg");
             _PCBZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("PCBZFlag");
+            _PCBLocationDisplay = <HTMLTableDataCellElement>document.getElementById("PCBLoc");
 
 
             //Global variables for Current Ready Queue PCBs
@@ -63,6 +65,7 @@ module TSOS {
             _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg1");
             _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg1");
             _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag1");
+            _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc1");
 
 
 

@@ -211,7 +211,6 @@ module TSOS {
                     _Console.putText(_OsShell.promptStr);
                     break;
 
-
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }
@@ -309,6 +308,7 @@ module TSOS {
             _PCBXRegDisplay.innerHTML = "" + _currentPCB.xReg;
             _PCBYRegDisplay.innerHTML ="" + _currentPCB.yReg;
             _PCBZFlagDisplay.innerHTML ="" + _currentPCB.zFlag;
+            _PCBLocationDisplay.innerHTML ="" + _currentPCB.loc;
             //console.log("I RAN UPDATE");
         }
 
@@ -324,6 +324,7 @@ module TSOS {
                     _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg"+x);
                     _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg"+x);
                     _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag"+x);
+                    _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc"+x);
                     //console.log(""+_RQPIDDisplay.innerHTML);
 
                     //Store the PCB in the global variable.
@@ -337,6 +338,7 @@ module TSOS {
                     _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
                     _RQYRegDisplay.innerHTML ="" + _PCBAtLocation.yReg;
                     _RQZFlagDisplay.innerHTML ="" + _PCBAtLocation.zFlag;
+                    _RQLocationDisplay.innerHTML ="" + _PCBAtLocation.loc;
                 }
             }
 
@@ -357,6 +359,7 @@ module TSOS {
                         _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg" + x);
                         _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg" + x);
                         _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag" + x);
+                        _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc" + x);
                         //Set the display to empty
                         _RQPIDDisplay.innerHTML = " ";
                         _RQStateDisplay.innerHTML = " ";
@@ -365,6 +368,7 @@ module TSOS {
                         _RQXRegDisplay.innerHTML = " ";
                         _RQYRegDisplay.innerHTML = " ";
                         _RQZFlagDisplay.innerHTML = " ";
+                        _RQLocationDisplay.innerHTML = " ";
                     }
                 }
             }

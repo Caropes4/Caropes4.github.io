@@ -436,6 +436,21 @@ var TSOS;
                         _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                         _krnFileSystemDeviceDriver.create("#" + _nextProcessID);
                         _krnFileSystemDeviceDriver.writeHex("#" + _nextProcessID, code);
+                        //Setup Process Control Block
+                        _currentPCB = new TSOS.PCB();
+                        _currentPCB.init();
+                        _currentPCB.pid = _nextProcessID;
+                        _currentPCB.programCounter = _currentBase;
+                        _currentPCB.processState = "New";
+                        _currentPCB.acc = _CPU.Acc;
+                        _currentPCB.xReg = _CPU.Xreg;
+                        _currentPCB.yReg = _CPU.Yreg;
+                        _currentPCB.zFlag = _CPU.Zflag;
+                        _currentPCB.isExecuting = _CPU.isExecuting;
+                        _currentPCB.base = _currentBase;
+                        _currentPCB.limit = _currentLimit;
+                        _currentPCB.loc = "On_Disk";
+                        _ResidentQueue.enqueue(_currentPCB);
                         _FileSystemDisplay.updateDisplay();
                         _nextProcessID = _nextProcessID + 1;
                     }
@@ -456,6 +471,7 @@ var TSOS;
                         _currentPCB.isExecuting = _CPU.isExecuting;
                         _currentPCB.base = _currentBase;
                         _currentPCB.limit = _currentLimit;
+                        _currentPCB.loc = "In_Memory";
                         _ResidentQueue.enqueue(_currentPCB);
                         _StdOut.putText("PID: " + _nextProcessID + "   " + _MemoryCheckStatus);
                         _nextProcessID = _nextProcessID + 1;
@@ -615,26 +631,31 @@ var TSOS;
         };
         //Will set the schedule to the algorithm selected
         Shell.prototype.shellSetSchedule = function (args) {
-            if (args.length > 0) {
-                //round robin
-                if (args == "rr") {
-                    _RoundRobin = true;
-                    _FirstComeFirstServe = false;
-                    _Priority = false;
+            if (!_CPU.isExecuting) {
+                if (args.length > 0) {
+                    //round robin
+                    if (args == "rr") {
+                        _RoundRobin = true;
+                        _FirstComeFirstServe = false;
+                        _Priority = false;
+                    }
+                    else if (args == "fcfs") {
+                        _RoundRobin = true;
+                        _FirstComeFirstServe = true;
+                        _Priority = false;
+                    }
+                    else if (args = "priority") {
+                        _RoundRobin = false;
+                        _FirstComeFirstServe = false;
+                        _Priority = true;
+                    }
                 }
-                else if (args == "fcfs") {
-                    _RoundRobin = true;
-                    _FirstComeFirstServe = true;
-                    _Priority = false;
-                }
-                else if (args = "priority") {
-                    _RoundRobin = false;
-                    _FirstComeFirstServe = false;
-                    _Priority = true;
+                else {
+                    _StdOut.putText("Usage: setschedule <rr, fcfs, priority>  Please supply a valid command.");
                 }
             }
             else {
-                _StdOut.putText("Usage: setschedule <rr, fcfs, priority>  Please supply a valid command.");
+                _StdOut.putText("Please wait until programs are done executing before trying to change the scheduling algorithm.");
             }
         };
         //Will return the current scheduleing algorithm being used

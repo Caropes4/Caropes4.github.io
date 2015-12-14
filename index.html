@@ -149,7 +149,7 @@
         <label>
             Memory
             <br>
-            <div style="overflow:auto; height:130px; width:330px;">
+            <div style="overflow:auto; height:130px; width:270px;">
                 <table id="memoryDisplay" style=" background: white;">
                 </table>
             </div>
@@ -161,7 +161,7 @@
           <label>
               Current PCB
               <br>
-              <div style="overflow:auto; height:180px; width:330px;">
+              <div style="overflow:auto; height:200px; width:330px;">
                   <table style="background: white">
                       <tr>
                           <th >PID</th>
@@ -190,58 +190,15 @@
                       <tr>
                           <th>Z Flag</th>
                           <td id="PCBZFlag">No PCB</td>
+                      </tr>
+                      <tr>
+                          <th>Location</th>
+                          <td id="PCBLoc">No PCB</td>
                       </tr></table>
               </div>
           </label>
       </div>
-
-      <div id="divReadyQueue" style="margin-left:4px; float:top;">
-          <label>
-              Ready Queue
-              <br>
-              <div style="overflow:auto; height:180px; width:330px;">
-                  <table style="background: white">
-                      <tr>
-                          <td>PID</td>
-                          <td>State</td>
-                          <td>PC</td>
-                          <td>ACC</td>
-                          <td>XReg</td>
-                          <td>YReg</td>
-                          <td>ZFlag</td>
-                      </tr>
-                      <tr>
-                          <td id = "PID0"></td>
-                          <td id = "State0"></td>
-                          <td id = "PC0"></td>
-                          <td id = "Acc0"></td>
-                          <td id = "XReg0"></td>
-                          <td id = "YReg0"></td>
-                          <td id = "ZFlag0"></td>
-                      </tr>
-                      <tr>
-                          <td id = "PID1"></td>
-                          <td id = "State1"></td>
-                          <td id = "PC1"></td>
-                          <td id = "Acc1"></td>
-                          <td id = "XReg1"></td>
-                          <td id = "YReg1"></td>
-                          <td id = "ZFlag1"></td>
-                      </tr>
-                      <!--<tr>
-                          <td id = "PID2"></td>
-                          <td id = "State2"></td>
-                          <td id = "PC2"></td>
-                          <td id = "Acc2"></td>
-                          <td id = "XReg2"></td>
-                          <td id = "YReg2"></td>
-                          <td id = "ZFlag2"></td>
-                      </tr>-->
-                      </tr></table>
-              </div>
-          </label>
-      </div>
-      <div id="divFileSystem" style="margin-bottom:220px;">
+      <div id="divFileSystem" style="margin-right:220px;">
           <label>
               Disk
               <br>
@@ -251,6 +208,58 @@
               </div>
           </label>
       </div>
+
+      <div id="divReadyQueue" style="margin-left:4px; float:top;">
+          <label>
+              Ready Queue
+              <br>
+              <div style="overflow:auto; height:180px; width:380px;">
+                  <table style="background: white">
+                      <tr>
+                          <td>PID</td>
+                          <td>State</td>
+                          <td>PC</td>
+                          <td>ACC</td>
+                          <td>XReg</td>
+                          <td>YReg</td>
+                          <td>ZFlag</td>
+                          <td>Location</td>
+                      </tr>
+                      <tr>
+                          <td id = "PID0"></td>
+                          <td id = "State0"></td>
+                          <td id = "PC0"></td>
+                          <td id = "Acc0"></td>
+                          <td id = "XReg0"></td>
+                          <td id = "YReg0"></td>
+                          <td id = "ZFlag0"></td>
+                          <td id = "Loc0"></td>
+                      </tr>
+                      <tr>
+                          <td id = "PID1"></td>
+                          <td id = "State1"></td>
+                          <td id = "PC1"></td>
+                          <td id = "Acc1"></td>
+                          <td id = "XReg1"></td>
+                          <td id = "YReg1"></td>
+                          <td id = "ZFlag1"></td>
+                          <td id = "Loc1"></td>
+                      </tr>
+                      <tr>
+                          <td id = "PID2"></td>
+                          <td id = "State2"></td>
+                          <td id = "PC2"></td>
+                          <td id = "Acc2"></td>
+                          <td id = "XReg2"></td>
+                          <td id = "YReg2"></td>
+                          <td id = "ZFlag2"></td>
+                          <td id = "Loc2"></td>
+                      </tr>
+                      </tr></table>
+              </div>
+          </label>
+      </div>
+
 
   </div>
 

@@ -270,6 +270,7 @@ var TSOS;
             _PCBXRegDisplay.innerHTML = "" + _currentPCB.xReg;
             _PCBYRegDisplay.innerHTML = "" + _currentPCB.yReg;
             _PCBZFlagDisplay.innerHTML = "" + _currentPCB.zFlag;
+            _PCBLocationDisplay.innerHTML = "" + _currentPCB.loc;
             //console.log("I RAN UPDATE");
         };
         //Will update the Readyqueue display with the PCB information of the PCBs inside it.
@@ -284,6 +285,7 @@ var TSOS;
                     _RQXRegDisplay = document.getElementById("XReg" + x);
                     _RQYRegDisplay = document.getElementById("YReg" + x);
                     _RQZFlagDisplay = document.getElementById("ZFlag" + x);
+                    _RQLocationDisplay = document.getElementById("Loc" + x);
                     //console.log(""+_RQPIDDisplay.innerHTML);
                     //Store the PCB in the global variable.
                     _PCBAtLocation = _ReadyQueue.getPCB(x);
@@ -295,6 +297,7 @@ var TSOS;
                     _RQXRegDisplay.innerHTML = "" + _PCBAtLocation.xReg;
                     _RQYRegDisplay.innerHTML = "" + _PCBAtLocation.yReg;
                     _RQZFlagDisplay.innerHTML = "" + _PCBAtLocation.zFlag;
+                    _RQLocationDisplay.innerHTML = "" + _PCBAtLocation.loc;
                 }
             }
         };
@@ -312,6 +315,7 @@ var TSOS;
                     _RQXRegDisplay = document.getElementById("XReg" + x);
                     _RQYRegDisplay = document.getElementById("YReg" + x);
                     _RQZFlagDisplay = document.getElementById("ZFlag" + x);
+                    _RQLocationDisplay = document.getElementById("Loc" + x);
                     //Set the display to empty
                     _RQPIDDisplay.innerHTML = " ";
                     _RQStateDisplay.innerHTML = " ";
@@ -320,6 +324,7 @@ var TSOS;
                     _RQXRegDisplay.innerHTML = " ";
                     _RQYRegDisplay.innerHTML = " ";
                     _RQZFlagDisplay.innerHTML = " ";
+                    _RQLocationDisplay.innerHTML = " ";
                 }
             }
         };

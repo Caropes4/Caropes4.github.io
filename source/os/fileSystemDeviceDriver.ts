@@ -84,40 +84,6 @@ module TSOS {
         }
 
         public write(fileName:string, data:string):void {
-            /* if (this.doesFileExist(fileName)) {
-             //get the key of the file so we can change the meta
-             var fileKey = this.findFileKey(fileName);
-             //Get the next free data block
-             var dataKey = this.nextFreeDataBlock();
-
-             //Set up the data
-             var data = "1---" + this.stringToHex(data);
-             while (data.length < 64) {
-             data = data + "0";
-             }
-             if(data.length > 64){
-             this.writeHelp(fileName, data);
-             }
-             //Place data in storage
-             sessionStorage.setItem(dataKey, data);
-             //Fix data in the fileKey
-             var currentKey = fileKey;
-             while (this.doesKeyHaveData(currentKey)) {
-             currentKey = sessionStorage.getItem(currentKey).substr(1, 3);
-             }
-             if (!this.doesKeyHaveData(currentKey)) {
-             var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
-             sessionStorage.setItem(currentKey, newData);
-             _success = true;
-             }
-             }*/
-
-            /*
-             public writeHelp(fileName:string, data:string){
-             var newData =  "1---" +  data.substr(4, 60);
-
-             }*/
-
             if (this.doesFileExist(fileName)) {
                 //get the key of the file so we can change the meta
                 var fileKey = this.findFileKey(fileName);
@@ -151,9 +117,6 @@ module TSOS {
                 }
             }
         }
-
-
-
 
         //Will delete the file that is specified
         public delete(fileName:string):void{
@@ -204,27 +167,35 @@ module TSOS {
 
         //Used to put a program in hex in storage
         public writeHex(fileName:string, data:string):void {
-            if(this.doesFileExist(fileName)) {
+            if (this.doesFileExist(fileName)) {
                 //get the key of the file so we can change the meta
                 var fileKey = this.findFileKey(fileName);
                 //Get the next free data block
                 var dataKey = this.nextFreeDataBlock();
-
                 //Set up the data
                 var data = "1---" + data;
-                while(data.length < 64){
+                while (data.length < 64) {
                     data = data + "0";
                 }
-                //Place data in storage
-                sessionStorage.setItem(dataKey, data);
                 //Fix data in the fileKey
                 var currentKey = fileKey;
-                while(this.doesKeyHaveData(currentKey)) {
-                    currentKey = sessionStorage.getItem(currentKey).substr(1,3);
+                while (this.doesKeyHaveData(currentKey) == true) {
+                    currentKey = sessionStorage.getItem(currentKey).substr(1, 3);
                 }
-                if(!this.doesKeyHaveData(currentKey)) {
+                if (this.doesKeyHaveData(currentKey) == false) {
                     var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
                     sessionStorage.setItem(currentKey, newData);
+                }
+                if (data.length > 64) {
+                    var dataHalf1 = "1---" + data.substr(4, 60);
+                    var dataHalf2 = data.substr(60, (data.length - 60));
+                    sessionStorage.setItem(dataKey, dataHalf1);
+                    _success = true;
+                    this.write(fileName, dataHalf2);
+                }
+                else {
+                    //Place data in storage
+                    sessionStorage.setItem(dataKey, data);
                     _success = true;
                 }
             }

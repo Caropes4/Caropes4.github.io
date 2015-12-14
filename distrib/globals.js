@@ -103,6 +103,7 @@ var _PCBXRegDisplay;
 var _PCBYRegDisplay;
 var _PCBZFlagDisplay;
 var _PCBStateDisplay;
+var _PCBLocationDisplay;
 //Add globals for Ready Queue display
 var _RQPIDDisplay;
 var _RQStateDisplay;
@@ -111,6 +112,7 @@ var _RQAccDisplay;
 var _RQXRegDisplay;
 var _RQYRegDisplay;
 var _RQZFlagDisplay;
+var _RQLocationDisplay;
 //Holds the string containing the instructions.
 var _loadedCode = "";
 var _tracks = 4;

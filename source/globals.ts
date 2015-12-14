@@ -124,6 +124,7 @@ var _PCBXRegDisplay: HTMLTableDataCellElement;
 var _PCBYRegDisplay: HTMLTableDataCellElement;
 var _PCBZFlagDisplay: HTMLTableDataCellElement;
 var _PCBStateDisplay: HTMLTableDataCellElement;
+var _PCBLocationDisplay: HTMLTableDataCellElement;
 
 //Add globals for Ready Queue display
 var _RQPIDDisplay: HTMLTableDataCellElement;
@@ -133,6 +134,7 @@ var _RQAccDisplay: HTMLTableDataCellElement;
 var _RQXRegDisplay: HTMLTableDataCellElement;
 var _RQYRegDisplay: HTMLTableDataCellElement;
 var _RQZFlagDisplay: HTMLTableDataCellElement;
+var _RQLocationDisplay: HTMLTableDataCellElement;
 
 //Holds the string containing the instructions.
 var _loadedCode: string = "";
