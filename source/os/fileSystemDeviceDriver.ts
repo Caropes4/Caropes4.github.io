@@ -90,9 +90,9 @@ module TSOS {
                 //Get the next free data block
                 var dataKey = this.nextFreeDataBlock();
                 //Set up the data
-                var data = "1---" + this.stringToHex(data);
-                while (data.length < 64) {
-                    data = data + "0";
+                var data1 = "1---" + this.stringToHex(data);
+                while (data1.length < 64) {
+                    data1 = data1 + "0";
                 }
                 //Fix data in the fileKey
                 var currentKey = fileKey;
@@ -103,16 +103,16 @@ module TSOS {
                     var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
                     sessionStorage.setItem(currentKey, newData);
                 }
-                if (data.length > 64) {
-                    var dataHalf1 = "1---" + data.substr(4, 60);
-                    var dataHalf2 = data.substr(60, (data.length - 60));
+                if (data1.length > 64) {
+                    var dataHalf1 = "1---" + data1.substr(4, 60);
+                    var dataHalf2 = data1.substr(64, (data1.length - 60));
                     sessionStorage.setItem(dataKey, dataHalf1);
                     _success = true;
                     this.write(fileName, this.hexToString(dataHalf2));
                 }
                 else {
                     //Place data in storage
-                    sessionStorage.setItem(dataKey, data);
+                    sessionStorage.setItem(dataKey, data1);
                     _success = true;
                 }
             }
@@ -143,39 +143,42 @@ module TSOS {
         }
 
         //Will read the file and data associated with it in Hex.
-        public readHex(fileName:string):void{
+        public readHex(fileName:string){
             //Get the key
             var key = this.findFileKey(fileName);
             var string = "";
-            if(this.doesKeyHaveData(key) == false){
-                _success = false;
+            //Loop and check meta for keys.
+            while (this.doesKeyHaveData(key) == true) {
+                //Grab the next key
+                key = sessionStorage.getItem(key).substr(1, 3);
+                //Add the data to the string
+                string = string + sessionStorage.getItem(key).substr(4,60);
             }
-            else {
-                //Loop and check meta for keys.
-                while (this.doesKeyHaveData(key) == true) {
-                    //Grab the next key
-                    key = sessionStorage.getItem(key).substr(1, 3);
-                    //Add the data to the string
-                    string = string + sessionStorage.getItem(key);
-                }
-                //Display the string
-                _Console.putText(string);
-                _Console.advanceLine();
-                _success = true;
+            //Return the string
+            while(string.length < 255){
+                string=string+"0";
             }
+            return string.substr(0,255);
         }
 
         //Used to put a program in hex in storage
         public writeHex(fileName:string, data:string):void {
+            //console.log(data);
             if (this.doesFileExist(fileName)) {
                 //get the key of the file so we can change the meta
                 var fileKey = this.findFileKey(fileName);
                 //Get the next free data block
                 var dataKey = this.nextFreeDataBlock();
                 //Set up the data
-                var data = "1---" + data;
-                while (data.length < 64) {
-                    data = data + "0";
+                var data1 = "1---" + data;
+                data1 = data1.replace(" ", "");
+                for(var x = 0; data1.length > x; x++) {
+                    data1 = data1.replace(",", "");
+                }
+                //data1 = data1.replace(/0+$/,"");
+                //console.log(data1);
+                while (data1.length < 64) {
+                    data1 = data1 + "0";
                 }
                 //Fix data in the fileKey
                 var currentKey = fileKey;
@@ -187,16 +190,14 @@ module TSOS {
                     sessionStorage.setItem(currentKey, newData);
                 }
                 if (data.length > 64) {
-                    var dataHalf1 = "1---" + data.substr(4, 60);
-                    var dataHalf2 = data.substr(60, (data.length - 60));
+                    var dataHalf1 = "1---" + data1.substr(4, 60);
+                    var dataHalf2 = data1.substr(64, (data.length - 60));
                     sessionStorage.setItem(dataKey, dataHalf1);
-                    _success = true;
-                    this.write(fileName, dataHalf2);
+                    this.writeHex(fileName, dataHalf2);
                 }
                 else {
                     //Place data in storage
-                    sessionStorage.setItem(dataKey, data);
-                    _success = true;
+                    sessionStorage.setItem(dataKey, data1);
                 }
             }
         }
@@ -314,7 +315,7 @@ module TSOS {
                     }
                 }
             }
-            console.log(keysArray);
+            //console.log(keysArray);
             return keysArray;
         }
 

@@ -168,7 +168,7 @@ var TSOS;
                     _MemoryDisplay.updateDisplay();
                     this.updateCPUStatus();
                     break;
-                //Runs round robin
+                //Runs what ever algorithm is selected
                 case CPU_SCHEDULER_IRQ:
                     this.firstComeFirstServe();
                     this.roundRobin();
@@ -202,14 +202,40 @@ var TSOS;
                         this.updateReadyQueueStatus();
                         //Save the current CPU registers in the current PCB
                         this.updatePCB();
-                        //Place the PCB back in the ready queue.
-                        if (_currentPCB.processState != "Terminated") {
+                        //check to make sure it was not terminated
+                        if (_currentPCB.processState == "Terminated") {
+                            _TerminatedQueue.enqueue(_currentPCB);
+                            _currentPCB = _ReadyQueue.dequeue();
+                        }
+                        else if (_currentPCB.processState != "Terminated") {
                             _currentPCB.processState = "Ready";
+                            //Check the next pcb in the queue and if its on_disk swap it with the process that just finished
+                            _nextPCB = _ReadyQueue.dequeue();
+                            if (_nextPCB.loc == "On_Disk") {
+                                //Set current pcb to on_disk and write it to disk
+                                _currentPCB.loc = "On_Disk";
+                                _krnFileSystemDeviceDriver.create("#" + _currentPCB.pid);
+                                _krnFileSystemDeviceDriver.writeHex("#" + _currentPCB.pid, _MemoryManager.getMemorySeg(_currentPCB.base, _currentPCB.limit));
+                                //Clear its data in memory
+                                _Memory.clearMemory();
+                                _MemoryManager.updateMemoryPartitionStatus();
+                                //Get the pcb on disk and move it to memory
+                                console.log(_krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid));
+                                _loadedCode = _krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid);
+                                //Write the data from the disk to memory
+                                _MemoryManager.memoryCheck();
+                                //Remove the pcb data from disk
+                                _krnFileSystemDeviceDriver.delete("#" + _nextPCB.pid);
+                                //Update pcb as needed
+                                _nextPCB.loc = "In_Memory";
+                                _nextPCB.base = _currentBase;
+                                _nextPCB.limit = _currentLimit;
+                            }
                             _ReadyQueue.enqueue(_currentPCB);
+                            _currentPCB = _nextPCB;
                         }
                         //Grab the next PCB
-                        _currentPCB = _ReadyQueue.dequeue();
-                        //check to make sure it was not terminated
+                        //_currentPCB = _ReadyQueue.dequeue();
                         if (_currentPCB.processState == "Terminated") {
                             _TerminatedQueue.enqueue(_currentPCB);
                             _currentPCB = _ReadyQueue.dequeue();

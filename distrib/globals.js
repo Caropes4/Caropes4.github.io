@@ -63,6 +63,7 @@ var _krnFileSystemDeviceDriver;
 var _hardwareClockID = null;
 var _nextProcessID = 0;
 var _currentPCB;
+var _nextPCB;
 //Var for updating the ready queue
 var _PCBAtLocation;
 var _currentMemory;

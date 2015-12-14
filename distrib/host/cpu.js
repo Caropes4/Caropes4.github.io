@@ -76,10 +76,16 @@ var TSOS;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(MEMORY_OUT_OF_BOUNDS_IRQ, false));
             }
             else {
-                //Put the accumulator in hex and store it in the specified location in memory.
-                _currentMemory[index] = this.Acc.toString(16);
-                //Add 3 because we used 2 bytes
-                this.PC = this.PC + 3;
+                if (this.Acc.toString(16).length < 2) {
+                    _currentMemory[index] = "0" + this.Acc.toString(16);
+                    this.PC = this.PC + 3;
+                }
+                else {
+                    //Put the accumulator in hex and store it in the specified location in memory.
+                    _currentMemory[index] = this.Acc.toString(16);
+                    //Add 3 because we used 2 bytes
+                    this.PC = this.PC + 3;
+                }
             }
         };
         //Add with carry
@@ -200,10 +206,16 @@ var TSOS;
             var second = _MemoryManager.hexToDec(_MemoryManager.getByte(2));
             //Translate into decimal
             var index = first + second + _currentPCB.base;
-            //Increment place in memory
-            _currentMemory[index] = (_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16);
-            //Add 3 because we used 2 bytes
-            this.PC = this.PC + 3;
+            if ((_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16).length < 2) {
+                _currentMemory[index] = "0" + (_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16);
+                this.PC = this.PC + 3;
+            }
+            else {
+                //Increment place in memory
+                _currentMemory[index] = (_MemoryManager.hexToDec(_currentMemory[index]) + 1).toString(16);
+                //Add 3 because we used 2 bytes
+                this.PC = this.PC + 3;
+            }
             //_Console.putText(""+_currentMemory[index] +  " " );
         };
         //System Call

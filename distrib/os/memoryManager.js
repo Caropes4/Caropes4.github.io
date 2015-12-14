@@ -61,6 +61,12 @@ var TSOS;
         MemoryManager.prototype.hexToDec = function (hexNumber) {
             return parseInt(hexNumber, 16);
         };
+        //Will get the memory segment bassed on the base and limit provided
+        MemoryManager.prototype.getMemorySeg = function (base, limit) {
+            var array = new Array();
+            console.log(_currentMemory.slice(base, limit));
+            return _currentMemory.slice(base, limit);
+        };
         return MemoryManager;
     })();
     TSOS.MemoryManager = MemoryManager;

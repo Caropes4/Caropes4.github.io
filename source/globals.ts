@@ -81,6 +81,7 @@ var _hardwareClockID: number = null;
 var _nextProcessID: number = 0;
 
 var _currentPCB: TSOS.PCB;
+var _nextPCB: TSOS.PCB;
 //Var for updating the ready queue
 var _PCBAtLocation: TSOS.PCB;
 var _currentMemory: any [];
