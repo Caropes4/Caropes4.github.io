@@ -84,36 +84,76 @@ module TSOS {
         }
 
         public write(fileName:string, data:string):void {
-            if(this.doesFileExist(fileName)) {
+            /* if (this.doesFileExist(fileName)) {
+             //get the key of the file so we can change the meta
+             var fileKey = this.findFileKey(fileName);
+             //Get the next free data block
+             var dataKey = this.nextFreeDataBlock();
+
+             //Set up the data
+             var data = "1---" + this.stringToHex(data);
+             while (data.length < 64) {
+             data = data + "0";
+             }
+             if(data.length > 64){
+             this.writeHelp(fileName, data);
+             }
+             //Place data in storage
+             sessionStorage.setItem(dataKey, data);
+             //Fix data in the fileKey
+             var currentKey = fileKey;
+             while (this.doesKeyHaveData(currentKey)) {
+             currentKey = sessionStorage.getItem(currentKey).substr(1, 3);
+             }
+             if (!this.doesKeyHaveData(currentKey)) {
+             var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
+             sessionStorage.setItem(currentKey, newData);
+             _success = true;
+             }
+             }*/
+
+            /*
+             public writeHelp(fileName:string, data:string){
+             var newData =  "1---" +  data.substr(4, 60);
+
+             }*/
+
+            if (this.doesFileExist(fileName)) {
                 //get the key of the file so we can change the meta
                 var fileKey = this.findFileKey(fileName);
                 //Get the next free data block
                 var dataKey = this.nextFreeDataBlock();
-
-                //if(this.stringToHex(data).length > 60){
-
-                //}
-
-
                 //Set up the data
                 var data = "1---" + this.stringToHex(data);
-                while(data.length < 64){
+                while (data.length < 64) {
                     data = data + "0";
                 }
-                //Place data in storage
-                sessionStorage.setItem(dataKey, data);
                 //Fix data in the fileKey
                 var currentKey = fileKey;
-                while(this.doesKeyHaveData(currentKey) == true) {
-                    currentKey = sessionStorage.getItem(currentKey).substr(1,3);
-                    }
-                if(!this.doesKeyHaveData(currentKey)) {
+                while (this.doesKeyHaveData(currentKey) == true) {
+                    currentKey = sessionStorage.getItem(currentKey).substr(1, 3);
+                }
+                if (this.doesKeyHaveData(currentKey) == false) {
                     var newData = sessionStorage.getItem(currentKey).replace("1---", "1" + dataKey);
                     sessionStorage.setItem(currentKey, newData);
+                }
+                if (data.length > 64) {
+                    var dataHalf1 = "1---" + data.substr(4, 60);
+                    var dataHalf2 = data.substr(60, (data.length - 60));
+                    sessionStorage.setItem(dataKey, dataHalf1);
+                    _success = true;
+                    this.write(fileName, this.hexToString(dataHalf2));
+                }
+                else {
+                    //Place data in storage
+                    sessionStorage.setItem(dataKey, data);
                     _success = true;
                 }
             }
         }
+
+
+
 
         //Will delete the file that is specified
         public delete(fileName:string):void{
@@ -179,7 +219,7 @@ module TSOS {
                 sessionStorage.setItem(dataKey, data);
                 //Fix data in the fileKey
                 var currentKey = fileKey;
-                while(this.doesKeyHaveData(currentKey) == true) {
+                while(this.doesKeyHaveData(currentKey)) {
                     currentKey = sessionStorage.getItem(currentKey).substr(1,3);
                 }
                 if(!this.doesKeyHaveData(currentKey)) {
@@ -192,16 +232,16 @@ module TSOS {
 
         //will tell us if the file contains data or not false = no data true = data
         public doesKeyHaveData(key:string){
-            var meta = sessionStorage.getItem(key).substr(0,4);
-            //Check if meta has an address in it
-            if(meta == "1---"){
-                //file has no data
-                return false
-            }
-            else{
-                //file has data
-                return true;
-            }
+                var meta = sessionStorage.getItem(key).substr(0, 4);
+                //Check if meta has an address in it
+                if (meta == "1---") {
+                    //file has no data
+                    return false
+                }
+                else{
+                    //file has data
+                    return true;
+                }
         }
 
         //Will let us know if a file name is already in use true = inuse false = unused
