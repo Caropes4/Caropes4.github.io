@@ -183,12 +183,14 @@ module TSOS {
                         _currentPCB.processState = "Running";
                     }
                     else if(_ReadyQueue.getSize() == 0 && _currentPCB.processState == "Terminated"){
+                        this.resetReadyQueueStatus();
                         _CPU.isExecuting = false;
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
                         _Console.putText("Program no longer Executing.");
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
+
                     }
                     _MemoryDisplay.updateDisplay();
                     this.updateCPUStatus();
@@ -351,7 +353,7 @@ module TSOS {
         public updateReadyQueueStatus(): void{
             this.clearReadyQueueStatus();
             if(_ReadyQueue.getSize() != 0){
-                for(var x = 0; x<_ReadyQueue.getSize(); x=x+1){
+                for(var x = 0; x< 6; x=x+1){
                     _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID"+x);
                     _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State"+x);
                     _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC"+x);
@@ -407,6 +409,31 @@ module TSOS {
                     }
                 }
             }
+
+        public resetReadyQueueStatus(){
+            for(var x =0; x<6; x++){
+                _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID" + x);
+
+                _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID" + x);
+                _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State" + x);
+                _RQPCDisplay = <HTMLTableDataCellElement>document.getElementById("PC" + x);
+                _RQAccDisplay = <HTMLTableDataCellElement>document.getElementById("Acc" + x);
+                _RQXRegDisplay = <HTMLTableDataCellElement>document.getElementById("XReg" + x);
+                _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg" + x);
+                _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag" + x);
+                _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc" + x);
+                //Set the display to empty
+                _RQPIDDisplay.innerHTML = " ";
+                _RQStateDisplay.innerHTML = " ";
+                _RQPCDisplay.innerHTML = " ";
+                _RQAccDisplay.innerHTML = " ";
+                _RQXRegDisplay.innerHTML = " ";
+                _RQYRegDisplay.innerHTML = " ";
+                _RQZFlagDisplay.innerHTML = " ";
+                _RQLocationDisplay.innerHTML = " ";
+            }
+
+        }
 
         //Will update the information in CPU Status on index.html when called
         public updateCPUStatus(): void {

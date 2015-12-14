@@ -160,6 +160,7 @@ var TSOS;
                         _currentPCB.processState = "Running";
                     }
                     else if (_ReadyQueue.getSize() == 0 && _currentPCB.processState == "Terminated") {
+                        this.resetReadyQueueStatus();
                         _CPU.isExecuting = false;
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
@@ -310,7 +311,7 @@ var TSOS;
         Kernel.prototype.updateReadyQueueStatus = function () {
             this.clearReadyQueueStatus();
             if (_ReadyQueue.getSize() != 0) {
-                for (var x = 0; x < _ReadyQueue.getSize(); x = x + 1) {
+                for (var x = 0; x < 6; x = x + 1) {
                     _RQPIDDisplay = document.getElementById("PID" + x);
                     _RQStateDisplay = document.getElementById("State" + x);
                     _RQPCDisplay = document.getElementById("PC" + x);
@@ -359,6 +360,28 @@ var TSOS;
                     _RQZFlagDisplay.innerHTML = " ";
                     _RQLocationDisplay.innerHTML = " ";
                 }
+            }
+        };
+        Kernel.prototype.resetReadyQueueStatus = function () {
+            for (var x = 0; x < 6; x++) {
+                _RQPIDDisplay = document.getElementById("PID" + x);
+                _RQPIDDisplay = document.getElementById("PID" + x);
+                _RQStateDisplay = document.getElementById("State" + x);
+                _RQPCDisplay = document.getElementById("PC" + x);
+                _RQAccDisplay = document.getElementById("Acc" + x);
+                _RQXRegDisplay = document.getElementById("XReg" + x);
+                _RQYRegDisplay = document.getElementById("YReg" + x);
+                _RQZFlagDisplay = document.getElementById("ZFlag" + x);
+                _RQLocationDisplay = document.getElementById("Loc" + x);
+                //Set the display to empty
+                _RQPIDDisplay.innerHTML = " ";
+                _RQStateDisplay.innerHTML = " ";
+                _RQPCDisplay.innerHTML = " ";
+                _RQAccDisplay.innerHTML = " ";
+                _RQXRegDisplay.innerHTML = " ";
+                _RQYRegDisplay.innerHTML = " ";
+                _RQZFlagDisplay.innerHTML = " ";
+                _RQLocationDisplay.innerHTML = " ";
             }
         };
         //Will update the information in CPU Status on index.html when called
