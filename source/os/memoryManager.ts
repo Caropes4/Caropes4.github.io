@@ -74,7 +74,7 @@ module TSOS {
         //Will get the memory segment bassed on the base and limit provided
         public getMemorySeg(base:number, limit:number){
             var array = new Array();
-            console.log(_currentMemory.slice(base, limit));
+            //console.log(_currentMemory.slice(base, limit));
             return _currentMemory.slice(base, limit);
         }
 

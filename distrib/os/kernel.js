@@ -205,34 +205,42 @@ var TSOS;
                         //check to make sure it was not terminated
                         if (_currentPCB.processState == "Terminated") {
                             _TerminatedQueue.enqueue(_currentPCB);
+                            _Memory.clearMemory();
                             _currentPCB = _ReadyQueue.dequeue();
                         }
                         else if (_currentPCB.processState != "Terminated") {
                             _currentPCB.processState = "Ready";
                             //Check the next pcb in the queue and if its on_disk swap it with the process that just finished
-                            _nextPCB = _ReadyQueue.dequeue();
-                            if (_nextPCB.loc == "On_Disk") {
-                                //Set current pcb to on_disk and write it to disk
-                                _currentPCB.loc = "On_Disk";
-                                _krnFileSystemDeviceDriver.create("#" + _currentPCB.pid);
-                                _krnFileSystemDeviceDriver.writeHex("#" + _currentPCB.pid, _MemoryManager.getMemorySeg(_currentPCB.base, _currentPCB.limit));
-                                //Clear its data in memory
-                                _Memory.clearMemory();
-                                _MemoryManager.updateMemoryPartitionStatus();
-                                //Get the pcb on disk and move it to memory
-                                console.log(_krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid));
-                                _loadedCode = _krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid);
-                                //Write the data from the disk to memory
-                                _MemoryManager.memoryCheck();
-                                //Remove the pcb data from disk
-                                _krnFileSystemDeviceDriver.delete("#" + _nextPCB.pid);
-                                //Update pcb as needed
-                                _nextPCB.loc = "In_Memory";
-                                _nextPCB.base = _currentBase;
-                                _nextPCB.limit = _currentLimit;
+                            if (_ReadyQueue.getSize() > 1) {
+                                _nextPCB = _ReadyQueue.dequeue();
+                                if (_nextPCB.loc == "On_Disk") {
+                                    if (_ReadyQueue.getSize() > 1) {
+                                        //Set current pcb to on_disk and write it to disk
+                                        _currentPCB.loc = "On_Disk";
+                                        _krnFileSystemDeviceDriver.create("#" + _currentPCB.pid);
+                                        _krnFileSystemDeviceDriver.writeHex("#" + _currentPCB.pid, _MemoryManager.getMemorySeg(_currentPCB.base, _currentPCB.limit));
+                                        _FileSystemDisplay.updateDisplay();
+                                        //Clear its data in memory
+                                        _Memory.clearMemory();
+                                        _MemoryManager.updateMemoryPartitionStatus();
+                                    }
+                                    //Get the pcb on disk and move it to memory
+                                    //console.log(_krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid));
+                                    _loadedCode = _krnFileSystemDeviceDriver.readHex("#" + _nextPCB.pid);
+                                    //Write the data from the disk to memory
+                                    _MemoryManager.memoryCheck();
+                                    //Remove the pcb data from disk
+                                    _krnFileSystemDeviceDriver.delete("#" + _nextPCB.pid);
+                                    _FileSystemDisplay.updateDisplay();
+                                    //Update pcb as needed
+                                    _nextPCB.loc = "In_Memory";
+                                    _nextPCB.programCounter = _nextPCB.programCounter + _currentBase - _nextPCB.base;
+                                    _nextPCB.base = _currentBase;
+                                    _nextPCB.limit = _currentLimit;
+                                }
+                                _ReadyQueue.enqueue(_currentPCB);
+                                _currentPCB = _nextPCB;
                             }
-                            _ReadyQueue.enqueue(_currentPCB);
-                            _currentPCB = _nextPCB;
                         }
                         //Grab the next PCB
                         //_currentPCB = _ReadyQueue.dequeue();
