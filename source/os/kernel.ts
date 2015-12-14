@@ -166,6 +166,8 @@ module TSOS {
                     _TerminatedQueue.enqueue(_currentPCB);
                     this.updateCurrentPCBStatus();
                     this.clearReadyQueueStatus();
+                    //_ReadyQueueDisplay.updateDisplay();
+                    this.updateReadyQueueStatus();
 
                     //Set the quatumlocation back to 0 for the new process
                     _quantumLocation = 0;
@@ -227,9 +229,11 @@ module TSOS {
             _FileSystemDisplay.updateDisplay();
             if (_RoundRobin = true) {
                 if (_ReadyQueue.getSize() != 0) {
+                    //_ReadyQueueDisplay.updateDisplay();
                     this.updateReadyQueueStatus();
                     this.updatePCB();
                     if (_quantumLocation == _quantum) {
+                        //_ReadyQueueDisplay.updateDisplay();
                         this.updateReadyQueueStatus();
                         //Save the current CPU registers in the current PCB
                         this.updatePCB();

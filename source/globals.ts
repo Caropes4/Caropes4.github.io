@@ -36,6 +36,7 @@ var _MemoryManager: TSOS.MemoryManager; // Utilize TypeScript's type annotation 
 var _MemoryDisplay: TSOS.MemoryDisplay; // Utilize TypeScript's type annotation system to ensure that _MemoryDisplay is an instance of the MemoryDisplay class
 //var _FileSystemDeviceDriver: TSOS.FileSystemDeviceDriver; // Utilize TypeScript's type annotation system to ensure that _FileSystemDeviceDriver is an instance of the FileSystemDeviceDriver class
 var _FileSystemDisplay: TSOS.FileSystemDisplay; // Utilize TypeScript's type annotation system to ensure that _FileSystemDisplay is an instance of the FileSystemDisplay class
+var _ReadyQueueDisplay: TSOS.ReadyQueueDisplay;
 
 
 var _OSclock: number = 0;  // Page 23.
@@ -88,6 +89,7 @@ var _currentMemory: any [];
 var _memoryTableDisplay: HTMLTableElement;
 var _currentDisk: any [];
 var _fileSystemTableDisplay: HTMLTableElement;
+var _readyQueueTableDisplay: HTMLTableElement;
 var _MemoryCheckStatus: string;
 
 //The current base and limit to be used when going through memory
@@ -127,6 +129,7 @@ var _PCBZFlagDisplay: HTMLTableDataCellElement;
 var _PCBStateDisplay: HTMLTableDataCellElement;
 var _PCBLocationDisplay: HTMLTableDataCellElement;
 
+
 //Add globals for Ready Queue display
 var _RQPIDDisplay: HTMLTableDataCellElement;
 var _RQStateDisplay: HTMLTableDataCellElement;
@@ -136,6 +139,7 @@ var _RQXRegDisplay: HTMLTableDataCellElement;
 var _RQYRegDisplay: HTMLTableDataCellElement;
 var _RQZFlagDisplay: HTMLTableDataCellElement;
 var _RQLocationDisplay: HTMLTableDataCellElement;
+
 
 //Holds the string containing the instructions.
 var _loadedCode: string = "";

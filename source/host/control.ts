@@ -38,6 +38,9 @@ module TSOS {
             //Disk display
             _fileSystemTableDisplay = <HTMLTableElement>document.getElementById("fileSystemDisplay");
 
+            //RQ display
+            _readyQueueTableDisplay = <HTMLTableElement>document.getElementById("readyQueueDisplay");
+
             //Global variables for CPU registers
             _PCDisplay = <HTMLTableDataCellElement>document.getElementById("PC");
             _AccDisplay = <HTMLTableDataCellElement>document.getElementById("ACC");
@@ -56,7 +59,7 @@ module TSOS {
             _PCBZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("PCBZFlag");
             _PCBLocationDisplay = <HTMLTableDataCellElement>document.getElementById("PCBLoc");
 
-
+/*
             //Global variables for Current Ready Queue PCBs
             _RQPIDDisplay = <HTMLTableDataCellElement>document.getElementById("PID1");
             _RQStateDisplay = <HTMLTableDataCellElement>document.getElementById("State1");
@@ -66,7 +69,7 @@ module TSOS {
             _RQYRegDisplay = <HTMLTableDataCellElement>document.getElementById("YReg1");
             _RQZFlagDisplay = <HTMLTableDataCellElement>document.getElementById("ZFlag1");
             _RQLocationDisplay = <HTMLTableDataCellElement>document.getElementById("Loc1");
-
+*/
 
 
             // Get a global reference to the drawing context.
@@ -155,6 +158,9 @@ module TSOS {
 
             _FileSystemDisplay = new FileSystemDisplay(_fileSystemTableDisplay);
             _FileSystemDisplay.initRows();
+
+            //_ReadyQueueDisplay = new ReadyQueueDisplay(_readyQueueTableDisplay);
+            //_ReadyQueueDisplay.initRows();
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);

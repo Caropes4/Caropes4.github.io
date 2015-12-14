@@ -26,6 +26,7 @@
     <script type="text/javascript" src="distrib/os/fileSystemDeviceDriver.js"></script>
     <script type="text/javascript" src="distrib/os/memoryDisplay.js"></script>
     <script type="text/javascript" src="distrib/os/fileSystemDisplay.js"></script>
+    <script type="text/javascript" src="distrib/os/readyQueueDisplay.js"></script>
     <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
     <script type="text/javascript" src="distrib/os/processControlBlock.js"></script>
    <script type="text/javascript" src="distrib/os/queue.js"></script>
@@ -214,7 +215,7 @@
               Ready Queue
               <br>
               <div style="overflow:auto; height:180px; width:400px;">
-                  <table style="background: white">
+                  <table id="readyQueueDisplay" style="background: white">
                       <tr>
                           <td>PID</td>
                           <td>State</td>
@@ -254,6 +255,36 @@
                           <td id = "YReg2"></td>
                           <td id = "ZFlag2"></td>
                           <td id = "Loc2"></td>
+                      </tr>
+                      <tr>
+                          <td id = "PID3"></td>
+                          <td id = "State3"></td>
+                          <td id = "PC3"></td>
+                          <td id = "Acc3"></td>
+                          <td id = "XReg3"></td>
+                          <td id = "YReg3"></td>
+                          <td id = "ZFlag3"></td>
+                          <td id = "Loc3"></td>
+                      </tr>
+                      <tr>
+                          <td id = "PID4"></td>
+                          <td id = "State4"></td>
+                          <td id = "PC4"></td>
+                          <td id = "Acc4"></td>
+                          <td id = "XReg4"></td>
+                          <td id = "YReg4"></td>
+                          <td id = "ZFlag4"></td>
+                          <td id = "Loc4"></td>
+                      </tr>
+                      <tr>
+                          <td id = "PID5"></td>
+                          <td id = "State5"></td>
+                          <td id = "PC5"></td>
+                          <td id = "Acc5"></td>
+                          <td id = "XReg5"></td>
+                          <td id = "YReg5"></td>
+                          <td id = "ZFlag5"></td>
+                          <td id = "Loc5"></td>
                       </tr>
                       </tr></table>
               </div>

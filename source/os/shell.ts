@@ -668,6 +668,7 @@ module TSOS {
             else{
                 _StdOut.putText("No programs are currently loaded.");
             }
+            //_ReadyQueueDisplay.updateDisplay();
             _Kernel.updateReadyQueueStatus();
         }
 

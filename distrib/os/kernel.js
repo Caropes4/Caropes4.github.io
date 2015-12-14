@@ -146,6 +146,8 @@ var TSOS;
                     _TerminatedQueue.enqueue(_currentPCB);
                     this.updateCurrentPCBStatus();
                     this.clearReadyQueueStatus();
+                    //_ReadyQueueDisplay.updateDisplay();
+                    this.updateReadyQueueStatus();
                     //Set the quatumlocation back to 0 for the new process
                     _quantumLocation = 0;
                     //Clear the memory since process is done running. And update the status
@@ -164,6 +166,7 @@ var TSOS;
                         _Console.putText("Program no longer Executing.");
                         _Console.advanceLine();
                         _Console.putText(_OsShell.promptStr);
+                        this.clearReadyQueueStatus();
                     }
                     _MemoryDisplay.updateDisplay();
                     this.updateCPUStatus();
@@ -196,9 +199,11 @@ var TSOS;
             _FileSystemDisplay.updateDisplay();
             if (_RoundRobin = true) {
                 if (_ReadyQueue.getSize() != 0) {
+                    //_ReadyQueueDisplay.updateDisplay();
                     this.updateReadyQueueStatus();
                     this.updatePCB();
                     if (_quantumLocation == _quantum) {
+                        //_ReadyQueueDisplay.updateDisplay();
                         this.updateReadyQueueStatus();
                         //Save the current CPU registers in the current PCB
                         this.updatePCB();

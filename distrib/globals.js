@@ -32,6 +32,7 @@ var _MemoryManager; // Utilize TypeScript's type annotation system to ensure tha
 var _MemoryDisplay; // Utilize TypeScript's type annotation system to ensure that _MemoryDisplay is an instance of the MemoryDisplay class
 //var _FileSystemDeviceDriver: TSOS.FileSystemDeviceDriver; // Utilize TypeScript's type annotation system to ensure that _FileSystemDeviceDriver is an instance of the FileSystemDeviceDriver class
 var _FileSystemDisplay; // Utilize TypeScript's type annotation system to ensure that _FileSystemDisplay is an instance of the FileSystemDisplay class
+var _ReadyQueueDisplay;
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _Canvas; // Initialized in Control.hostInit().
@@ -70,6 +71,7 @@ var _currentMemory;
 var _memoryTableDisplay;
 var _currentDisk;
 var _fileSystemTableDisplay;
+var _readyQueueTableDisplay;
 var _MemoryCheckStatus;
 //The current base and limit to be used when going through memory
 var _currentBase = 0;
