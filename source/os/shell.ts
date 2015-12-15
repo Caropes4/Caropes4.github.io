@@ -865,10 +865,14 @@ module TSOS {
 
         //Will format the disk
         public shellFormat(args) {
-            _krnFileSystemDeviceDriver.format();
-            _FileSystemDisplay.updateDisplay();
-            //Print the files on disk
-            _StdOut.putText("Success");
+            if(_CPU.isExecuting == false) {
+                _krnFileSystemDeviceDriver.format();
+                _FileSystemDisplay.updateDisplay();
+                //Print the files on disk
+                _StdOut.putText("Success");
+            }else{
+                _StdOut.putText("Please wait until programs finish running.");
+            }
         }
 
 

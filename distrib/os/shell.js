@@ -724,10 +724,15 @@ var TSOS;
         };
         //Will format the disk
         Shell.prototype.shellFormat = function (args) {
-            _krnFileSystemDeviceDriver.format();
-            _FileSystemDisplay.updateDisplay();
-            //Print the files on disk
-            _StdOut.putText("Success");
+            if (_CPU.isExecuting == false) {
+                _krnFileSystemDeviceDriver.format();
+                _FileSystemDisplay.updateDisplay();
+                //Print the files on disk
+                _StdOut.putText("Success");
+            }
+            else {
+                _StdOut.putText("Please wait until programs finish running.");
+            }
         };
         //Will display all files on disk
         Shell.prototype.shellLs = function (args) {
